@@ -1,0 +1,62 @@
+# v11 - overrides for running in prod with Swarm
+version: '3.7'
+
+services:
+
+  signup-web:
+    environment:
+      - DEPENDENCY_CHECK_ENABLED=1 
+      - LOG4NET_CONFIG_PATH=C:\netfx-log4net
+      - CONNECTIONSTRINGS_CONFIG_PATH=C:\ProgramData\Docker\secrets\netfx-connectionstrings
+    configs:
+      - netfx-log4net 
+    secrets:
+     - source: netfx-connectionstrings
+    healthcheck:
+      retries: 3
+      interval: 10s
+      start_period: 40s
+    deploy:
+      replicas: 2
+
+  proxy:
+    command: --docker --docker.swarmMode --docker.watch --docker.endpoint=npipe:////./pipe/docker_engine  --api
+    ports:
+      - "8020:80"
+      - "8080:8080"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+
+  signup-save-handler:
+    environment:
+      - CONNECTIONSTRINGS_CONFIG_PATH=C:\ProgramData\Docker\secrets\netfx-connectionstrings
+    secrets:
+     - source: netfx-connectionstrings
+    deploy:
+      replicas: 2
+
+  signup-index-handler:
+    deploy:
+      replicas: 3
+
+  kibana:
+    ports:
+      - "5601:5601"
+
+  grafana:
+    ports:
+      - "3000:3000"
+
+networks:
+  app-net:
+
+configs:
+  netfx-log4net:
+    external: true
+
+secrets:
+  netfx-connectionstrings:
+    external: true

@@ -1,0 +1,63 @@
+version: '3.1'
+
+services:
+  
+  signup-db:
+    image: dwwx/sql-server:2017
+    networks:
+      - app-net
+
+  signup-web:
+    image: dwwx/signup-web
+    networks:
+      - app-net
+
+  homepage:
+    image: dwwx/homepage
+    networks:
+      - app-net
+
+  proxy:
+    image: dwwx/reverse-proxy
+    networks:
+      - app-net
+
+  reference-data-api:
+    image: dwwx/reference-data-api
+    networks:
+      - app-net
+
+  message-queue:
+    image: nats:2.0.4-nanoserver-1809
+    networks:
+      - app-net
+
+  signup-save-handler:
+    image: dwwx/save-handler
+    networks:
+      - app-net
+
+  signup-index-handler:
+    image: dwwx/index-handler
+    networks:
+      - app-net  
+
+  prometheus:
+    image: dwwx/prometheus
+    networks:
+      - app-net
+
+  grafana:
+    image: dwwx/grafana
+    networks:
+      - app-net
+
+  elasticsearch:
+    image: sixeyed/elasticsearch:5.6.11-nanoserver-sac2016
+    networks:
+      - app-net
+
+  kibana:
+    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2016
+    networks:
+      - app-net

@@ -1,0 +1,23 @@
+version: "3.1"
+
+services:
+  db:
+    image: mongo:4.0.1-xenial
+    command: mongod --smallfiles
+    networks:
+      - chat-net
+
+  rocketchat:
+    image: rocketchat/rocket.chat:0.65.2
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - MONGO_URL=mongodb://db:27017/rocketchat
+      - ROOT_URL=http://chat.dwwx.space:3000
+    networks:
+      - chat-net
+
+networks:
+  chat-net:

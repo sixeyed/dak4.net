@@ -1,0 +1,81 @@
+# v11 - core solution services
+version: '3.7'
+
+services:
+  
+  signup-db:
+    image: dwwx/signup-db
+    networks:
+      - app-net
+
+  signup-web:
+    image: dwwx/signup-web:v7
+    environment: 
+      - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
+      - ReferenceDataApi:Url=http://reference-data-api/api
+      - Dependencies:IProspectSaveHandler=SignUp.Web.ProspectSave.AsynchronousProspectSaveHandler
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/app"
+      - "traefik.frontend.priority=30"
+    networks:
+      - app-net
+
+  homepage:
+    image: dwwx/homepage
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/"
+      - "traefik.frontend.priority=10"
+    networks:
+      - app-net
+
+  proxy:
+    image: dwwx/reverse-proxy
+    volumes:
+      - type: npipe
+        source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine 
+    networks:
+      - app-net
+
+  reference-data-api:
+    image: dwwx/reference-data-api
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/api"
+      - "traefik.frontend.priority=20"
+    networks:
+      - app-net
+
+  message-queue:
+    image: nats:2.0.4-nanoserver-1809
+    networks:
+      - app-net
+
+  signup-save-handler:
+    image: dwwx/save-handler:v3
+    networks:
+      - app-net
+
+  signup-index-handler:
+    image: dwwx/index-handler:v2
+    networks:
+      - app-net
+
+  elasticsearch:
+    image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - app-net
+
+  kibana:
+    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - app-net
+
+  prometheus:
+    image: dwwx/prometheus
+    networks:
+      - app-net
+
+  grafana:
+    image: dwwx/grafana
+    networks:
+      - app-net

@@ -1,0 +1,58 @@
+@font-face {
+  font-family: 'Geomanist Book';
+  src: url(fonts/geomanist/hinted-Geomanist-Book.eot);
+  src: url(fonts/geomanist/hinted-Geomanist-Book.eot?#iefix) format('embedded-opentype'),url(../fonts/geomanist/hinted-Geomanist-Book.woff2) format('woff2'),url(../fonts/geomanist/hinted-Geomanist-Book.woff) format('woff'),url(../fonts/geomanist/hinted-Geomanist-Book.ttf) format('truetype'),url(../fonts/geomanist/hinted-Geomanist-Book.svg#Geomanist-Book) format('svg');
+  font-weight: 400;
+  font-style: normal
+}
+
+.reveal {
+  font-size: 38px;
+  font-family: "Arial", sans-serif;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: 'Geomanist Book';
+}
+
+.reveal h1 {
+  font-size: 3em;  
+}
+
+.reveal h2 {
+  text-transform: none;
+  font-size: 1.8em;  
+}
+
+.reveal p, .reveal li {
+  font-size: 95%;  
+}
+
+.reveal a {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+}
+
+.reveal pre {
+  width: 97%;
+  font-size: 0.6em;
+}
+
+.reveal blockquote {
+  width: 90%;
+  font-size: 0.85em;
+}
+
+.reveal .slides {
+  text-align: left;
+  background-image: url("img/docker.png");
+  background-position: 99% 99%;
+  background-size: 5%;
+  background-repeat: no-repeat;
+}
+
+.reveal .slide-number {
+  top: 8px;
+  bottom: unset;
+  font-size: 16px;
+}
