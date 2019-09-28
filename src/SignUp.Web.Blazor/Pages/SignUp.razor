@@ -1,0 +1,75 @@
+﻿@page "/signup"
+
+@using SignUp.Entities
+@using SignUp.Web.Blazor.Services
+@inject ReferenceDataService ReferenceDataService
+
+@if (roles == null || countries == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<form>
+    <div class="jumbotron">
+        <h1>Play with Docker is the best thing I've ever heard of!</h1>
+        <p class="lead">Here are my details. Sign me up.</p>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label for="FirstName" class="control-label">First Name</label>
+            <input for="FirstName" class="form-control" bind="@prospect.FirstName" />
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Country" class="control-label">Country</label>
+            <select asp-for="Country" class="form-control" bind="@prospect.Country">
+                @foreach (var country in countries)
+                {
+                    <option value="@country.CountryCode">@country.CountryName</option>
+                }
+            </select>
+        </div>
+    </div>    
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label for="LastName" class="control-label">Last Name</label>
+            <input for="LastName" class="form-control" bind="@prospect.LastName" />
+        </div>
+        <div class="col-md-6">
+            <label for="CompanyName" class="control-label">Company Name</label>
+            <input for="CompanyName" class="form-control" bind="@prospect.CompanyName" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label for="EmailAddress" class="control-label">Email Address</label>
+            <input for="EmailAddress" class="form-control" bind="@prospect.EmailAddress" />
+        </div>  
+        <div class="col-md-6">
+            <label asp-for="Role" class="control-label">Your Main ROle</label>
+            <select asp-for="Role" class="form-control" bind="@prospect.Role">
+                @foreach (var role in roles)
+                {
+                    <option value="@role.RoleCode">@role.RoleCode</option>
+                }
+            </select>
+        </div>
+    </div>
+
+</form>
+}
+
+@code {
+    private Prospect prospect = new Prospect();
+    private IEnumerable<Country> countries;
+    private IEnumerable<Role> roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await ReferenceDataService.GetRoles();
+        countries = await ReferenceDataService.GetCountries();        
+    }
+}
