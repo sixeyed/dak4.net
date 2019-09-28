@@ -29,7 +29,6 @@ Migrating your .NET apps to Docker is an easy way to power a cloud migration wit
 
 * `app` - Docker Compose files covering the evolution of the demo app
 * `docker` - Dockerfiles and content for the container images
-* `slides` - workshop content published with Reveal.js to [dwwx.space](https://dwwx.space)
+* `slides` - workshop content published with Reveal.js to [dak4.net](https://dak4.net)
 * `src` - source code for the .NET solution
 * `workshop` - logistics for in-person workshops
-* `_archive` - all the old content, preserved during transition to Reveal.js

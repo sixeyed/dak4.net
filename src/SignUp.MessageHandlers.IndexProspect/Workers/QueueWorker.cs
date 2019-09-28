@@ -20,9 +20,9 @@ namespace SignUp.MessageHandlers.IndexProspect.Workers
         private static string _Host = Environment.MachineName;
 
         private readonly IConfiguration _config;
-        private readonly Index _index;
+        private readonly Indexer.Index _index;
 
-        public QueueWorker(IConfiguration config, Index index)
+        public QueueWorker(IConfiguration config, Indexer.Index index)
         {
             _config = config;
             _index = index;

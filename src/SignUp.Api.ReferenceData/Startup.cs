@@ -18,7 +18,7 @@ namespace SignUp.Api.ReferenceData
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
             services.AddTransient<IRepository<Country>, CountryRepository>();
             services.AddTransient<IRepository<Role>, RoleRepository>();
         }
@@ -29,7 +29,10 @@ namespace SignUp.Api.ReferenceData
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseMvc();
+            app.UseEndpoints(endpoints => 
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
