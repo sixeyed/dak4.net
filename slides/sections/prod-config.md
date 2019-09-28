@@ -28,7 +28,7 @@ _Tag the image as `v5`, which includes variable configuration:_
 
 ```
 docker image build `
-  -t dwwx/signup-web:v5 `
+  -t dak4dotnet/signup-web:v5 `
   -f ./docker/prod-config/signup-web/Dockerfile .
 ```
 
@@ -42,7 +42,7 @@ _Tag this image as `v3`, which includes variable configuration:_
 
 ```
 docker image build `
-  -t dwwx/save-handler:v3 `
+  -t dak4dotnet/save-handler:v3 `
   -f ./docker/prod-config/save-handler/Dockerfile .
 ```
 

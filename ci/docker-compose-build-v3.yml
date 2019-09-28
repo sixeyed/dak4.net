@@ -3,19 +3,19 @@ version: '3.1'
 services:
 
   signup-web:
-    image: dwwx/signup-web:v3
+    image: dak4dotnet/signup-web:v3
     build:
       context: ..
       dockerfile: ./docker/metrics-runtime/signup-web/Dockerfile
 
   signup-save-handler:
-    image: dwwx/save-handler:v2
+    image: dak4dotnet/save-handler:v2
     build:
       context: ..
       dockerfile: ./docker/metrics-application/save-handler/Dockerfile
 
   signup-index-handler:
-    image: dwwx/index-handler:v2
+    image: dak4dotnet/index-handler:v2
     build:
       context: ..
       dockerfile: ./docker/metrics-application/index-handler/Dockerfile

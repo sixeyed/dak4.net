@@ -24,7 +24,7 @@ _Build the homepage image:_
 
 ```
 docker image build `
-  -t dwwx/homepage `
+  -t dak4dotnet/homepage `
   -f .\docker\frontend-reverse-proxy\homepage\Dockerfile .
 ```
 
@@ -37,7 +37,7 @@ You can run the homepage on its own - great for fast iterating through changes.
 _Run the homepage:_
 
 ```
-docker container run -d -p 8040:80 --name home dwwx/homepage
+docker container run -d -p 8040:80 --name home dak4dotnet/homepage
 ```
 
 ---
@@ -72,7 +72,7 @@ _Build the reverse proxy image:_
 
 ```
 docker image build `
-  -t dwwx/reverse-proxy `
+  -t dak4dotnet/reverse-proxy `
   -f .\docker\frontend-reverse-proxy\reverse-proxy\Dockerfile .
 ```
 

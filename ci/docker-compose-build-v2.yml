@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   signup-web:
-    image: dwwx/signup-web:v2
+    image: dak4dotnet/signup-web:v2
     build:
       context: ..
       dockerfile: ./docker/frontend-web/v2/Dockerfile

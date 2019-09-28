@@ -38,7 +38,7 @@ _Tag the image as `v7`, which includes the health check:_
 
 ```
 docker image build `
-  -t dwwx/signup-web:v7 `
+  -t dak4dotnet/signup-web:v7 `
   -f ./docker/prod-health/signup-web/Dockerfile .
 ```
 

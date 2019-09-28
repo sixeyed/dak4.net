@@ -35,7 +35,7 @@ The new version includes the metrics exporter utility. It's configured to run in
 _Build the updated web app:_
 
 ```
-docker image build --tag dwwx/signup-web:v3 `
+docker image build --tag dak4dotnet/signup-web:v3 `
  --file ./docker/metrics-runtime/signup-web/Dockerfile .
 ```
 
@@ -50,7 +50,7 @@ _Run the new web app, connecting to the existing database:_
 ```
 docker container run -d --publish-all `
   -e ConnectionStrings:SignUpDb='Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!' `
-  --name web-v3 dwwx/signup-web:v3
+  --name web-v3 dak4dotnet/signup-web:v3
 ```
 
 > `publish-all` publishes the container port to a random port on the host

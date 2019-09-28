@@ -31,10 +31,10 @@ You should record metrics at a fairly coarse level - "Event count" in this examp
 There's a new [Dockerfile for the save handler](./docker/metrics-application/save-handler/Dockerfile) and a new [Dockerfile for the index handler](./docker/metrics-application/index-handler/Dockerfile). They package the same code, but they set default config values to enable the metrics API.
 
 ```
-docker image build -t dwwx/save-handler:v2 `
+docker image build -t dak4dotnet/save-handler:v2 `
   -f .\docker\metrics-application\save-handler\Dockerfile . ; `
 
-docker image build -t dwwx/index-handler:v2 `
+docker image build -t dak4dotnet/index-handler:v2 `
   -f .\docker\metrics-application\index-handler\Dockerfile .
 ```
 
@@ -51,7 +51,7 @@ _Run the new version of the SQL Server handler:_
 ```
 docker container run -d  `
   -e ConnectionStrings:SignUpDb='Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!' `
-  --name save-v2 dwwx/save-handler:v2
+  --name save-v2 dak4dotnet/save-handler:v2
 ```
 
 ---
@@ -81,7 +81,7 @@ The index message handler records similar metrics about messages handled, and th
 _Run the new version of the Elasticsearch handler:_
 
 ```
-docker container run -d --name index-v2 dwwx/index-handler:v2
+docker container run -d --name index-v2 dak4dotnet/index-handler:v2
 ```
 
 ---

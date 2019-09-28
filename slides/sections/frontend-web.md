@@ -21,7 +21,7 @@ _Build the image:_
 ```
 cd $env:workshop
 
-docker image build -t dwwx/signup-web `
+docker image build -t dak4dotnet/signup-web `
   -f .\docker\frontend-web\v1\Dockerfile .
 ```
 
@@ -34,7 +34,7 @@ The v1 Dockerfile is simple, but inefficient. The [v2 Dockerfile](./docker/front
 _Build the image:_
 
 ```
-docker image build -t dwwx/signup-web:v2 `
+docker image build -t dak4dotnet/signup-web:v2 `
   -f .\docker\frontend-web\v2\Dockerfile .
 ```
 
@@ -51,7 +51,7 @@ _Try running the app in a container:_
 ```
 docker container run `
   -d -p 8020:80 --name app `
-  dwwx/signup-web:v2
+  dak4dotnet/signup-web:v2
 ```
 
 ---

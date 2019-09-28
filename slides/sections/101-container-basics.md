@@ -76,7 +76,7 @@ _Run SQL Server as a detached container:_
 ```
 docker container run --detach --name sql `
   --env sa_password=DockerCon!!! `
-  dwwx/sql-server:2017
+  dak4dotnet/sql-server:2017
 ```
 
 ---

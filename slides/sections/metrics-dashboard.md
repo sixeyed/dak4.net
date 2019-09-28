@@ -29,7 +29,7 @@ Prometheus uses a simple configuration file, listing the endpoints to scrape for
 [This Dockerfile](./docker/metrics-dashboard/prometheus/Dockerfile) to bundle a custom [prometheus.yml](./docker/metrics-dashboard/prometheus/prometheus.yml) file on top of the existing Prometheus image.
 
 ```
-docker image build -t dwwx/prometheus `
+docker image build -t dak4dotnet/prometheus `
   -f ./docker/metrics-dashboard/prometheus/Dockerfile .
 ```
 
@@ -60,7 +60,7 @@ It uses a [data source provisioning](http://docs.grafana.org/administration/prov
 _Build the custom Grafana image:_
 
 ```
-docker image build -t dwwx/grafana `
+docker image build -t dak4dotnet/grafana `
   -f ./docker/metrics-dashboard/grafana/Dockerfile .
 ```
 

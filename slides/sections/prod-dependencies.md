@@ -38,7 +38,7 @@ _Tag the image as `v6`, which includes the depencency check: _
 
 ```
 docker image build `
-  -t dwwx/signup-web:v6 `
+  -t dak4dotnet/signup-web:v6 `
   -f ./docker/prod-dependencies/signup-web/Dockerfile .
 ```
 
@@ -65,7 +65,7 @@ _Run the container interactively to see the output: _
 ```
 docker container run -it `
   -e DEPENDENCY_CHECK_ENABLED=1 `
-  dwwx/signup-web:v6 
+  dak4dotnet/signup-web:v6 
 ```
 
 > You'll see the check fires and fails, and then the container exits
@@ -90,7 +90,7 @@ _Build the image from the Dockerfile: _
 
 ```
 docker image build `
-  -t dwwx/signup-db `
+  -t dak4dotnet/signup-db `
   -f ./docker/prod-dependencies/signup-db/Dockerfile .
 ```
 

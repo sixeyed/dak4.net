@@ -23,7 +23,7 @@ And the [startup script](./docker/prod-logging/signup-web/startup.ps1) has been 
 _Tag the image as `v4`, which includes logging:_
 
 ```
-docker image build -t dwwx/signup-web:v4 `
+docker image build -t dak4dotnet/signup-web:v4 `
   -f ./docker/prod-logging/signup-web/Dockerfile .
 ```
 

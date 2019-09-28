@@ -61,7 +61,7 @@ The [Dockerfile](./docker/nfr-storage/signup-db/Dockerfile) adds a volume and an
 _Build the image:_
 
 ```
-docker image build --tag dwwx/signup-db `
+docker image build --tag dak4dotnet/signup-db `
   -f ./docker/nfr-storage/signup-db/Dockerfile .
 ```
 
@@ -74,7 +74,7 @@ Try running the database container on its own. Because the **image** has a volum
 _Run the container with no extra configuration:_
 
 ```
-docker container run -d --name db-1 dwwx/signup-db
+docker container run -d --name db-1 dak4dotnet/signup-db
 ```
 
 > Docker provisions a volume, creates the container and connects it to the volume.
@@ -119,7 +119,7 @@ _Create the data folder and run the container:_
 mkdir C:\mssql; `
 
 docker container run -d -v C:\mssql:C:\data `
-  --name db-2 dwwx/signup-db
+  --name db-2 dak4dotnet/signup-db
 ```
 
 > This is great for high-availability, you can mount RAID storage or a network share.

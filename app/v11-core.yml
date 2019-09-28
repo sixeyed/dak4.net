@@ -4,12 +4,12 @@ version: '3.7'
 services:
   
   signup-db:
-    image: dwwx/signup-db
+    image: dak4dotnet/signup-db
     networks:
       - app-net
 
   signup-web:
-    image: dwwx/signup-web:v7
+    image: dak4dotnet/signup-web:v7
     environment: 
       - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
       - ReferenceDataApi:Url=http://reference-data-api/api
@@ -21,7 +21,7 @@ services:
       - app-net
 
   homepage:
-    image: dwwx/homepage
+    image: dak4dotnet/homepage
     labels:
       - "traefik.frontend.rule=PathPrefix:/"
       - "traefik.frontend.priority=10"
@@ -29,7 +29,7 @@ services:
       - app-net
 
   proxy:
-    image: dwwx/reverse-proxy
+    image: dak4dotnet/reverse-proxy
     volumes:
       - type: npipe
         source: \\.\pipe\docker_engine
@@ -38,7 +38,7 @@ services:
       - app-net
 
   reference-data-api:
-    image: dwwx/reference-data-api
+    image: dak4dotnet/reference-data-api
     labels:
       - "traefik.frontend.rule=PathPrefix:/api"
       - "traefik.frontend.priority=20"
@@ -51,12 +51,12 @@ services:
       - app-net
 
   signup-save-handler:
-    image: dwwx/save-handler:v3
+    image: dak4dotnet/save-handler:v3
     networks:
       - app-net
 
   signup-index-handler:
-    image: dwwx/index-handler:v2
+    image: dak4dotnet/index-handler:v2
     networks:
       - app-net
 
@@ -71,11 +71,11 @@ services:
       - app-net
 
   prometheus:
-    image: dwwx/prometheus
+    image: dak4dotnet/prometheus
     networks:
       - app-net
 
   grafana:
-    image: dwwx/grafana
+    image: dak4dotnet/grafana
     networks:
       - app-net

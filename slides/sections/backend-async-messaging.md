@@ -32,7 +32,7 @@ _Build the message handler image:_
 
 ```
 docker image build `
-  -t dwwx/save-handler `
+  -t dak4dotnet/save-handler `
   -f .\docker\backend-async-messaging\save-handler\Dockerfile .
 ```
 

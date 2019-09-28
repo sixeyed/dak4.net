@@ -37,7 +37,7 @@ _Build the API image:_
 
 ```
 docker image build `
-  -t dwwx/reference-data-api `
+  -t dak4dotnet/reference-data-api `
   -f .\docker\backend-rest-api\reference-data-api\Dockerfile .
 ```
 
@@ -54,7 +54,7 @@ _Run the API, connecting it to the existing SQL container:_
 ```
 docker container run -d -p 8060:80 --name api `
   -e ConnectionStrings:SignUpDb="Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!" `
-  dwwx/reference-data-api
+  dak4dotnet/reference-data-api
 ```
 
 ---

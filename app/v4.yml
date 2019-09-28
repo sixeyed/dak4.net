@@ -4,14 +4,14 @@ version: '3.7'
 services:
   
   signup-db:
-    image: dwwx/sql-server:2017
+    image: dak4dotnet/sql-server:2017
     environment:
       - sa_password=DockerCon!!!
     networks:
       - app-net
 
   signup-web:
-    image: dwwx/signup-web:v2
+    image: dak4dotnet/signup-web:v2
     environment:
       - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
       - ReferenceDataApi:Url=http://reference-data-api/api
@@ -27,7 +27,7 @@ services:
       - app-net
 
   homepage:
-    image: dwwx/homepage
+    image: dak4dotnet/homepage
     labels:
       - "traefik.frontend.rule=PathPrefix:/"
       - "traefik.frontend.priority=10"
@@ -35,7 +35,7 @@ services:
       - app-net
 
   proxy:
-    image: dwwx/reverse-proxy
+    image: dak4dotnet/reverse-proxy
     command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --docker.watch --api
     ports:
       - "8020:80"
@@ -48,7 +48,7 @@ services:
       - app-net
 
   reference-data-api:
-    image: dwwx/reference-data-api
+    image: dak4dotnet/reference-data-api
     environment: 
       - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
     labels:
@@ -65,7 +65,7 @@ services:
       - app-net
 
   signup-save-handler:
-    image: dwwx/save-handler
+    image: dak4dotnet/save-handler
     depends_on:
       - signup-db
       - message-queue

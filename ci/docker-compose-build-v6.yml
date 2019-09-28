@@ -3,13 +3,13 @@ version: '3.1'
 services:
 
   signup-db:
-    image: dwwx/signup-db
+    image: dak4dotnet/signup-db
     build:
       context: ..
       dockerfile: ./docker/prod-dependencies/signup-db/Dockerfile
 
   signup-web:
-    image: dwwx/signup-web:v6
+    image: dak4dotnet/signup-web:v6
     build:
       context: ..
       dockerfile: ./docker/prod-dependencies/signup-web/Dockerfile

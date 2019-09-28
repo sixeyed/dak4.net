@@ -25,7 +25,7 @@ $images =
 'microsoft/dotnet:2.1-runtime-nanoserver-1809',
 'microsoft/dotnet:2.1-sdk-nanoserver-1809',
 'microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1809',
-'dwwx/sql-server:2017',
+'dak4dotnet/sql-server:2017',
 'nats:2.0.4-nanoserver-1809',
 'dockersamples/aspnet-monitoring-exporter:4.7.2-windowsservercore-ltsc2019',
 'dockersamples/aspnet-monitoring-grafana:5.2.1-windowsservercore-ltsc2019',

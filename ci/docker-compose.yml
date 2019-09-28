@@ -3,27 +3,27 @@ version: '3.1'
 services:
   
   signup-db:
-    image: dwwx/sql-server:2017
+    image: dak4dotnet/sql-server:2017
     networks:
       - app-net
 
   signup-web:
-    image: dwwx/signup-web
+    image: dak4dotnet/signup-web
     networks:
       - app-net
 
   homepage:
-    image: dwwx/homepage
+    image: dak4dotnet/homepage
     networks:
       - app-net
 
   proxy:
-    image: dwwx/reverse-proxy
+    image: dak4dotnet/reverse-proxy
     networks:
       - app-net
 
   reference-data-api:
-    image: dwwx/reference-data-api
+    image: dak4dotnet/reference-data-api
     networks:
       - app-net
 
@@ -33,22 +33,22 @@ services:
       - app-net
 
   signup-save-handler:
-    image: dwwx/save-handler
+    image: dak4dotnet/save-handler
     networks:
       - app-net
 
   signup-index-handler:
-    image: dwwx/index-handler
+    image: dak4dotnet/index-handler
     networks:
       - app-net  
 
   prometheus:
-    image: dwwx/prometheus
+    image: dak4dotnet/prometheus
     networks:
       - app-net
 
   grafana:
-    image: dwwx/grafana
+    image: dak4dotnet/grafana
     networks:
       - app-net
 

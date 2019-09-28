@@ -4,14 +4,14 @@ version: '3.7'
 services:
   
   signup-db:
-    image: dwwx/sql-server:2017
+    image: dak4dotnet/sql-server:2017
     environment:
       - sa_password=DockerCon!!!
     networks:
       - app-net
 
   signup-web:
-    image: dwwx/signup-web:v3
+    image: dak4dotnet/signup-web:v3
     environment: 
       - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
       - ReferenceDataApi:Url=http://reference-data-api/api
@@ -26,7 +26,7 @@ services:
       - app-net
 
   homepage:
-    image: dwwx/homepage
+    image: dak4dotnet/homepage
     labels:
       - "traefik.frontend.rule=PathPrefix:/"
       - "traefik.frontend.priority=10"
@@ -34,7 +34,7 @@ services:
       - app-net
 
   proxy:
-    image: dwwx/reverse-proxy
+    image: dak4dotnet/reverse-proxy
     command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --docker.watch --api
     ports:
       - "8020:80"
@@ -47,7 +47,7 @@ services:
       - app-net
 
   reference-data-api:
-    image: dwwx/reference-data-api
+    image: dak4dotnet/reference-data-api
     environment: 
       - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
     labels:
@@ -64,7 +64,7 @@ services:
       - app-net
 
   signup-save-handler:
-    image: dwwx/save-handler:v2
+    image: dak4dotnet/save-handler:v2
     environment: 
       - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
     depends_on:
@@ -74,7 +74,7 @@ services:
       - app-net
 
   signup-index-handler:
-    image: dwwx/index-handler:v2
+    image: dak4dotnet/index-handler:v2
     depends_on:
       - elasticsearch
       - message-queue
@@ -96,14 +96,14 @@ services:
       - app-net
 
   prometheus:
-    image: dwwx/prometheus
+    image: dak4dotnet/prometheus
     ports:
       - "9090:9090"
     networks:
       - app-net
 
   grafana:
-    image: dwwx/grafana
+    image: dak4dotnet/grafana
     ports:
       - "3000:3000"
     depends_on:

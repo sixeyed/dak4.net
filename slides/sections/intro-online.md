@@ -32,7 +32,7 @@ Just to make the workflow easier, set up an environment variable for the path to
 _In your same PowerShell session run:_
 
 ```
-$env:workshop="$(pwd)\dak4.net")
+$env:workshop="$(pwd)\dak4.net"
 
 cd $env:workshop
 ```

@@ -4,14 +4,14 @@ version: '3.7'
 services:
   
   signup-db:
-    image: dwwx/sql-server:2017
+    image: dak4dotnet/sql-server:2017
     environment:
       - sa_password=DockerCon!!!
     networks:
       - app-net
 
   signup-web:
-    image: dwwx/signup-web:v2
+    image: dak4dotnet/signup-web:v2
     ports:
       - "8020:80"
     depends_on:

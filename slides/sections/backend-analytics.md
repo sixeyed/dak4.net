@@ -29,7 +29,7 @@ The [Dockerfile](./docker/backend-analytics/index-handler/Dockerfile) follows a 
 _Build the image in the usual way:_
 
 ```
-docker image build --tag dwwx/index-handler `
+docker image build --tag dak4dotnet/index-handler `
   --file .\docker\backend-analytics\index-handler\Dockerfile .
 ```
 
