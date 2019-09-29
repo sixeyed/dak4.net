@@ -16,7 +16,7 @@ services:
     environment: 
       - ReferenceDataApi:Url=http://reference-data-api/api
     labels:
-      - "traefik.frontend.rule=PathPrefix:/app"
+      - "traefik.frontend.rule=PathPrefixStrip:/app"
       - "traefik.frontend.priority=30"
     depends_on:
       - signup-db
