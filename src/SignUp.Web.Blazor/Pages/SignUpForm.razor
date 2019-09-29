@@ -69,7 +69,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        roles = await ReferenceDataService.GetRoles();
-        countries = await ReferenceDataService.GetCountries();        
+        roles = await ReferenceDataService.GetRolesAsync();
+        countries = await ReferenceDataService.GetCountriesAsync();        
     }
 }

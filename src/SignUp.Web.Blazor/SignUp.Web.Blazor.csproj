@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SignUp.Core\SignUp.Core.csproj" />
     <ProjectReference Include="..\SignUp.Entities\SignUp.Entities.csproj" />
     <ProjectReference Include="..\SignUp.Messaging\SignUp.Messaging.csproj" />
   </ItemGroup>
