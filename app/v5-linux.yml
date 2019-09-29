@@ -1,21 +1,20 @@
-# v6 adds metrics with Prometheus and Grafana
+# v5 adds self-service analytics with Elasticsearch and Kibana
 version: '3.7'
 
 services:
   
   signup-db:
-    image: dak4dotnet/sql-server:2017
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
-      - sa_password=DockerCon!!!
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=DockerCon!!!
     networks:
       - app-net
 
   signup-web:
-    image: dak4dotnet/signup-web:v3
+    image: dak4dotnet/signup-web-blazor:linux
     environment: 
-      - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
       - ReferenceDataApi:Url=http://reference-data-api/api
-      - Dependencies:IProspectSaveHandler=SignUp.Web.ProspectSave.AsynchronousProspectSaveHandler
     labels:
       - "traefik.frontend.rule=PathPrefix:/app"
       - "traefik.frontend.priority=30"
@@ -26,7 +25,7 @@ services:
       - app-net
 
   homepage:
-    image: dak4dotnet/homepage
+    image: dak4dotnet/homepage-nginx:linux
     labels:
       - "traefik.frontend.rule=PathPrefix:/"
       - "traefik.frontend.priority=10"
@@ -34,20 +33,18 @@ services:
       - app-net
 
   proxy:
-    image: dak4dotnet/reverse-proxy
-    command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --docker.watch --api
+    image: traefik:1.7.18-alpine
+    command: --api --docker --docker.watch
     ports:
       - "8020:80"
       - "8080:8080"
     volumes:
-      - type: npipe
-        source: \\.\pipe\docker_engine
-        target: \\.\pipe\docker_engine      
+      - /var/run/docker.sock:/var/run/docker.sock      
     networks:
       - app-net
 
   reference-data-api:
-    image: dak4dotnet/reference-data-api
+    image: dak4dotnet/reference-data-api:linux
     environment: 
       - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
     labels:
@@ -64,9 +61,7 @@ services:
       - app-net
 
   signup-save-handler:
-    image: dak4dotnet/save-handler:v2
-    environment: 
-      - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
+    image: dak4dotnet/signup-save-handler-core:linux
     depends_on:
       - signup-db
       - message-queue
@@ -74,7 +69,7 @@ services:
       - app-net
 
   signup-index-handler:
-    image: dak4dotnet/index-handler:v2
+    image: dak4dotnet/signup-index-handler:linux
     depends_on:
       - elasticsearch
       - message-queue
@@ -82,12 +77,12 @@ services:
       - app-net
 
   elasticsearch:
-    image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
+    image: elasticsearch:6.8.3
     networks:
       - app-net
 
   kibana:
-    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
+    image: kibana:6.8.3
     ports:
       - "5601:5601"
     depends_on:
@@ -95,23 +90,5 @@ services:
     networks:
       - app-net
 
-  prometheus:
-    image: dak4dotnet/prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - app-net
-
-  grafana:
-    image: dak4dotnet/grafana
-    ports:
-      - "3000:3000"
-    depends_on:
-      - prometheus
-    networks:
-      - app-net
-
 networks:
   app-net:
-    external:
-      name: nat

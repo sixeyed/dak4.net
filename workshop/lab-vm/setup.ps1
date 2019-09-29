@@ -26,7 +26,7 @@ $images =
 'mcr.microsoft.com/dotnet/core/sdk:3.0.100',
 'mcr.microsoft.com/dotnet/core/aspnet:3.0',
 'dak4dotnet/sql-server:2017',
-'nats:2.0.4-nanoserver-1809',
+'nats:2.1.0',
 'dockersamples/aspnet-monitoring-exporter:4.7.2-windowsservercore-ltsc2019',
 'dockersamples/aspnet-monitoring-grafana:5.2.1-windowsservercore-ltsc2019',
 'dockersamples/aspnet-monitoring-prometheus:2.3.1-windowsservercore-ltsc2019',

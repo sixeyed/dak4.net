@@ -28,7 +28,10 @@ namespace SignUp.Api.ReferenceData
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            }            
+
+            app.UseRouting();
+
             app.UseEndpoints(endpoints => 
             {
                 endpoints.MapControllers();

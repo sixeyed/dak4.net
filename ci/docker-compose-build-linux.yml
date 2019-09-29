@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+
+  signup-web-blazor:
+    image: dak4dotnet/signup-web-blazor:linux
+    build:
+      context: ..
+      dockerfile: ./docker/frontend-web/signup-web-blazor/Dockerfile
+
+  homepage-nginx:
+    image: dak4dotnet/homepage-nginx:linux
+    build:
+      context: ..
+      dockerfile: ./docker/frontend-reverse-proxy/homepage-nginx/Dockerfile
+
+  reference-data-api:
+    image: dak4dotnet/reference-data-api:linux
+    build:
+      context: ..
+      dockerfile: ./docker/backend-rest-api/reference-data-api/Dockerfile
+
+  signup-save-handler:
+    image: dak4dotnet/signup-save-handler-core:linux
+    build:
+      context: ..
+      dockerfile: ./docker/backend-async-messaging/save-handler-core/Dockerfile
+
+  signup-index-handler:
+    image: dak4dotnet/signup-index-handler:linux
+    build:
+      context: ..
+      dockerfile: ./docker/backend-analytics/index-handler/Dockerfile    

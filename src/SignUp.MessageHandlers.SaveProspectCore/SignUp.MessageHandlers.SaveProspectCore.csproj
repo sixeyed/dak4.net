@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SignUp.Core\SignUp.Core.csproj" />
     <ProjectReference Include="..\SignUp.Entities\SignUp.Entities.csproj" />
     <ProjectReference Include="..\SignUp.Messaging\SignUp.Messaging.csproj" />

@@ -1,6 +1,9 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0.100 as builder
 
 WORKDIR /src
+COPY src/SignUp.Core/SignUp.Core.csproj ./SignUp.Core/
+COPY src/SignUp.Entities/SignUp.Entities.csproj ./SignUp.Entities/
+COPY src/SignUp.Messaging/SignUp.Messaging.csproj ./SignUp.Messaging/
 COPY src/SignUp.Web.Blazor/SignUp.Web.Blazor.csproj ./SignUp.Web.Blazor/
 
 WORKDIR /src/SignUp.Web.Blazor
