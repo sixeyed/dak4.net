@@ -2,88 +2,19 @@
 
 ---
 
-Now we're ready to deploy the real application to a real swarm.
+Now we're ready to deploy the real application to the swarm.
+
+> In a production swarm you'd have multiple managers and workers, but the workflow is the same - connecting to a manager node and running the same `docker` commands.
 
 ---
 
 ## But first, tidy up
 
-Exit swarm mode, which will remove your single-node cluster:
+Remove all the running services, which will also remove their containers:
 
 ```
-docker swarm leave -f
+docker service rm -f $(docker service ls -q)
 ```
-
-And remove any running containers:
-
-```
-docker container rm -f $(docker container ls -aq)
-```
-
----
-
-## Plan the production swarm
-
-It's time to buddy up! 
-    
-Your workshop VM is in the same virtual network as your neighbour's, so you can create a swarm between you:
-
-- pick another person (or 2 or 3) to work with
-- choose who's going to be the manager and who will be the worker(s)
-
-> Or you can continue with the single-node swarm on your own VM, or join my swarm.
-
----
-
-## Initialize the swarm
-
-> This part is for the **manager**
-
-On the manager's VM, get the machine's internal IP address:
-
-```
-ipconfig
-```
-
-The internal address will start with `10.0.0`. Use it to create your swarm:
-
-```
-docker swarm init `
-  --listen-addr <ip-address> `
-  --advertise-addr <ip-address>
-```
-
----
-
-## Share the join token
-
-The output of `docker swarm init` is a `swarm join` command which you need to share with your buddies. 
-
-> You can use the Google sheet for this. Or memorize the token...
-
----
-
-## Join the swarm
-
-> This part is for the **worker(s)**
-
-Run the `docker swarm join` command which your manager has shared with you. 
-
-Now you can sit back for a while. In swarm mode all the work gets scheduled on the manager node, so you'll be a passenger for the next few steps.
-
----
-
-## Check the swarm
-
-> This part is for the **manager**
-
-Check you have all the expected nodes in the swarm:
-
-```
-docker node ls
-```
-
-The output will list all the nodes in the swarm. You should have one manager and multiple workers - and they should all be in the `ready` state.
 
 ---
 
@@ -97,7 +28,7 @@ You can combine multiple compose files to make a single file. That's useful for 
 
 ## Generate the application manifest
 
-> Everyone can do this part
+This joins together the core and production compose files.
 
 ```
 cd $env:workshop
@@ -107,7 +38,7 @@ docker-compose `
   -f .\app\v11-prod.yml config > docker-stack.yml
 ```
 
-> The generated `docker-stack.yml` file contains the merged contents, ready for deployment. It also uses [Docker config objects]() and [Docker secrets](https://docs.docker.com/engine/swarm/secrets/).
+> The generated `docker-stack.yml` file contains the merged contents, ready for deployment. It also uses [Docker config objects](https://docs.docker.com/engine/swarm/configs/) and [Docker secrets](https://docs.docker.com/engine/swarm/secrets/).
 
 ---
 
@@ -122,8 +53,6 @@ Docker surfaces config data as files inside the container, so it's all transpare
 ---
 
 ## Create the config object
-
-> This part is for the **manager**
 
 There are two ways to store configuration data in Docker swarm. You use config objects for data which isn't confidential.
 
@@ -153,10 +82,9 @@ docker config inspect --pretty netfx-log4net
 
 ## Create the secret
 
-> This part is for the **manager**
+Secrets are stored encrypted, but the API is very similar to config objects.
 
 _Store the [connectionStrings.config](./app/secrets/connectionStrings.config) file in the swarm:_
-
 
 ```
 docker secret create `
@@ -182,7 +110,7 @@ docker secret inspect --pretty netfx-connectionstrings
 
 ## Deploy the application as a stack
 
-> This part is for the **manager** 
+Stacks are a way to group all the parts of an app. You deploy them using Docker Compose files.
 
 Deploy the stack:
 
@@ -190,7 +118,7 @@ Deploy the stack:
 docker stack deploy -c docker-stack.yml signup
 ```
 
-> Docker creates all the resources in the stack: an overlay network, and a set of services. It will deploy service tasks across the swarm, so you should see containers running on many nodes.
+> Docker creates all the resources in the stack: an overlay network, and a set of services. It will deploy service tasks across the swarm, on a multi-node cluster you would see containers running on different nodes.
 
 ---
 

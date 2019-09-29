@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: homepage
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: homepage
+    spec:
+      containers:
+      - image: dak4dotnet/homepage:linux     
+        imagePullPolicy: Always
+        name: homepage
+        ports:
+        - containerPort: 80
+          name: homepage
+      nodeSelector:
+        beta.kubernetes.io/os: linux
