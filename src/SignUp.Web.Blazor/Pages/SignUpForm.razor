@@ -2,6 +2,9 @@
 
 @using SignUp.Entities
 @using SignUp.Web.Blazor.Services
+
+@inject NavigationManager NavigationManager
+@inject ProspectSaveService ProspectSaveService
 @inject ReferenceDataService ReferenceDataService
 
 @if (roles == null || countries == null)
@@ -10,7 +13,7 @@
 }
 else
 {
-<form>
+<EditForm Model="@prospect" OnSubmit="@HandleSubmit">
     <div class="jumbotron">
         <h1>Play with Docker is the best thing I've ever heard of!</h1>
         <p class="lead">Here are my details. Sign me up.</p>
@@ -19,57 +22,70 @@ else
     <div class="form-group row">
         <div class="col-md-6">
             <label for="FirstName" class="control-label">First Name</label>
-            <input for="FirstName" class="form-control" bind="@prospect.FirstName" />
+            <InputText id="FirstName" class="form-control" @bind-Value="prospect.FirstName" />
         </div>
         <div class="col-md-6">
             <label asp-for="Country" class="control-label">Country</label>
-            <select asp-for="Country" class="form-control" bind="@prospect.Country">
+            <InputSelect id="Country" class="form-control" @bind-Value="prospect.Country.CountryCode">
                 @foreach (var country in countries)
                 {
                     <option value="@country.CountryCode">@country.CountryName</option>
                 }
-            </select>
+            </InputSelect>
         </div>
-    </div>    
+    </div>
 
     <div class="form-group row">
         <div class="col-md-6">
             <label for="LastName" class="control-label">Last Name</label>
-            <input for="LastName" class="form-control" bind="@prospect.LastName" />
+            <InputText id="LastName" class="form-control" @bind-Value="prospect.LastName" />
         </div>
         <div class="col-md-6">
             <label for="CompanyName" class="control-label">Company Name</label>
-            <input for="CompanyName" class="form-control" bind="@prospect.CompanyName" />
+            <InputText id="CompanyName" class="form-control" @bind-Value="prospect.CompanyName" />
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
             <label for="EmailAddress" class="control-label">Email Address</label>
-            <input for="EmailAddress" class="form-control" bind="@prospect.EmailAddress" />
-        </div>  
+            <InputText id="EmailAddress" class="form-control" @bind-Value="prospect.EmailAddress" />
+        </div>
         <div class="col-md-6">
-            <label asp-for="Role" class="control-label">Your Main ROle</label>
-            <select asp-for="Role" class="form-control" bind="@prospect.Role">
+            <label asp-for="Role" class="control-label">Your Main Role</label>
+            <InputSelect id="Role" class="form-control" @bind-Value="prospect.Role.RoleCode">
                 @foreach (var role in roles)
                 {
-                    <option value="@role.RoleCode">@role.RoleCode</option>
+                    <option value="@role.RoleCode">@role.RoleName</option>
                 }
-            </select>
+            </InputSelect>
         </div>
     </div>
 
-</form>
+    <button type="submit">Go!</button>
+
+</EditForm>
 }
 
 @code {
-    private Prospect prospect = new Prospect();
+    private Prospect prospect = new Prospect
+    {
+        Role = new Role(),
+        Country = new Country()
+    };
+
     private IEnumerable<Country> countries;
     private IEnumerable<Role> roles;
 
     protected override async Task OnInitializedAsync()
     {
         roles = await ReferenceDataService.GetRolesAsync();
-        countries = await ReferenceDataService.GetCountriesAsync();        
+        countries = await ReferenceDataService.GetCountriesAsync();
+    }
+
+    private void HandleSubmit()
+    {
+        ProspectSaveService.SaveProspect(prospect);
+        NavigationManager.NavigateTo("thankyou");
     }
 }
