@@ -1,10 +1,30 @@
 # Kubernetes 101
 
+Kubernetes has many moving parts which run as separate containers. Deploying Kubernetes is not as simple as `docker swarm init`.
+
+> See [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
+
+## Kubernetes in Docker Desktop
+
+Docker Desktop is the easiest way to run Kubernetes locally, it spins up a single-node cluster for you.
+
+This is a Linux-only cluster, so we can run .NET Core apps in Linux containers, but not .NET Framework apps in Windows containers.
+
 ## Clean up from swarm mode
 
+First we'll clean up all the running swarm services.
+
+_Delete all swarm stacks:_
+
+```
 docker stack rm $(docker stack ls)
+```
 
 ## Switch to Linux containers
+
+Right-click the Docker whale icon in the taskbar, and select _Switch to Linux containers_
+
+!["/img/screenshots/linux-containers.png"]
 
 ## Enable Kubernetes
 

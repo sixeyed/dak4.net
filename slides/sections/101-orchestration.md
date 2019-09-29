@@ -2,19 +2,19 @@
 
 ---
 
-<section data-background-image="/img/orchestration/TODO.PNG">
-
----
-
 Orchestration is the fancy name for running containers on a cluster of servers. Each machine in the cluster can run Docker containers, and the orchestrator manages the cluster as a whole.
 
 You run applications by deploying a manifest which describes the containers that make up your app. The cluster decides which servers will run the containers, and it monitors them to maintain your service levels.
 
 ---
 
+<section data-background-image="/img/orchestration/overview.png">
+
+---
+
 ## Docker Swarm and Kubernetes
 
-These are the main container orchestrators. Swarm is built into Docker, Kubernetes is a separate deployment. Both run apps as Docker containers and they can uses the same images.
+These are the main container orchestrators. Swarm is built into Docker, Kubernetes is a separate deployment. Both run apps as Docker containers and they use the same images.
 
 Swarm uses the Docker Compose format to describe apps for the cluster. Kubernetes uses its own manifest format, also written in YAML.
 
