@@ -1,0 +1,1 @@
+# Kubernetes healthchecks and secrets
