@@ -26,6 +26,8 @@ namespace SignUp.Web.Blazor
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UsePathBase("/app");
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
