@@ -32,3 +32,4 @@ Migrating your .NET apps to Docker is an easy way to power a cloud migration wit
 * `slides` - workshop content published with Reveal.js to [dak4.net](https://dak4.net)
 * `src` - source code for the .NET solution
 * `workshop` - logistics for in-person workshops
+
