@@ -30,6 +30,24 @@ There's a _Docker Desktop_ shortcut on the desktop, launch that to run Docker. Y
 
 ---
 
+## Use process isolation
+
+Windows 10 runs containers in a slightly different way from Windows Server. It's good to switch to the standard server functionality.
+
+Open _Settings_ from the Docker icon, select _Daemon_ and flick the _Advanced_ switch. Then paste this JSON config and click _Apply_:
+
+```
+{
+  "debug": true,
+  "experimental": false,
+  "exec-opts": [
+    "isolation=process"
+  ]
+}
+```
+
+---
+
 ## Update your VM setup
 
 Now run a script to make sure everything is up to date.
