@@ -12,6 +12,14 @@ Migrating your .NET apps to Docker is an easy way to power a cloud migration wit
 
 > It doesn't matter if you're from a dev or an ops background, you'll learn how the Docker platform benefits all aspects of IT.
 
+### Live deliveries
+
+This workshop is a living thing. There are subdomains of the website and code branches for previous deliveries.
+
+#### 2019
+
+- [techoramanl19](hhttps://github.com/sixeyed/dak4.net/tree/techoramanl19) - Techorama NL 2019, hosted [here](https://techoramanl19.dak4.net) 
+
 ### Previous versions
 
 [Docker and Kubernetes for .NET Developers](https://dak4.net) is an evolution of my [Docker Windows Workshop](https://github.com/sixeyed/docker-windows-workshop). 
