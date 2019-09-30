@@ -48,8 +48,8 @@ spec:
     k8s-app: traefik-ingress-lb
   ports:
     - protocol: TCP
-      port: 8020
-      name: web
+      port: 80
+      name: http
     - protocol: TCP
       port: 8080
       name: admin

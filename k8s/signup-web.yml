@@ -31,7 +31,7 @@ spec:
       - image: dak4dotnet/signup-web-blazor:linux
         name: signup-web
         env:
-        - name: ReferenceDataApi:Url
+        - name: ReferenceDataApi__Url
           value: "http://reference-data-api/api"
         ports:
         - containerPort: 80

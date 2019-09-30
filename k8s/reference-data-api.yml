@@ -31,7 +31,7 @@ spec:
       - image: dak4dotnet/reference-data-api:linux
         name: reference-data-api
         env:
-        - name: ConnectionStrings:SignUpDb
+        - name: ConnectionStrings__SignUpDb
           value: "Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!"
         ports:
         - containerPort: 80

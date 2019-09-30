@@ -15,7 +15,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: elasticsearch
+  name: kibana
 spec:
   selector:
     matchLabels:
