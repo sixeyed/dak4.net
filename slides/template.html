@@ -24,6 +24,10 @@
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
 
+		<!-- notifications -->
+		<script src="https://cdn.jsdelivr.net/npm/notyf@3.0.4/notyf.min.js" integrity="sha256-cz4spnqXOpPbPv1CoG0U7qrctRq3WAvLhzlzOJTpo2o=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3.0.4/notyf.min.css" integrity="sha256-4HDNBxZpAOjCNMgN942DPA1a16EHJ/kuQxSAw8TglvQ=" crossorigin="anonymous">
+		
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -55,12 +59,27 @@
 					{ src: 'reveal/plugin/notes/notes.js', async: true },
 					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
-            });
-            Reveal.configure({ 
+            		});
+            		Reveal.configure({ 
 				slideNumber: 'c/t',
 				history: true
 			});
-			new ClipboardJS('.hljs');
+			var clipboard = new ClipboardJS('.hljs', {
+				text: function(trigger) {
+					return trigger.innerText;
+				}
+			});
+			
+			clipboard.on('success', function(e) {
+				var notyf = new Notyf();
+				notyf.success("Copied to clipboard:<br><br>" + e.text.replace('\n', "<br>"));
+			});
+			
+			
+			clipboard.on('error', function(e) {
+				var notyf = new Notyf();
+				notyf.error("Can't copy to clipboard");
+			});
 		</script>
 	</body>
 </html>
