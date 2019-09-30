@@ -24,6 +24,9 @@
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
 
+		<!-- notifications -->
+		<link rel="stylesheet" href="lib/notyf.min.css">
+		
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -43,6 +46,7 @@
 		<!--<script src="reveal/lib/js/head.min.js"></script>-->
 		<script src="reveal/js/reveal.js"></script>
 		<script src="lib/clipboard.min.js"></script>
+		<script src="lib/notyf.min.js"></script>
 
 		<script>
 			// More info about config & dependencies:
@@ -55,12 +59,27 @@
 					{ src: 'reveal/plugin/notes/notes.js', async: true },
 					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
-            });
-            Reveal.configure({ 
+            		});
+            		Reveal.configure({ 
 				slideNumber: 'c/t',
 				history: true
 			});
-			new ClipboardJS('.hljs');
+			var clipboard = new ClipboardJS('.hljs', {
+				text: function(trigger) {
+					return trigger.innerText;
+				}
+			});
+			
+			clipboard.on('success', function(e) {
+				var notyf = new Notyf();
+				notyf.success("Copied to clipboard:<br><br>" + e.text.replace('\n', "<br>"));
+			});
+			
+			
+			clipboard.on('error', function(e) {
+				var notyf = new Notyf();
+				notyf.error("Can't copy to clipboard");
+			});
 		</script>
 	</body>
 </html>
