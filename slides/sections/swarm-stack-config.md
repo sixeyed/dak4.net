@@ -18,11 +18,39 @@ docker service rm -f $(docker service ls -q)
 
 ---
 
+## Build a new web image
+
+The web app needs some additional setup in the Dockerfile, to read configuration from the swarm.
+
+_Tag the image as `v5`, which includes the config setup:_
+
+```
+docker image build `
+  -t dak4dotnet/signup-web:v5 `
+  -f ./docker/prod-config/signup-web/Dockerfile .
+```
+
+---
+
+## Build the new handler image
+
+There's also an [updated Dockerfile for the save handler](), which adds the same config-loading logic.
+
+_Tag this image as `v3`, which includes variable configuration:_
+
+```
+docker image build `
+  -t dak4dotnet/save-handler:v3 `
+  -f ./docker/prod-config/save-handler/Dockerfile .
+```
+
+---
+
 ## Compose files in swarm mode
 
 You deploy apps to swarm using Docker Compose files. There are some attributes which only apply to swarm mode (like the `deploy` section), and some which are ignored in swarm mode (like `depends_on`).
 
-You can combine multiple compose files to make a single file. That's useful for keeping the core solution in one compose file like [v11-core.yml](./app/v11-core.yml), and adding environment-specific overrides in other files like [v11-dev.yml](./app/v11-dev.yml) and [v11-prod.yml](./app/v11-prod.yml).
+You can combine multiple compose files to make a single file. That's useful for keeping the core solution in one compose file like [v5-core.yml](./app/v5-core.yml), and adding environment-specific overrides in other files like [v5-dev.yml](./app/v5-dev.yml) and [v5-prod.yml](./app/v5-prod.yml).
 
 ---
 
@@ -34,8 +62,8 @@ This joins together the core and production compose files.
 cd $env:workshop
 
 docker-compose `
-  -f .\app\v11-core.yml `
-  -f .\app\v11-prod.yml config > docker-stack.yml
+  -f .\app\v5-core.yml `
+  -f .\app\v5-prod.yml config > docker-stack.yml
 ```
 
 > The generated `docker-stack.yml` file contains the merged contents, ready for deployment. It also uses [Docker config objects](https://docs.docker.com/engine/swarm/configs/) and [Docker secrets](https://docs.docker.com/engine/swarm/secrets/).

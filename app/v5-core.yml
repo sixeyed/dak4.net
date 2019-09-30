@@ -1,0 +1,62 @@
+# v5 adds self-service analytics with Elastcisearch and Kibana
+version: '3.7'
+
+services:
+  
+  signup-db:
+    image: dak4dotnet/sql-server:2017
+    networks:
+      - app-net
+
+  signup-web:
+    image: dak4dotnet/signup-web:v5
+    environment: 
+      - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
+      - ReferenceDataApi:Url=http://reference-data-api/api
+      - Dependencies:IProspectSaveHandler=SignUp.Web.ProspectSave.AsynchronousProspectSaveHandler
+    networks:
+      - app-net
+
+  homepage:
+    image: dak4dotnet/homepage
+    networks:
+      - app-net
+
+  proxy:
+    image: traefik:v1.7.18-windowsservercore-1809
+    volumes:
+      - type: npipe
+        source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine      
+    networks:
+      - app-net
+
+  reference-data-api:
+    image: dak4dotnet/reference-data-api
+    networks:
+      - app-net
+
+  message-queue:
+    image: nats:2.1.0-nanoserver-1809
+    networks:
+      - app-net
+
+  signup-save-handler:
+    image: dak4dotnet/save-handler:v3
+    networks:
+      - app-net
+
+  signup-index-handler:
+    image: dak4dotnet/index-handler
+    networks:
+      - app-net
+
+  elasticsearch:
+    image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - app-net
+
+  kibana:
+    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
+    networks:
+      - app-net

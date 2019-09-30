@@ -1,0 +1,78 @@
+# v5 adds self-service analytics with Elastcisearch and Kibana
+version: '3.7'
+
+services:
+  
+  signup-db:
+    environment:
+      - sa_password=DockerCon!!!
+
+  signup-web:
+    environment:
+      - LOG4NET_CONFIG_PATH=C:\netfx-log4net
+      - CONNECTIONSTRINGS_CONFIG_PATH=C:\ProgramData\Docker\secrets\netfx-connectionstrings
+    configs:
+      - netfx-log4net 
+    secrets:
+     - source: netfx-connectionstrings
+    healthcheck:
+      retries: 3
+      interval: 10s
+      start_period: 40s
+    deploy:
+      replicas: 2
+      labels:
+        traefik.frontend.rule: PathPrefix:/app
+        traefik.frontend.priority: 30
+
+  homepage:
+    deploy:
+      labels:
+        traefik.frontend.rule: PathPrefix:/
+        traefik.frontend.priority: 10
+
+  proxy:
+    command: --docker --docker.swarmMode --docker.watch --docker.endpoint=npipe:////./pipe/docker_engine  --api
+    ports:
+      - "8020:80"
+      - "8080:8080"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+
+  reference-data-api:
+    environment: 
+      - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
+    deploy:
+      labels:
+        traefik.frontend.rule: PathPrefix:/api
+        traefik.frontend.priority: 20
+
+  signup-save-handler:
+    environment:
+      - CONNECTIONSTRINGS_CONFIG_PATH=C:\ProgramData\Docker\secrets\netfx-connectionstrings
+    secrets:
+     - source: netfx-connectionstrings
+    deploy:
+      replicas: 2
+
+  signup-index-handler:
+    deploy:
+      replicas: 3
+
+  kibana:
+    ports:
+      - "5601:5601"
+
+networks:
+  app-net:
+
+configs:
+  netfx-log4net:
+    external: true
+
+secrets:
+  netfx-connectionstrings:
+    external: true
