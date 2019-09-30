@@ -15,7 +15,6 @@ k8s-pods-deployments.md
 dotnet-linux.md
 k8s-manifests-services.md
 prod-intro.md
-prod-logging.md
 prod-config.md
 prod-dependencies.md
 prod-health.md
