@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+spec:
+  selector:    
+    app: signup
+    component: kibana
+  ports:
+  - name: kibana
+    port: 5601
+    targetPort: 5601
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: kibana
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: kibana
+    spec:
+      containers:
+      - image: kibana:6.8.3
+        name: kibana
+        ports:
+        - containerPort: 5601
+          name: kibana
+      nodeSelector:
+        beta.kubernetes.io/os: linux

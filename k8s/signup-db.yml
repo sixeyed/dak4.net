@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: signup-db
+spec:
+  selector:    
+    app: signup
+    component: db
+  ports:
+  - name: mssql
+    port: 1433
+    targetPort: 1433
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signup-db
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: db
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: db
+    spec:
+      containers:
+      - image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+        name: signup-db
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: "DockerCon!!!"
+        ports:
+        - containerPort: 1433
+          name: mssql
+      nodeSelector:
+        beta.kubernetes.io/os: linux

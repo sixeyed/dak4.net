@@ -1,23 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: homepage
+  name: index-handler
 spec:
   selector:
     matchLabels:
       app: signup
-      component: homepage
+      component: index-handler
   template:
     metadata:
       labels:
         app: signup
-        component: homepage
+        component: index-handler
     spec:
       containers:
-      - image: dak4dotnet/homepage-nginx:linux
-        name: homepage
-        ports:
-        - containerPort: 80
-          name: http
+      - image: dak4dotnet/signup-index-handler:linux
+        name: index-handler
       nodeSelector:
         beta.kubernetes.io/os: linux

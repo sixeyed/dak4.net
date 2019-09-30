@@ -1,23 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: homepage
+  name: save-handler
 spec:
   selector:
     matchLabels:
       app: signup
-      component: homepage
+      component: save-handler
   template:
     metadata:
       labels:
         app: signup
-        component: homepage
+        component: save-handler
     spec:
       containers:
-      - image: dak4dotnet/homepage-nginx:linux
-        name: homepage
-        ports:
-        - containerPort: 80
-          name: http
+      - image: dak4dotnet/signup-save-handler-core:linux
+        name: save-handler
       nodeSelector:
         beta.kubernetes.io/os: linux
