@@ -10,15 +10,23 @@ You will build images and push them to Docker Hub during the workshop, so they a
 
 ## Now - connect to your VM 
 
-You'll be given the connection details for your Windows Server 2019 VM during the workshop.
+You'll be given the connection details for your Windows VM during the workshop.
 
 You can connect to the VM using RDP on Windows, [Microsoft Remote Desktop](https://itunes.apple.com/us/app/microsoft-remote-desktop-8-0/id715768417) from the Mac App Store or [Remmina](https://github.com/FreeRDP/Remmina/wiki#for-end-users) on Linux.
 
-_RDP into the server VM. The server name will be something like:_
+_RDP into the VM. The machine name will be something like:_
 
 ```
-dwwx-dcus1800.centralus.cloudapp.azure.com
+tnl19001.centralus.cloudapp.azure.com
 ```
+
+---
+
+## Run Docker
+
+There's a _Docker Desktop_ shortcut on the desktop, launch that to run Docker. You'll see a small whale icon in the taskbar. 
+
+> When the container animation on the whale stops, and it's fully loaded then Docker is running.
 
 ---
 
@@ -29,7 +37,7 @@ Now run a script to make sure everything is up to date.
 _Open a PowerShell prompt from the start menu and run:_
 
 ```
-cd C:\scm\dak4.net
+cd $env:workshop
 
 .\workshop\lab-vm\update.ps1
 ```
