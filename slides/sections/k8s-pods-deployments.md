@@ -42,6 +42,8 @@ Kubernetes isn't deployed by default. You install it by right-clicking the whale
 
 > You only see this option in Linux container mode
 
+---
+
 ## Checking Kubernetes
 
 Kubernetes uses Docker to run containers, but it uses the Docker API - you don't (usually) interact with Docker directly.
@@ -205,6 +207,8 @@ kubectl rollout history deployment/pinger
 
 > You can add notes to updates which would be shown here
 
+---
+
 ## Rolling back
 
 Rolling back an update is a one-line command, and this will be a gradual rollback.
@@ -218,6 +222,8 @@ kubectl rollout history deployment/pinger
 ```
 
 > Kubernetes can maintain longer histories than Docker Swarm
+
+---
 
 ## Deleting pods
 
@@ -233,6 +239,7 @@ kubectl get all
 
 > They were recreated, because the ReplicaSet still exists and its job is to keep three pods running
 
+---
 
 ## Deleting replica sets
 
@@ -247,6 +254,8 @@ kubectl get all
 ```
 
 > Yes, but the Deployment resource still exists, and its job is to keep the ReplicaSet deployed
+
+---
 
 ## Deleting deployments
 
