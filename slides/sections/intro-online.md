@@ -11,6 +11,24 @@ You will build images and push them to Docker Hub during the workshop, so they a
 
 ---
 
+## Use process isolation
+
+Windows 10 runs containers in a slightly different way from Windows Server. If you're using Windows 10 it's good to switch to the standard server functionality.
+
+Open _Settings_ from the Docker icon, select _Daemon_ and flick the _Advanced_ switch. Then paste this JSON config and click _Apply_:
+
+```
+{
+  "debug": true,
+  "experimental": false,
+  "exec-opts": [
+    "isolation=process"
+  ]
+}
+```
+
+---
+
 ## Now - get the code
 
 All the source code for the workshop is on GitHub at [sixeyed/dak4.net](https://github.com/sixeyed/dak4.net)
