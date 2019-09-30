@@ -30,7 +30,7 @@ docker stack rm $(docker stack ls)
 
 Right-click the Docker whale icon in the taskbar, and select _Switch to Linux containers_
 
-![Switching tio Linux containers in Docker Desktop]("/img/screenshots/linux-containers.png")
+![Switching tio Linux containers in Docker Desktop](/img/screenshots/linux-containers.png)
 
 ---
 
@@ -38,7 +38,7 @@ Right-click the Docker whale icon in the taskbar, and select _Switch to Linux co
 
 Kubernetes isn't deployed by default. You install it by right-clicking the whale icon, selecting _Settings_ and then enabling Kubernetes:
 
-![Enabling Kubernetes in Docker Desktop]("/img/screenshots/enable-kubernetes.png")
+![Enabling Kubernetes in Docker Desktop](/img/screenshots/enable-kubernetes.png)
 
 > You only see this option in Linux container mode
 
