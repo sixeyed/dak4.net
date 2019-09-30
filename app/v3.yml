@@ -33,7 +33,7 @@ services:
       - app-net
 
   proxy:
-    image: dak4dotnet/reverse-proxy
+    image: traefik:v1.7.18-windowsservercore-1809
     command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --docker.watch --api
     ports:
       - "8020:80"
