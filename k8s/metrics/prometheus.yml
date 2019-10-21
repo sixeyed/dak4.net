@@ -1,37 +1,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: reference-data-api
+  name: prometheus
 spec:
   selector:
     app: signup
-    component: api
+    component: prometheus
   ports:
-    - name: http
-      port: 80
-      targetPort: 80
-  type: ClusterIP
+    - name: prometheus
+      port: 9090
+      targetPort: 9090
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reference-data-api
+  name: prometheus
 spec:
   selector:
     matchLabels:
       app: signup
-      component: api
+      component: prometheus
   template:
     metadata:
       labels:
         app: signup
-        component: api
+        component: prometheus
     spec:
       containers:
-        - image: dak4dotnet/reference-data-api:linux
-          name: reference-data-api
+        - image: prom/prometheus:v2.13.1
+          name: prometheus
           ports:
-            - containerPort: 80
-              name: http
+            - containerPort: 9090
+              name: prometheus
       nodeSelector:
         beta.kubernetes.io/os: linux

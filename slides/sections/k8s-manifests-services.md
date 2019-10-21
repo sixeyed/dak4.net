@@ -32,7 +32,7 @@ kubectl apply -f ./k8s/homepage-pod.yml
 
 ## Pod networking
 
-Pods have IP addresses within the cluster, but they are not directly accesible outside of the cluster.  
+Pods have IP addresses within the cluster, but they are not directly accesible outside of the cluster.
 
 _You can temporarily send network traffic into the container by forwarding the port:_
 
@@ -46,13 +46,13 @@ kubectl port-forward deployment/homepage 8090:80
 
 ## Checking application logs
 
-Port-forwarding creates a tunnel between your local machine and the Kubernetes pod. It only lasts while you have the port-forward ocmmand running.
+Port-forwarding creates a tunnel between your local machine and the Kubernetes pod. It only lasts while you have the port-forward command running.
 
-You exit the port-forward with _Ctrl-C_.
+_Exit the port-forward with **Ctrl-C** and check the logs:_
 
-_Now check the logs:_
-
+```
 kubectl logs --selector app=signup,component=homepage
+```
 
 > Labels and selectors are used to link resources, and they can also be used in operations
 
@@ -62,9 +62,9 @@ kubectl logs --selector app=signup,component=homepage
 
 The homepage pod isn't goint to be publicly accessible - it will be consumed by the reverse proxy and not any external users.
 
-Pods can communicate using their IP addresses, but that's hard to discover and not reliable (when pods are replaced they'll have new IP addresses). You provide access to a pod by creating a `service`.
+Pods can communicate using their IP addresses but that's hard to discover and not reliable (when pods are replaced they'll have new IP addresses). You provide access to a pod by creating a `service`.
 
-_Deploy an service for the homepage:_
+_Deploy a service for the homepage:_
 
 ```
 kubectl apply -f ./k8s/homepage-service.yml
@@ -106,9 +106,9 @@ kubectl get all
 
 ## Deploy message handlers
 
-The message queue and databases are deployed, so we can deploy the message handlers. 
+The message queue and databases are deployed, so we can deploy the message handlers.
 
-There are simple deployments for the [save-handler](./k8s/save-handler.yml) and [index-handler](./k8s/index-handler.yml). They're background worker so there's no service for connections.
+There are simple deployments for the [save-handler](./k8s/save-handler.yml) and [index-handler](./k8s/index-handler.yml). They're background workers so there's no service for incoming connections.
 
 ```
 kubectl apply -f ./k8s/save-handler.yml
@@ -147,7 +147,7 @@ kubectl apply -f ./k8s/reference-data-api.yml
 
 ## Deploy Traefik
 
-Traefik runs as an [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) in Kubernetes. That's a type of resource which receives extrenal traffic and manages routing, SSL termination.
+Traefik runs as an [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) in Kubernetes. That's a type of resource which receives external traffic and manages routing, SSL termination etc.
 
 The exact same Traefik container image which ran as a reverse proxy in Docker Swarm runs as an ingress controller in Kubernetes - although the [traefik.yml](./k8s/traefik.yml) setup is more complicated.
 
@@ -155,7 +155,7 @@ The exact same Traefik container image which ran as a reverse proxy in Docker Sw
 kubectl apply -f ./k8s/traefik.yml
 ```
 
-> Traefik itself gets exposed as service of type `LoadBalancer`, which means it can received traffic from outside of the cluster
+> Traefik itself gets exposed as service of type `LoadBalancer`, which means it receives traffic from outside of the cluster
 
 ---
 
@@ -170,6 +170,7 @@ _Check the system namespace to see the Traefik resources:_
 ```
 kubectl get all -n kube-system
 ```
+
 > Browse to http://localhost:8080 to see the Traefik configuration
 
 ---
@@ -202,7 +203,7 @@ kubectl apply -f ./k8s/kibana.yml
 
 Now the whole app is deployed. You wouldn't normally deploy components individually - and `kubectl` can deploy all the manifests in a folder.
 
-If you don't change any of the manifests, you can deploy the whole app again and Kubernetes will compare all the running resources with the manifests, and list that nothing needs to change:
+If you don't change any of the manifests you can deploy the whole app again from the folder. Kubernetes will compare all the running resources with the manifests, and show that nothing needs to change:
 
 ```
 kubectl apply -f ./k8s/
@@ -216,5 +217,16 @@ You can see the Traefik dashboard at http://localhost:8080/dashboard/, which sho
 
 Traefik is listening on standard HTTP port 80, so you can browse to the app too at http://localhost.
 
-> Enter some data, and check the logs of the handlers - and the discovery page in Kibana. Everything should be working correctly.
+> Enter some data - everything should be working correctly.
 
+## Check the data
+
+Pods running message handler containers will have logs...
+
+```
+kubectl logs --selector app=signup,component=index-handler
+```
+
+kubectl logs --selector app=signup,component=save-handler
+
+And Kibana at http://localhost:5601

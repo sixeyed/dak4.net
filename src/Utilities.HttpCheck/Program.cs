@@ -13,7 +13,9 @@ namespace Utilities.HttpCheck
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
+                .AddEnvironmentVariables()                
+                .AddJsonFile("configs/config.json", optional: true)
+                .AddJsonFile("secrets/secret.json", optional: true)
                 .Build();
 
             var targetUrl = config["HttpCheck:TargetUrl"];

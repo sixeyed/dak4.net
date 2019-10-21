@@ -30,7 +30,7 @@ docker stack rm $(docker stack ls)
 
 Right-click the Docker whale icon in the taskbar, and select _Switch to Linux containers_
 
-![Switching tio Linux containers in Docker Desktop](/img/screenshots/linux-containers.png)
+![Switching to Linux containers in Docker Desktop](/img/screenshots/linux-containers.png)
 
 ---
 
@@ -78,7 +78,7 @@ kubectl run pinger --image debian:9.11 --command ping -- localhost
 
 ## More than just a pod
 
-The pod is the basic unit of work in Kubernetes, but you can't create a pod by itself. 
+The pod is the basic unit of work in Kubernetes, but you can't create a pod by itself.
 
 Pods are managed by other resources called _controllers_, which let you work at different layers of abstraction.
 
@@ -268,8 +268,3 @@ kubectl delete deployment pinger
 
 kubectl get all
 ```
-
-
-
-
-

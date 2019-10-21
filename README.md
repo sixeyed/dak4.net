@@ -18,25 +18,30 @@ This workshop is a living thing. There are subdomains of the website and code br
 
 #### 2019
 
-- [techoramanl19](hhttps://github.com/sixeyed/dak4.net/tree/techoramanl19) - Techorama NL 2019, hosted [here](https://techoramanl19.dak4.net) 
+- [netdd19](https://github.com/sixeyed/dak4.net/tree/netdd19) - .NET Developer Days Poland, hosted [here](https://netdd19.dak4.net)
+
+- [techoramanl19](hhttps://github.com/sixeyed/dak4.net/tree/techoramanl19) - Techorama NL 2019, hosted [here](https://techoramanl19.dak4.net)
 
 ### Previous versions
 
-[Docker and Kubernetes for .NET Developers](https://dak4.net) is an evolution of my [Docker Windows Workshop](https://github.com/sixeyed/docker-windows-workshop). 
+[Docker and Kubernetes for .NET Developers](https://dak4.net) is an evolution of my [Docker Windows Workshop](https://github.com/sixeyed/docker-windows-workshop).
 
 ### Repo Structure
 
 ```
 ├───app
+├───ci
 ├───docker
+├───k8s
 ├───slides
 ├───src
-├───workshop
-└───_archive
+└───workshop
 ```
 
-* `app` - Docker Compose files covering the evolution of the demo app
-* `docker` - Dockerfiles and content for the container images
-* `slides` - workshop content published with Reveal.js to [dak4.net](https://dak4.net)
-* `src` - source code for the .NET solution
-* `workshop` - logistics for in-person workshops
+- `app` - Docker Compose files covering the evolution of the demo app
+- `ci` - Compose files and scripts to build the app images
+- `docker` - Dockerfiles and content for the container images
+- `k8s` - Kubernetes manifests for deploying the Linux version of the app
+- `slides` - workshop content published with Reveal.js to [dak4.net](https://dak4.net)
+- `src` - source code for the demo .NET Framework and .NET Core apps
+- `workshop` - logistics for in-person workshops

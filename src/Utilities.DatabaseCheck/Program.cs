@@ -34,7 +34,9 @@ namespace Utilties.DatabaseCheck
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
+                .AddEnvironmentVariables()                
+                .AddJsonFile("configs/config.json", optional: true)
+                .AddJsonFile("secrets/secret.json", optional: true)
                 .Build();
 
             var targetDatabase = config["DatabaseCheck:DatabaseName"];

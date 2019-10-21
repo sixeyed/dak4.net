@@ -8,82 +8,47 @@
 
 Healthchecks are the final piece to making your old apps behave like new apps when they're running in containers.
 
-The healthecheck should exercise key logic in your app and make sure it's functioning properly. You can do that by adding a dedicated `/health` API endpoint to your app.
+The healthecheck should exercise key logic in your app and make sure it's functioning properly. You can do that by adding a dedicated `/health` API endpoint to your app - .NET Core provides [healthchecks](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-3.0) for this.
 
-We'll use the other option, bundling a healthcheck utility in the Docker image.
-
----
-
-## The health check utility
-
-The utility is another .NET Framework console app. It just makes an HTTP GET to the app running locally in the container.
-
-In the [Program class](./src/Utilities.HealthCheck/Program.cs) the utility expects the site to return a `200 OK` response, within 200 milliseconds. If it doesn't do that, the health check returns an exit code of `1`, meaning failure.
+You can add basic healthchecks with KUbe
 
 ---
 
-## Packaging the health checker
+## Liveness checks
 
-There's another new stage in the [updated Dockerfile](./docker/prod-health/signup-web/Dockerfile) - it builds the health check utility from source. 
-
-Then the output is copied into the final Docker image, alongside the original ASP.NET app and the dependency checker.
-
-There's also a `HEALTHCHECK` instruction, which tells Docker to run the utility every 30 seconds. Docker records the result of executing each healthcheck.
+- app process
+- pod restart
+- liveness check
 
 ---
 
-## Build the new image
+## HTTP readiness probe
 
-_Tag the image as `v7`, which includes the health check:_
-
-```
-docker image build `
-  -t dak4dotnet/signup-web:v7 `
-  -f ./docker/prod-health/signup-web/Dockerfile .
-```
+> ref data api, starup delay
+> readiness check
 
 ---
 
-## Upgrade the app
+## HTTP liveness probe
 
-The [v10 manifest](./app/v10.yml) uses the upgraded web app, and it specifies a different schedule for the healthcheck.
+> signup web healthchecks
 
-_Update the application:_
+kubectl apply -f ./k8s/prod-health/signup-web.yml
 
-```
-docker-compose -f .\app\v10.yml up -d
-```
+kubectl get pods
 
 ---
 
-## Browse to the app
+## Command probes
 
-The app still works in the same way:
+> handler apps to write file on listen, delete on exit
+> liveness check
 
-```
-firefox "http://localhost:8020/app"
-```
+## Failure recovery
 
----
-
-## Check container health
-
-Containers with a healthcheck report their current status.
-
-_You should see that the web app is showing as `Up` and `healthy`:_
-
-```
-docker container list
-```
-
-And you can see the result of the executing healthchecks by inspecting the container:
-
-```
-docker container inspect app_signup-web_1
-```
-
----
-
+- failed probe(s)
+- container restart
+- all in pod
 
 ## Self-healing applications
 

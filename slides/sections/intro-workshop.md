@@ -8,7 +8,7 @@ You will build images and push them to Docker Hub during the workshop, so they a
 
 ---
 
-## Now - connect to your VM 
+## Now - connect to your VM
 
 You'll be given the connection details for your Windows VM during the workshop.
 
@@ -17,34 +17,16 @@ You can connect to the VM using RDP on Windows, [Microsoft Remote Desktop](https
 _RDP into the VM. The machine name will be something like:_
 
 ```
-tnl19001.centralus.cloudapp.azure.com
+dak4net001.westeurope.cloudapp.azure.com
 ```
 
 ---
 
 ## Run Docker
 
-There's a _Docker Desktop_ shortcut on the desktop, launch that to run Docker. You'll see a small whale icon in the taskbar. 
+There's a _Docker Desktop_ shortcut on the desktop, launch that to run Docker. You'll see a small whale icon in the taskbar.
 
 > When the container animation on the whale stops, and it's fully loaded then Docker is running.
-
----
-
-## Use process isolation
-
-Windows 10 runs containers in a slightly different way from Windows Server. It's good to switch to the standard server functionality.
-
-Open _Settings_ from the Docker icon, select _Daemon_ and flick the _Advanced_ switch. Then paste this JSON config and click _Apply_:
-
-```
-{
-  "debug": true,
-  "experimental": false,
-  "exec-opts": [
-    "isolation=process"
-  ]
-}
-```
 
 ---
 
@@ -67,4 +49,3 @@ cd $env:workshop
 ## We're ready!
 
 Here we go :)
-

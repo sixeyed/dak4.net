@@ -6,7 +6,7 @@ Exposing metrics endpoints from all your app containers is the first step to get
 
 Next you need to run two other components - a metrics server, which grabs and stores all the metrics from your containers, and a dashboard which presents the data in a usable way.
 
-We'll do that by running [Promtheus]() and [Grafana]() - the leading tools in this space - in containers alongside our app.
+We'll do that by running [Prometheus]() and [Grafana]() - the leading tools in this space - in containers alongside our app.
 
 ---
 
@@ -24,7 +24,7 @@ The Prometheus team maintain a Docker image for Linux, but we'll use a Windows D
 
 ## Build the Prometheus image
 
-Prometheus uses a simple configuration file, listing the endpoints to scrape for metrics. 
+Prometheus uses a simple configuration file, listing the endpoints to scrape for metrics.
 
 [This Dockerfile](./docker/metrics-dashboard/prometheus/Dockerfile) to bundle a custom [prometheus.yml](./docker/metrics-dashboard/prometheus/prometheus.yml) file on top of the existing Prometheus image.
 
@@ -39,9 +39,9 @@ docker image build -t dak4dotnet/prometheus `
 
 ## About Grafana
 
-Grafana is a dashboard server. It can connect to data sources and provide rich dashboards to show the overall health of your app. 
+Grafana is a dashboard server. It can connect to data sources and provide rich dashboards to show the overall health of your app.
 
-There isn't an official Windows variant of the Grafana image, but we can use the one from [dockersamples/aspnet-monitoring](https://github.com/dockersamples/aspnet-monitoring). 
+There isn't an official Windows variant of the Grafana image, but we can use the one from [dockersamples/aspnet-monitoring](https://github.com/dockersamples/aspnet-monitoring).
 
 Grafana has an API you can use to automate setup, and we'll use that to build a custom Docker image.
 
@@ -94,7 +94,7 @@ firefox http://localhost:8020
 
 ## Check the data in Prometheus
 
-The web application and the message handlers are collecting metrics now, and Prometheus is scraping them. 
+The web application and the message handlers are collecting metrics now, and Prometheus is scraping them.
 
 _Browse to the Prometheus UI to see the metrics:_
 
@@ -106,11 +106,11 @@ firefox http://localhost:9090
 
 ## CPU metrics in Prometheus
 
-Try looking at the `process_cpu_seconds_total` metric in Graph view. This shows the amount of CPU in the message handlers, which is exported from a standard .NET performance counter. 
+Try looking at the `process_cpu_seconds_total` metric in Graph view. This shows the amount of CPU in the message handlers, which is exported from a standard .NET performance counter.
 
 The Prometheus UI is good for browsing the collected metrics and building up complex queries.
 
-But the Prometheus UI isn't featured enough for a dashboard - that's why we have Grafana. 
+But the Prometheus UI isn't featured enough for a dashboard - that's why we have Grafana.
 
 ---
 
@@ -130,8 +130,7 @@ firefox http://localhost:3000
 
 Login with the credentials for the read-only account created in the Grafana Docker image:
 
--_Username:_**viewer**
--_Password:_**readonly**
+-_Username:_**viewer** -_Password:_**readonly**
 
 > You'll see the dashboard showing real-time data from the app. The app dashboard is set as the homepage for this user.
 

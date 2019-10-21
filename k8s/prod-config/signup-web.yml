@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: signup-web
+spec:
+  selector:
+    app: signup
+    component: web
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signup-web
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: web
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: web
+    spec:
+      containers:
+        - image: dak4dotnet/signup-web-blazor:linux
+          name: signup-web
+          env:
+            - name: ReferenceDataApi__Url
+              value: "http://reference-data-api/api"
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: secrets
+              mountPath: "/app/secrets"
+              readOnly: true
+      volumes:
+        - name: secrets
+          secret:
+            secretName: signup-web-secret
+      nodeSelector:
+        beta.kubernetes.io/os: linux

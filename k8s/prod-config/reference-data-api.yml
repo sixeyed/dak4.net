@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: reference-data-api
 spec:
-  selector:
+  selector:    
     app: signup
     component: api
   ports:
-    - name: http
-      port: 80
-      targetPort: 80
+  - name: http
+    port: 80
+    targetPort: 80
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -28,10 +28,13 @@ spec:
         component: api
     spec:
       containers:
-        - image: dak4dotnet/reference-data-api:linux
-          name: reference-data-api
-          ports:
-            - containerPort: 80
-              name: http
+      - image: dak4dotnet/reference-data-api:linux
+        name: reference-data-api
+        env:
+        - name: ConnectionStrings__SignUpDb
+          value: "Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!"
+        ports:
+        - containerPort: 80
+          name: http
       nodeSelector:
         beta.kubernetes.io/os: linux
