@@ -20,7 +20,7 @@ This workshop is a living thing. There are subdomains of the website and code br
 
 - [netdd19](https://github.com/sixeyed/dak4.net/tree/netdd19) - .NET Developer Days Poland, hosted [here](https://netdd19.dak4.net)
 
-- [techoramanl19](hhttps://github.com/sixeyed/dak4.net/tree/techoramanl19) - Techorama NL 2019, hosted [here](https://techoramanl19.dak4.net)
+- [techoramanl19](https://github.com/sixeyed/dak4.net/tree/techoramanl19) - Techorama NL 2019, hosted [here](https://techoramanl19.dak4.net)
 
 ### Previous versions
 
