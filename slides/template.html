@@ -1,85 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66499982-4"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('config', 'UA-66499982-4');
-		</script>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-66499982-4"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-66499982-4");
+    </script>
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>Docker and Kubernetes for .NET Developers</title>
+    <title>Docker and Kubernetes for .NET Developers</title>
 
-		<!-- using reveal.js 3.8.0 -->
-		<link rel="stylesheet" href="reveal/css/reset.css">
-		<link rel="stylesheet" href="reveal/css/reveal.css">
-		<link rel="stylesheet" href="reveal/css/theme/solarized.css">
-		<link rel="stylesheet" href="workshop.css">
-		
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+    <!-- using reveal.js 3.8.0 -->
+    <link rel="stylesheet" href="reveal/css/reset.css" />
+    <link rel="stylesheet" href="reveal/css/reveal.css" />
+    <link rel="stylesheet" href="reveal/css/theme/solarized.css" />
+    <link rel="stylesheet" href="workshop.css" />
 
-		<!-- notifications -->
-		<link rel="stylesheet" href="lib/notyf.min.css">
-		
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-                ${content}
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="reveal/lib/css/zenburn.css" />
 
-		<!--<script src="reveal/lib/js/head.min.js"></script>-->
-		<script src="reveal/js/reveal.js"></script>
-		<script src="lib/clipboard.min.js"></script>
-		<script src="lib/notyf.min.js"></script>
+    <!-- notifications -->
+    <link rel="stylesheet" href="lib/notyf.min.css" />
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'reveal/plugin/markdown/marked.js' },
-					{ src: 'reveal/plugin/markdown/markdown.js' },
-					{ src: 'reveal/plugin/notes/notes.js', async: true },
-					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-            		});
-            		Reveal.configure({ 
-				slideNumber: 'c/t',
-				history: true
-			});
-			var clipboard = new ClipboardJS('.hljs', {
-				text: function(trigger) {
-					return trigger.innerText;
-				}
-			});
-			
-			clipboard.on('success', function(e) {
-				var notyf = new Notyf();
-				notyf.success("Copied to clipboard:<br><br>" + e.text.replace('\n', "<br>"));
-			});
-			
-			
-			clipboard.on('error', function(e) {
-				var notyf = new Notyf();
-				notyf.error("Can't copy to clipboard");
-			});
-		</script>
-	</body>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "reveal/css/print/pdf.css"
+        : "reveal/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        ${content}
+      </div>
+    </div>
+
+    <!--<script src="reveal/lib/js/head.min.js"></script>-->
+    <script src="reveal/js/reveal.js"></script>
+    <script src="lib/clipboard.min.js"></script>
+    <script src="lib/notyf.min.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: "reveal/plugin/markdown/marked.js" },
+          { src: "reveal/plugin/markdown/markdown.js" },
+          { src: "reveal/plugin/notes/notes.js", async: true },
+          {
+            src: "reveal/plugin/highlight/highlight.js",
+            async: true,
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+      Reveal.configure({
+        slideNumber: "c/t",
+        history: true
+      });
+      var clipboard = new ClipboardJS(".hljs", {
+        text: function(trigger) {
+          return trigger.innerText;
+        }
+      });
+
+      clipboard.on("success", function(e) {
+        var notyf = new Notyf();
+        notyf.success("Copied to clipboard :)");
+      });
+
+      clipboard.on("error", function(e) {
+        var notyf = new Notyf();
+        notyf.error("Can't copy to clipboard :(");
+      });
+    </script>
+  </body>
 </html>

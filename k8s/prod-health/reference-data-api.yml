@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reference-data-api
+spec:
+  selector:
+    app: signup
+    component: api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reference-data-api
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: api
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: api
+    spec:
+      containers:
+        - image: dak4dotnet/reference-data-api:linux
+          name: reference-data-api
+          env:
+            - name: ConnectionStrings__SignUpDb
+              value: "Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!"
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /api/ready
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+      nodeSelector:
+        beta.kubernetes.io/os: linux
