@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 using SignUp.Web.Blazor.Services;
 
 namespace SignUp.Web.Blazor
@@ -25,7 +26,10 @@ namespace SignUp.Web.Blazor
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        {   
+            app.UseMetricServer();
+            app.UseHttpMetrics();
+
             app.UsePathBase("/app");
             
             if (env.IsDevelopment())

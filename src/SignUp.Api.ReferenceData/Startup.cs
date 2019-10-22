@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Prometheus;
 using SignUp.Api.ReferenceData.Repositories;
 using SignUp.Entities;
 
@@ -25,6 +26,9 @@ namespace SignUp.Api.ReferenceData
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseMetricServer();
+            app.UseHttpMetrics();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
