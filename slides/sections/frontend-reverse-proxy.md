@@ -2,13 +2,9 @@
 
 ---
 
-<section data-background-image="/img/frontend/Slide2.PNG">
-
----
-
 Monoliths can run in containers just fine. But they aren't modern apps - they're just old apps running in containers.
 
-You can rebuild a monolith into microservices, but that's a long-term project. 
+You can rebuild a monolith into microservices, but that's a long-term project.
 
 We'll do it incrementally instead, by breaking features out of the monolith and running them in separate containers - starting with the app's homepage
 
@@ -32,7 +28,7 @@ docker image build `
 
 ## Run the new homepage
 
-You can run the homepage on its own - great for fast iterating through changes. 
+You can run the homepage on its own - great for fast iterating through changes.
 
 _Run the homepage:_
 
@@ -88,7 +84,7 @@ Only the proxy has `ports` specified. It's the public entrypoint to the app, the
 docker-compose -f .\app\v2.yml up -d
 ```
 
-> Compose compares the running state to the desired state in the manifest and starts new containers. 
+> Compose compares the running state to the desired state in the manifest and starts new containers.
 
 ---
 
@@ -106,7 +102,7 @@ firefox http://localhost:8020
 
 ## And just to be sure
 
-Check nothing's broken. 
+Check nothing's broken.
 
 Click the _Sign Up!_ button, fill in the form and click _Go!_ to save your details.
 
@@ -121,9 +117,9 @@ docker container exec app_signup-db_1 powershell `
 
 ## How does Traefik route requests?
 
-The Docker Engine has an API for managing and querying containers. 
+The Docker Engine has an API for managing and querying containers.
 
-Traefik uses that to find containers with Traefik labels, and it uses the label values to build the routing table. 
+Traefik uses that to find containers with Traefik labels, and it uses the label values to build the routing table.
 
 _[You can see the routes](http://localhost:8080)_:
 
@@ -135,7 +131,7 @@ firefox http://localhost:8080
 
 ## How does Traefik use the Docker API?
 
-Traefik is running inside a container, talking to the Docker Engine it is running on to find out about other containers. 
+Traefik is running inside a container, talking to the Docker Engine it is running on to find out about other containers.
 
 The [command](https://docs.docker.com/compose/compose-file/#command) option in the [v2.yml](./app/v2.yml) compose file sets up that connection.
 
@@ -145,7 +141,7 @@ The [command](https://docs.docker.com/compose/compose-file/#command) option in t
 
 ## All good
 
-So now we have a reverse proxy which lets us break UI features out of the monolith. 
+So now we have a reverse proxy which lets us break UI features out of the monolith.
 
 We're running a new homepage with Vue, but we could easily use a CMS for the homepage by running Umbraco in a container - or we could replace the Sign Up form with a separate component using Blazor.
 

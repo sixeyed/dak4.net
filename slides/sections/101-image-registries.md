@@ -2,10 +2,6 @@
 
 ---
 
-<section data-background-image="/img/101/Slide3.PNG">
-
----
-
 Images are the portable package that contains your application - your binaries, all the dependencies and the default configuration.
 
 You share images by pushing them to a registry. Docker Hub is the most popular public registry. Most enterprises run their own private registry. You work with all registries in the same way.
@@ -67,7 +63,7 @@ docker login --username "$env:dockerId"
 
 ## Push images to Docker Hub
 
-[Docker Hub](https://hub.docker.com) is the public registry for Docker images. 
+[Docker Hub](https://hub.docker.com) is the public registry for Docker images.
 
 _Upload your images to the Hub:_
 
@@ -126,7 +122,7 @@ docker image push "$env:dockerId/hostname-app:v2"
 
 The logical size of those images is over 4GB each, but the bulk of that is in the Windows Server Core base image.
 
-Those layers are already known by Docker Hub, so they don't get uploaded - only the new parts of the image get pushed. 
+Those layers are already known by Docker Hub, so they don't get uploaded - only the new parts of the image get pushed.
 
 Docker shares layers between images, so every image that uses Windows Server Core will share the cached layers for that image.
 

@@ -2,10 +2,6 @@
 
 ---
 
-<section data-background-image="/img/prod/Slide8.PNG">
-
----
-
 Healthchecks are the final piece to making your old apps behave like new apps when they're running in containers.
 
 The healthecheck should exercise key logic in your app and make sure it's functioning properly. You can do that by adding a dedicated `/health` API endpoint to your app - .NET Core provides [healthchecks](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-3.0) for this.

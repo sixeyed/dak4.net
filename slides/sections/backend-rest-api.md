@@ -2,10 +2,6 @@
 
 ---
 
-<section data-background-image="/img/backend/Slide1.PNG">
-
----
-
 Docker makes it easy to run features in separate containers, and takes care of communication between containers.
 
 Right now the web application loads reference data direct from the database - that's the list of countries and roles in the dropdown boxes.
@@ -29,9 +25,9 @@ We can use new technologies without impacting the monolith, because this compone
 
 ## Build the API
 
-Check out the [Dockerfile](./docker/backend-rest-api/reference-data-api/Dockerfile) for the API. 
+Check out the [Dockerfile](./docker/backend-rest-api/reference-data-api/Dockerfile) for the API.
 
-It uses the same principle to compile and package the app using containers, but the images use .NET Core running on Nano Server. 
+It uses the same principle to compile and package the app using containers, but the images use .NET Core running on Nano Server.
 
 _Build the API image:_
 
@@ -45,7 +41,7 @@ docker image build `
 
 ## Run the new API
 
-You can run the API on its own, but it needs to connect to SQL Server. 
+You can run the API on its own, but it needs to connect to SQL Server.
 
 The image bundles a default database connection string, and you can override it when you run containers with an environment variable.
 
@@ -121,7 +117,7 @@ firefox http://localhost:8020
 
 ## Let's just check that
 
-The new REST API writes log entries to the console, which Docker can read from the container. 
+The new REST API writes log entries to the console, which Docker can read from the container.
 
 The logs will show that the countries and roles controllers have been called - the request came from the web app.
 
@@ -155,5 +151,3 @@ We're using Dependency Injection with a feature toggle for our legacy app to use
 Now we've got a small, fast REST API providing a reference data service. It's used internally by the web application, and it's publicly available through the proxy.
 
 This a pattern we can repeat to break out more back-end services - designing nice new APIs and implementing them in new technologies, without breaking the existing legacy app.
-
-

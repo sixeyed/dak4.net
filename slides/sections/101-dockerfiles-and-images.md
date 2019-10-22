@@ -2,13 +2,9 @@
 
 ---
 
-<section data-background-image="/img/101/Slide2.PNG">
+You package your own Windows apps as Docker images, using a [Dockerfile](https://docs.docker.com/engine/reference/builder/).
 
----
-
-You package your own Windows apps as Docker images, using a [Dockerfile](https://docs.docker.com/engine/reference/builder/). 
-
-The Dockerfile syntax is straightforward. In this section you'll walk through two Dockerfiles which package websites to run in Windows Docker containers. 
+The Dockerfile syntax is straightforward. In this section you'll walk through two Dockerfiles which package websites to run in Windows Docker containers.
 
 ---
 
@@ -19,7 +15,7 @@ Have a look at the [Dockerfile for this app](./docker/101-dockerfiles-and-images
 - [FROM](https://docs.docker.com/engine/reference/builder/#from) specifes the image to use as the starting point for this image
 - [COPY](https://docs.docker.com/engine/reference/builder/#copy) copies a file from the host into the image, at a known location.
 
-The Dockerfile copies a simple `.aspx` file into the content directory for the default IIS website. 
+The Dockerfile copies a simple `.aspx` file into the content directory for the default IIS website.
 
 ---
 
@@ -56,7 +52,7 @@ docker container run --detach --publish 8081:80 `
 
 ## Browse to the app
 
-The app in the container is listening on port 80, but you could be using that port on your host. 
+The app in the container is listening on port 80, but you could be using that port on your host.
 
 So we've published port 80 on the container to port 8081 on the host. It's access from the Docker host and to external clients.
 
@@ -70,7 +66,7 @@ firefox "http://localhost:8081"
 
 ## Run multiple instances of the app
 
-Let's see how lightweight the containerized application is. 
+Let's see how lightweight the containerized application is.
 
 _Run five containers from the same image:_
 
@@ -80,7 +76,7 @@ for ($i=0; $i -lt 5; $i++) {
 }
 ```
 
-> The `publish-all` flag publishes the container ports to random ports on the host. 
+> The `publish-all` flag publishes the container ports to random ports on the host.
 
 ---
 
@@ -92,18 +88,18 @@ _Browse to all the new containers, using this script to find the random host por
 
 ```
 for ($i=0; $i -lt 5; $i++) {
-  $address = $(docker container port "app-$i" 80).Replace('0.0.0.0', 'localhost')  
+  $address = $(docker container port "app-$i" 80).Replace('0.0.0.0', 'localhost')
   firefox "http://$address"
 }
 ```
 
-> You'll see that each site displays a different hostname, which is the ID of the container running the app. 
+> You'll see that each site displays a different hostname, which is the ID of the container running the app.
 
 ---
 
 ## See how much compute the containers use
 
-On the host you have six `w3wp` processes running, which are the IIS worker processes for each container.  
+On the host you have six `w3wp` processes running, which are the IIS worker processes for each container.
 
 _Check the the memory and CPU usage for the apps:_
 
@@ -130,7 +126,7 @@ This is a simple ASP.NET website running in Docker, with just two lines in a Doc
 
 IIS stores request logs in the container filesystem, but Docker is only listening for logs on the standard output from the startup program.
 
-_Check the logs from one of the app containers:_ 
+_Check the logs from one of the app containers:_
 
 ```
 docker container logs app-0
@@ -187,7 +183,6 @@ firefox http://localhost:8080
 > Feel free to hit the Tweet button, sign in and share your workshop progress :)
 
 ---
-
 
 ## Now you have your own Docker images
 

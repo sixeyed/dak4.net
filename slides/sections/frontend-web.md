@@ -2,10 +2,6 @@
 
 ---
 
-<section data-background-image="/img/frontend/Slide1.PNG">
-
----
-
 Our demo app is a simple ASP.NET WebForms app which uses SQL Server for storage. It's a full .NET Framework app, which uses .NET version `4.7.2`.
 
 Right now the web app is a monolith. By the end of the workshop we'll have broken it down, but first we need to get it running.
@@ -42,9 +38,9 @@ docker image build -t dak4dotnet/signup-web:v2 `
 
 ## Run the web app
 
-That's it! 
+That's it!
 
-You don't need Visual Studio or .NET 4.7.2 installed to build the app, you just need the source repo and Docker. 
+You don't need Visual Studio or .NET 4.7.2 installed to build the app, you just need the source repo and Docker.
 
 _Try running the app in a container:_
 
@@ -70,9 +66,9 @@ firefox http://localhost:8020/app
 
 ## Tidy up before we try again
 
-Oops. 
+Oops.
 
-Remember the app needs SQL Server, and there's no SQL Server on this machine. We'll run it properly next, but first let's clean up that container. 
+Remember the app needs SQL Server, and there's no SQL Server on this machine. We'll run it properly next, but first let's clean up that container.
 
 _Remove the `app` container:_
 
@@ -84,7 +80,7 @@ docker container rm -f app
 
 ## Run the app - with dependencies
 
-Now  we'll run the database in a container too - using Docker Compose to manage the whole app. Check out the [v1 manifest](./app/v1.yml), it specifies SQL Server and the web app. 
+Now we'll run the database in a container too - using Docker Compose to manage the whole app. Check out the [v1 manifest](./app/v1.yml), it specifies SQL Server and the web app.
 
 _Now run the app using compose:_
 
@@ -108,7 +104,7 @@ docker container ls
 
 ## Try the app again
 
-Now there's a new web application container listening on port `8020`. 
+Now there's a new web application container listening on port `8020`.
 
 You can browse to your Docker VM's domain name, or to [localhost](http://localhost:8020/app) on the VM:
 
@@ -118,7 +114,7 @@ firefox "http://localhost:8020/app"
 
 ---
 
-## Looking better :) 
+## Looking better :)
 
 But let's check it really works. Click the _Sign Up_ button, fill in the form and click _Go!_ to save your details.
 

@@ -2,13 +2,9 @@
 
 ---
 
-<section data-background-image="/img/backend/Slide3.PNG">
-
----
-
 The app uses SQL Server for storage, which isn't very friendly for business users to get reports. Next we'll add self-service analytics, using enterprise-grade open-source software.
 
-We'll be running [Elasticsearch](https://www.elastic.co/products/elasticsearch) for storage and [Kibana](https://www.elastic.co/products/kibana) to provide an analytics front-end. 
+We'll be running [Elasticsearch](https://www.elastic.co/products/elasticsearch) for storage and [Kibana](https://www.elastic.co/products/kibana) to provide an analytics front-end.
 
 ---
 
@@ -37,7 +33,7 @@ docker image build --tag dak4dotnet/index-handler `
 
 ## Running Elasticsearch in Docker
 
-The Elasticsearch team maintain their own Docker image for Linux containers, but not yet for Windows. 
+The Elasticsearch team maintain their own Docker image for Linux containers, but not yet for Windows.
 
 It's easy to package your own image to run Elasticsearch in Windows containers, but we'll use one I've already built: `sixeyed/elasticsearch`.
 
@@ -49,7 +45,7 @@ The [Dockerfile](https://github.com/sixeyed/dockerfiles-windows/blob/master/elas
 
 Same story with Kibana, which is the analytics UI that reads from Elasticsearch.
 
-We'll use `sixeyed/kibana`. 
+We'll use `sixeyed/kibana`.
 
 The [Dockerfile](https://github.com/sixeyed/dockerfiles-windows/blob/master/kibana/windowsservercore/ltsc2019/Dockerfile) downloads and installs Kibana, and it packages a [startup script](https://github.com/sixeyed/dockerfiles-windows/blob/master/kibana/windowsservercore/ltsc2019/init.ps1) with some default configuration.
 
@@ -87,13 +83,13 @@ Add another user and you'll see the data still gets added to SQL Server, but now
 
 ---
 
-## Check the new data is stored 
+## Check the new data is stored
 
 And the logs in the message handlers:
 
- ```
+```
 docker container exec app_signup-db_1 powershell `
-  "Invoke-SqlCmd -Query 'SELECT * FROM Prospects' -Database SignUp"
+ "Invoke-SqlCmd -Query 'SELECT * FROM Prospects' -Database SignUp"
 
 docker container logs app_signup-save-handler_1
 
@@ -114,7 +110,7 @@ _Browse to Kibana:_
 firefox http://localhost:5601
 ```
 
-> The Elasticsearch index is called `prospects`, and you can navigate around the data in Kibana. 
+> The Elasticsearch index is called `prospects`, and you can navigate around the data in Kibana.
 
 ---
 

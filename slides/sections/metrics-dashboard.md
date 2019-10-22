@@ -10,10 +10,6 @@ We'll do that by running [Prometheus]() and [Grafana]() - the leading tools in t
 
 ---
 
-<section data-background-image="/img/metrics/Slide1.PNG">
-
----
-
 ## About Prometheus
 
 Prometheus is a metrics server. It runs a time-series database to store instrumentation data, polls configured endpoints to collect data, and provides an API (and a simple Web UI) to retrieve the raw or aggregated data.

@@ -2,11 +2,7 @@
 
 ---
 
-<section data-background-image="/img/101/Slide1.PNG">
-
----
-
-We'll start with the basics and get a feel for running Docker on Windows. 
+We'll start with the basics and get a feel for running Docker on Windows.
 
 You'll see how to run task containers, interactive containers and background containers, and explore the filesystem and processes inside Docker containers.
 
@@ -34,7 +30,7 @@ _List all containers:_
 docker container ls --all
 ```
 
-> Note that the container ID *is* the container's hostname.
+> Note that the container ID _is_ the container's hostname.
 
 ---
 
@@ -53,7 +49,7 @@ docker container run --interactive --tty --rm `
 
 ## Explore Windows Server Core
 
-The Windows Server Core container is pretty much Windows Server 2016 without the GUI. 
+The Windows Server Core container is pretty much Windows Server 2016 without the GUI.
 
 _Explore the container environment:_
 
@@ -63,7 +59,7 @@ Get-Process
 Get-WindowsFeature
 ```
 
-> Now run `exit` to leave the PowerShell session, which stops the container process. 
+> Now run `exit` to leave the PowerShell session, which stops the container process.
 
 ---
 
@@ -116,7 +112,7 @@ docker container exec sql `
 
 ## Connect to a background container
 
-The SQL Server container is stil running in the background. 
+The SQL Server container is stil running in the background.
 
 _Connect a PowerShell session to the container_:
 
@@ -144,7 +140,7 @@ ls .\MSSQL14.SQLEXPRESS\MSSQL\data
 
 ## Processes in the SQL container
 
-Processes in a Windows Server container are actually running on the server. 
+Processes in a Windows Server container are actually running on the server.
 
 _Check the processes running in the container:_
 
@@ -152,13 +148,13 @@ _Check the processes running in the container:_
 Get-Process
 ```
 
-> One is `sqlservr`. There are two `powershell` processes, one is the container startup script and the other is this PowerShell session. 
+> One is `sqlservr`. There are two `powershell` processes, one is the container startup script and the other is this PowerShell session.
 
 ---
 
 ## Windows users in the SQL container
 
-Processes in containers run as standard Windows user accounts. 
+Processes in containers run as standard Windows user accounts.
 
 _Compare the user accounts for the processes:_
 
