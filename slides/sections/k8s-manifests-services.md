@@ -8,7 +8,7 @@ For everything else you describe the components of your app in Kubernetes manife
 
 ## Kubernetes manifests
 
-Kubernetes uses its own manifest spec, different from Docker Compose. It's much more verbose, because there are more resource types; the relation between resources needs to be specified; and the resources themselves have more flexible configuration.
+Kubernetes uses its own manifest spec, different from Docker Compose. It's much more verbose because there are more resource types; the relation between resources needs to be specified; and the resources themselves have more flexible configuration.
 
 Kube manifests are typically many times larger than the equivalent Docker Compose manifests which Docker Swarm uses.
 
@@ -60,9 +60,9 @@ kubectl logs --selector app=signup,component=homepage
 
 ## A service for the pod
 
-The homepage pod isn't goint to be publicly accessible - it will be consumed by the reverse proxy and not any external users.
+The homepage pod isn't public - it's used by the reverse proxy and not external users.
 
-Pods can communicate using their IP addresses but that's hard to discover and not reliable (when pods are replaced they'll have new IP addresses). You provide access to a pod by creating a `service`.
+You provide access to a pod by creating a `service`. (Pods could communicate using IP address but that's hard to discover and not reliable - when pods are replaced they get new addresses).
 
 _Deploy a service for the homepage:_
 
@@ -70,15 +70,15 @@ _Deploy a service for the homepage:_
 kubectl apply -f ./k8s/homepage-service.yml
 ```
 
-> The type of this service is `ClusterIP`, which means it's accessible to other pods in the cluster, using the service name as DNS name.
+> This service type is `ClusterIP` - accessible to other pods in the cluster using the service name as DNS name.
 
 ---
 
 ## Create all the backend deployments
 
-You can put multiple resource specifications in a single manifest. You might put all the resources that make up a component in one YAML file, or you could put your whole app into one file.
+You can put multiple resource specifications in a single manifest.
 
-I've split the manifests by the components of the app. There are three backend infrastructure components which have deployments and services specified - [SQL Server](./k8s/signup-db.yml), [ElasticSearch](./k8s/elasticsearch.yml) and [NATS](./k8s/message-queue.yml).
+There are three backend infrastructure components which have deployments and services specified - [SQL Server](./k8s/signup-db.yml), [ElasticSearch](./k8s/elasticsearch.yml) and [NATS](./k8s/message-queue.yml).
 
 _Deploy all the backend components:_
 
@@ -92,7 +92,7 @@ kubectl apply -f ./k8s/message-queue.yml
 
 ## Check what's running
 
-These are all much smaller images than the Windows versions, and you have them all built locally so they should start quickly.
+These are all much smaller images than the Windows versions and you have them all built locally so they should start quickly.
 
 _See how the cluster is getting on with the deployments:_
 
@@ -132,24 +132,24 @@ kubectl logs --selector app=signup,component=index-handler
 
 ## Deploy the front-end components
 
-There are two other components to the app which are published via the reverse proxy - the actual [sign up website](./k8s/signup-web.yml) (now rewritten as a Blazor app), and the [reference data API](./k8s/reference-data-api.yml).
+Two other components are published via the reverse proxy - the [sign up website](./k8s/signup-web.yml) (now a Blazor app), and the [reference data API](./k8s/reference-data-api.yml).
 
-_Deploy these manifests to create the pods and the cluster IP services:_
+_Deploy these to create the pods and `ClusterIP` services:_
 
 ```
 kubectl apply -f ./k8s/signup-web.yml
 kubectl apply -f ./k8s/reference-data-api.yml
 ```
 
-> These definitions don't include any Traefik labels, unlike the swarm version. Traefik uses a different mechanism in Kubernetes.
+> These definitions don't include any Traefik labels. Traefik uses a different mechanism in Kubernetes.
 
 ---
 
 ## Deploy Traefik
 
-Traefik runs as an [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) in Kubernetes. That's a type of resource which receives external traffic and manages routing, SSL termination etc.
+Traefik runs as an [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) in Kubernetes. That's a type of resource which receives external traffic and manages routing.
 
-The exact same Traefik container image which ran as a reverse proxy in Docker Swarm runs as an ingress controller in Kubernetes - although the [traefik.yml](./k8s/traefik.yml) setup is more complicated.
+The exact same Traefik image which ran as a reverse proxy in Docker Swarm runs as an ingress controller in Kubernetes - although the [traefik.yml](./k8s/traefik.yml) setup is more complicated.
 
 ```
 kubectl apply -f ./k8s/traefik.yml
@@ -159,9 +159,9 @@ kubectl apply -f ./k8s/traefik.yml
 
 ---
 
-## Inspect Kubernetes system resources
+## Inspect `kube-system` resources
 
-If you run `kubectl get all` now you won't see any Traefik resources, because they've been deployed into the Kubernetes system namespaces.
+If you run `kubectl get all` now you won't see any Traefik resources, because they've been deployed into the Kubernetes system namespace.
 
 Namespaces are a way of isolating resources, so you may have one namespace per app, or a shared namespace for common components.
 
@@ -177,9 +177,9 @@ kubectl get all -n kube-system
 
 ## Deploy ingress rules
 
-The ingress controller is the component which manages traffic, but you also need a set of ingress resources which specify the rules.
+The ingress controller is the component which manages traffic, but you also need a one or more ingress resources to specify the routing.
 
-[ingress.yml](./k8s/ingress.yml) is the simplest manifest yet. It includes the Traefik rules to match incoming URL paths to other services, which lets ingress by the front end to the app and API.
+[ingress.yml](./k8s/ingress.yml) is the simplest yet. It includes the Traefik rules to match incoming URL paths to other services, which lets ingress proxy the app and API.
 
 ```
 kubectl apply -f ./k8s/ingress.yml
@@ -203,7 +203,7 @@ kubectl apply -f ./k8s/kibana.yml
 
 Now the whole app is deployed. You wouldn't normally deploy components individually - and `kubectl` can deploy all the manifests in a folder.
 
-If you don't change any of the manifests you can deploy the whole app again from the folder. Kubernetes will compare all the running resources with the manifests, and show that nothing needs to change:
+You can deploy the whole app again from the `k8s` folder. Kubernetes will compare all the running resources with the manifests, and show that everything is `unchanged`:
 
 ```
 kubectl apply -f ./k8s/
@@ -219,14 +219,18 @@ Traefik is listening on standard HTTP port 80, so you can browse to the app too 
 
 > Enter some data - everything should be working correctly.
 
+---
+
 ## Check the data
 
-Pods running message handler containers will have logs...
+The message handler pods will log output from processing messages:
 
 ```
 kubectl logs --selector app=signup,component=index-handler
 ```
 
+```
 kubectl logs --selector app=signup,component=save-handler
+```
 
-And Kibana at http://localhost:5601
+And you can check Kibana at http://localhost:5601

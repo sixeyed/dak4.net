@@ -2,4 +2,4 @@
 
 Now's your chance to catch up or ask questions.
 
-> Remember we're on Slack @ `dak4.net`
+> Remember we're on [dak4net.slack.com](https://dak4net.slack.com)
