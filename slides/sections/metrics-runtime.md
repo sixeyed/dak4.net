@@ -8,52 +8,36 @@ The metrics collector and dashboard run in containers too, so now you can run th
 
 ---
 
-> dotnet info in signup.web /metrics
-
-
 ## Application runtime metrics
 
-Apps running in Windows containers already have metrics. Windows Performance Counters get collected in containers in the same way that they are on Windows Server.
+Runtime metrics tell you how hard .NET is working to run your app. Apps in Windows containers already have those metrics - Windows Performance Counters are collected in containers in the same way that they are on Windows Server.
 
-You can export IIS Performance Counters from web containers to get key  metrics about the runtime without having to change your code. 
+You can [export IIS and .NET Framework Performance Counters](https://github.com/dockersamples/aspnet-monitoring) from Windows containers.
 
-You do that by packaging an exporter utility alongside your web application.
-
----
-
-## Expose IIS metrics from the web app
-
-Here's a new version of the [web application Dockerfile](./docker/metrics-runtime/signup-web/Dockerfile). It packages a metrics exporter utility.
-
-The utility app reads from Windows Performance Counters and publishes them as an API on port `50505`.
-
-> The web code is unchanged. The exporter comes from the [dockersamples/aspnet-monitoring](https://github.com/dockersamples/aspnet-monitoring) sample app.
+.NET Core is cross-platform and there are no Windows Performance Counters on Linux, so we need to collect runtime metrics inside the app.
 
 ---
 
-## Build the new web app image
+## Prometheus .NET Client
 
-The new version includes the metrics exporter utility. It's configured to run in the background, making the container's IIS and ASP.NET Performance Counter values available in Prometheus format.
+The [prometheus-net](https://github.com/prometheus-net/prometheus-net) NuGet package does that for us. It collects key metrics for .NET Core and ASP.NET Core apps.
 
-_Build the updated web app:_
+It's already configured in:
 
-```
-docker image build --tag dak4dotnet/signup-web:v3 `
- --file ./docker/metrics-runtime/signup-web/Dockerfile .
-```
+- [Startup.cs for the REST API](./src/SignUp.Api.ReferenceData/Startup.cs) and
+- [Startup.cs for the Blazor app](./src/SignUp.Web.Blazor/Startup.cs)
 
 ---
 
-## Run the new web app
+## Check the metrics
 
-You can run the new version in a container just to check the metrics it exposes.
+You can run the apps in standlone containers just to check the metrics.
 
-_Run the new web app, connecting to the existing database:_
+_Run the Blazor app:_
 
 ```
 docker container run -d --publish-all `
-  -e ConnectionStrings:SignUpDb='Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!' `
-  --name web-v3 dak4dotnet/signup-web:v3
+  --name blazor dak4dotnet/signup-web-blazor:linux
 ```
 
 > `publish-all` publishes the container port to a random port on the host
@@ -62,12 +46,12 @@ docker container run -d --publish-all `
 
 ## Generate some load
 
-HTTP requests to the new container will start the ASP.NET worker process, and the Windows Performance Counters will be collected.
+HTTP requests to the new container will put some load through the app, and the default metrics will be collected.
 
 _Grab the port of the container and send in some requests:_
 
 ```
-$port = $(docker container port web-v3 80).Replace('0.0.0.0:', '')
+$port = $(docker container port blazor 80).Replace('0.0.0.0:', '')
 
 for ($i=0; $i -le 10; $i++) { Invoke-WebRequest "http://localhost:$port/app" -UseBasicParsing | Out-Null}
 ```
@@ -78,14 +62,12 @@ for ($i=0; $i -le 10; $i++) { Invoke-WebRequest "http://localhost:$port/app" -Us
 
 ## Check out the runtime metrics
 
-Now you can look at the metrics which the exporter utility makes available. You'll see stats in there from the IIS and .NET Performance Counters.
+Now you can look at the metrics which the exporter utility makes available. You'll see stats in there covering memory and CPU for the .NET process, and ASP.NET Core performance.
 
 _Fetch the metrics port and browse to the exporter endpoint:_
 
 ```
-$metricsPort = $(docker container port web-v3 50505).Replace('0.0.0.0:', '')
-
-firefox "http://localhost:$metricsPort/metrics"
+firefox "http://localhost:$port/metrics"
 ```
 
 > This is Prometheus format. Prometheus is the most popular metrics server for cloud-native apps, and the format is widely used.
@@ -94,25 +76,25 @@ firefox "http://localhost:$metricsPort/metrics"
 
 ## Tidy up
 
-The metrics endpoint isn't meant for humans to read, it's an API for Prometheus to consume. 
+The metrics endpoint isn't meant for humans to read, it's an API for Prometheus to consume.
 
 Now we know how the metrics look, let's remove the new container:
 
 ```
-docker rm --force web-v3
+docker container rm --force blazor
 ```
 
 > `force` removes a container even if it's still running
 
 ---
 
-## Key metrics for legacy apps
+## Key runtime metrics
 
-Runtime metrics can tell you how hard your app is working. In this case there are key details from the IIS runtime, which you can put into your application dashboard:
+Runtime metrics tell you how hard your app is working and how well it's handling requests. The .NET Prometheus client gets you some way towards the [SRE Golden Signals](https://www.infoq.com/articles/monitoring-SRE-golden-signals/):
 
-- requests per second processed
-- amount of virtual memory used
-- amount of CPU used
-- number of active threads
+- latency: `http_request_duration_seconds{code="200"}`
+- traffic: `http_requests_received_total`
+- errors: `http_request_duration_seconds{code="500"}`
+- saturation: based on `dotnet_total_memory_bytes` and `process_cpu_seconds_total`
 
-> Using an exporter utility gives you all this without changing code - perfect for legacy apps. 
+> You can get the same effect using an exporter utility for legacy apps, without code changes.
