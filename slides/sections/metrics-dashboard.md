@@ -6,7 +6,7 @@ Exposing metrics endpoints from all your app containers is the first step to get
 
 Next you need to run two other components - a metrics server, which grabs and stores all the metrics from your containers, and a dashboard which presents the data in a usable way.
 
-We'll do that by running [Prometheus]() and [Grafana]() - the leading tools in this space - in containers alongside our app.
+We'll do that by running [Prometheus](https://prometheus.io) and [Grafana](https://grafana.com) - the leading tools in this space - in containers alongside our app.
 
 ---
 
@@ -14,7 +14,7 @@ We'll do that by running [Prometheus]() and [Grafana]() - the leading tools in t
 
 Prometheus is a metrics server. It runs a time-series database to store instrumentation data, polls configured endpoints to collect data, and provides an API (and a simple Web UI) to retrieve the raw or aggregated data.
 
-The Prometheus team maintain a Docker image for Linux - [prom/prometheus]() on Docker Hub.
+The Prometheus team maintain a Docker image for Linux on Docker Hub: [prom/prometheus](https://hub.docker.com/r/prom/prometheus).
 
 ---
 
@@ -22,34 +22,30 @@ The Prometheus team maintain a Docker image for Linux - [prom/prometheus]() on D
 
 Prometheus uses a simple configuration file, listing the endpoints to scrape for metrics.
 
-[This Dockerfile](./docker/metrics-dashboard/prometheus/Dockerfile) to bundle a custom [prometheus.yml](./docker/metrics-dashboard/prometheus/prometheus.yml) file on top of the existing Prometheus image.
+[This Dockerfile](./docker/metrics-dashboard/prometheus/Dockerfile) bundles a custom [prometheus.yml](./docker/metrics-dashboard/prometheus/prometheus.yml) file on top of the standard Prometheus image.
 
 ```
 docker image build -t dak4dotnet/prometheus:linux `
   -f ./docker/metrics-dashboard/prometheus/Dockerfile .
 ```
 
-> Now you have a Docker image that will run Prometheus packaged with custom configuration for the application.
+> This builds a Prometheus image packaged with custom configuration for the application.
 
 ---
-
-docker run -d -P --name prometheus dak4dotnet/prometheus:linux
-
-docker container port prometheus
 
 ## About Grafana
 
 Grafana is a dashboard server. It can connect to data sources and provide rich dashboards to show the overall health of your app.
 
-There isn't an official Windows variant of the Grafana image, but we can use the one from [dockersamples/aspnet-monitoring](https://github.com/dockersamples/aspnet-monitoring).
+The Grafana team maintain a Docker image for Linux on Docker Hub: [grafana/grafana](https://hub.docker.com/r/grafana/grafana).
 
-Grafana has an API you can use to automate setup, and we'll use that to build a custom Docker image.
+Grafana has a couple of options for automating setup, and we'll use them to build a custom Docker image.
 
 ---
 
 ## Customizing Grafana
 
-To make a custom Grafana image, you need to configure a data source, create users and deploy your own dashboard. The [Grafana Dockerfile](./docker/metrics-dashboard/grafana/Dockerfile) does that.
+To make a custom Grafana image you need to configure a data source, create users and deploy your own dashboard. The [Grafana Dockerfile](./docker/metrics-dashboard/grafana/Dockerfile) does that.
 
 It uses a [data source provisioning](http://docs.grafana.org/administration/provisioning/#datasources) and [dashboard provisioning](http://docs.grafana.org/administration/provisioning/#dashboards), which is standard Grafana functionality, and the Grafana API to set up a read-only user.
 
@@ -68,31 +64,35 @@ docker image build -t dak4dotnet/grafana:linux `
 
 ---
 
-docker run -d -P --name grafana dak4dotnet/grafana:linux
+## Running Prometheus and Grafana
 
-docker container port grafana
+We'll run pods for Prometheus and Grafana.
 
-## Run the app with metrics
+[prometheus.yml](./k8s/metrics-dashboard/prometheus.yml) includes a `ClusterIP` service, so Grafana can read the data from Prometheus.
 
-Now you can deploy the updated application. The [v6 manifest](./app/v6.yml) uses the upgraded web app and message handlers, and includes containers for Prometheus and Grafana.
+[grafana.yml](./k8s/metrics-dashboard/grafana.yml) includes a `LoadBalancer` service so we can access it publicly.
 
-_Update the running application:_
+---
+
+## Deploy the new components
+
+Applying the new manifests will add Prometheus and Grafana to the default namespace.
+
+_Apply the manifests:_
 
 ```
-kubectl apply -f ./k8s/metrics
+kubectl apply -f ./k8s/metrics-dashboard
 ```
 
-> Compose will recreate changed services and start new ones.
+> Metrics are good candidates for shared services running in their own namespace.
 
 ---
 
 ## Use the app to record some metrics
 
-Browse to the new proxy container, and send some load - refresh the sign up page a few times, and then submit the form:
+Browse to http://localhost/app/signup again and submit the form a few times.
 
-```
-firefox http://localhost:8020
-```
+This sends traffic through the web app, API, index handler and save handler, so we'll get metrics from all of them in Prometheus.
 
 ---
 
@@ -100,17 +100,15 @@ firefox http://localhost:8020
 
 The web application and the message handlers are collecting metrics now, and Prometheus is scraping them.
 
-_Browse to the Prometheus UI to see the metrics:_
+> Browse to the Prometheus UI - http://localhost:9090
 
-```
-firefox http://localhost:9090
-```
+You can check _Status...Configuration_ and _Status...Targets_ to see everything is working.
 
 ---
 
 ## CPU metrics in Prometheus
 
-Try looking at the `process_cpu_seconds_total` metric in Graph view. This shows the amount of CPU in the message handlers, which is exported from a standard .NET performance counter.
+Try looking at the `process_cpu_seconds_total` metric in Graph view. This shows the amount of CPU uses by the `dotnet` process in each container.
 
 The Prometheus UI is good for browsing the collected metrics and building up complex queries.
 
@@ -122,11 +120,7 @@ But the Prometheus UI isn't featured enough for a dashboard - that's why we have
 
 The Grafana container is already running with a custom dashboard, reading the application and runtime metrics from Prometheus.
 
-_Browse to the Grafana container:_
-
-```
-firefox http://localhost:3000
-```
+> Browse to Grafana - http://localhost:3000
 
 ---
 
@@ -134,7 +128,8 @@ firefox http://localhost:3000
 
 Login with the credentials for the read-only account created in the Grafana Docker image:
 
--_Username:_**viewer** -_Password:_**readonly**
+- _Username:_ **viewer**
+- _Password:_ **readonly**
 
 > You'll see the dashboard showing real-time data from the app. The app dashboard is set as the homepage for this user.
 
@@ -142,13 +137,13 @@ Login with the credentials for the read-only account created in the Grafana Dock
 
 ## Check out the dashboard
 
-The dashboard shows how many HTTP requests are coming in to the web app, and how many events the handlers have received, processed and failed.
+The dashboard shows how HTTP responses and duration from the web layer, and how many events the handlers have received, processed and failed.
 
 It also shows memory and CPU usage for the apps inside the containers, so at a glance you can see how hard your containers are working and what they're doing.
 
 ---
 
-## Ready for production
+## Ready for production...
 
 Containerized apps run on dynamic container platforms. maybe with hundreds of containers running across dozens of servers in production.
 
