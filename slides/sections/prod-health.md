@@ -24,7 +24,7 @@ You can add basic healthchecks with KUbe
 
 ## HTTP readiness probe
 
-> ref data api, starup delay
+> ref data api, startup delay
 > readiness check
 
 ---

@@ -17,11 +17,11 @@ qa.md
 k8s-pods-deployments.md
 dotnet-linux.md
 k8s-manifests-services.md
-qa.md
 k8s-dashboard.md
+qa.md
+prod-logging.md
 prod-config.md
 prod-health.md
-prod-logging.md
 qa.md
 metrics-runtime.md
 metrics-application.md

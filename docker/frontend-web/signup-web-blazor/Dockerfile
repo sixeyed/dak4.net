@@ -16,7 +16,8 @@ RUN dotnet publish -c Release -o /out SignUp.Web.Blazor.csproj
 FROM  mcr.microsoft.com/dotnet/core/aspnet:3.0
 
 EXPOSE 80
-WORKDIR /signup-web-blazor
 ENTRYPOINT ["dotnet", "SignUp.Web.Blazor.dll"]
+ENV ReferenceDataApi:Url=http://reference-data-api/api
 
+WORKDIR /signup-web-blazor
 COPY --from=builder /out/ .

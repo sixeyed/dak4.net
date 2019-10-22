@@ -16,6 +16,11 @@ We'll do this next, extending the web image to read external configuration.
 
 ## Config in .NET Core
 
+- default: appsettings.json, env
+- custom providers
+
+[Program.cs]()
+
 ---
 
 ## Configuration in Kubernetes

@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: signup-web
 spec:
-  selector:    
+  selector:
     app: signup
     component: web
   ports:
-  - name: http
-    port: 80
-    targetPort: 80
+    - name: http
+      port: 80
+      targetPort: 80
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -28,13 +28,10 @@ spec:
         component: web
     spec:
       containers:
-      - image: dak4dotnet/signup-web-blazor:linux
-        name: signup-web
-        env:
-        - name: ReferenceDataApi__Url
-          value: "http://reference-data-api/api"
-        ports:
-        - containerPort: 80
-          name: http
+        - image: dak4dotnet/signup-web-blazor:linux
+          name: signup-web
+          ports:
+            - containerPort: 80
+              name: http
       nodeSelector:
         beta.kubernetes.io/os: linux
