@@ -1,10 +1,9 @@
 # v5 adds self-service analytics with Elasticsearch and Kibana
-version: '3.7'
+version: "3.7"
 
 services:
-  
   signup-db:
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    image: mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=DockerCon!!!
@@ -13,7 +12,7 @@ services:
 
   signup-web:
     image: dak4dotnet/signup-web-blazor:linux
-    environment: 
+    environment:
       - ReferenceDataApi:Url=http://reference-data-api/api
     labels:
       - "traefik.frontend.rule=PathPrefix:/app"
@@ -39,13 +38,13 @@ services:
       - "8020:80"
       - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock      
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app-net
 
   reference-data-api:
     image: dak4dotnet/reference-data-api:linux
-    environment: 
+    environment:
       - ConnectionStrings:SignUpDb=Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!
     labels:
       - "traefik.frontend.rule=PathPrefix:/api"
@@ -90,5 +89,4 @@ services:
     networks:
       - app-net
 
-networks:
-  app-net:
+networks: app-net:
