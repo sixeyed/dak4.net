@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: index-handler
+spec:
+  selector:    
+    app: signup
+    component: index-handler
+  ports:
+  - name: http
+    port: 50505
+    targetPort: 50505
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: index-handler
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: index-handler
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: index-handler
+    spec:
+      containers:
+      - image: dak4dotnet/signup-index-handler:linux
+        name: index-handler
+        env:
+        - name: Metrics__Enabled
+          value: "true"
+        - name: Metrics__Port
+          value: "50505"
+        ports:
+        - containerPort: 50505
+          name: metrics
+      nodeSelector:
+        beta.kubernetes.io/os: linux

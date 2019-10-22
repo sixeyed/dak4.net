@@ -7,14 +7,19 @@ scrape_configs:
   - job_name: 'web'  
     metrics_path: /metrics/
     static_configs:
-      - targets: ['signup-web:50505']
+      - targets: ['signup-web']
+  
+  - job_name: 'api'  
+    metrics_path: /metrics/
+    static_configs:
+      - targets: ['reference-data-api']
 
   - job_name: 'index-handler'  
     metrics_path: /metrics/
     static_configs:
-      - targets: ['signup-index-handler:50505']
+      - targets: ['index-handler:50505']
 
   - job_name: 'save-handler'  
     metrics_path: /metrics/
     static_configs:
-      - targets: ['signup-save-handler:50505']
+      - targets: ['save-handler:50505']

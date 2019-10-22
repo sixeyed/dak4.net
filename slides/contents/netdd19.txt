@@ -21,6 +21,7 @@ qa.md
 k8s-dashboard.md
 prod-config.md
 prod-health.md
+prod-logging.md
 qa.md
 metrics-runtime.md
 metrics-application.md

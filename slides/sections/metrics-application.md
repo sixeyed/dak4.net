@@ -8,6 +8,8 @@ We'll add application metrics to the message handlers, so we can see the flow of
 
 ---
 
+> app info in .handlers /metrics
+
 ## Expose metrics from the message handlers
 
 The message handlers already have code to record metrics when they handle messages. 

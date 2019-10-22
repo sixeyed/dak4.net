@@ -8,6 +8,9 @@ The metrics collector and dashboard run in containers too, so now you can run th
 
 ---
 
+> dotnet info in signup.web /metrics
+
+
 ## Application runtime metrics
 
 Apps running in Windows containers already have metrics. Windows Performance Counters get collected in containers in the same way that they are on Windows Server.

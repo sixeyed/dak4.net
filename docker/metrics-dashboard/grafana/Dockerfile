@@ -1,10 +1,12 @@
-# escape=`
-FROM dockersamples/aspnet-monitoring-grafana:5.2.1-windowsservercore-ltsc2019
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
+FROM grafana/grafana:6.4.3
 
-COPY .\docker\metrics-dashboard\grafana\datasource-prometheus.yaml \grafana\conf\provisioning\datasources\
-COPY .\docker\metrics-dashboard\grafana\dashboard-provider.yaml \grafana\conf\provisioning\dashboards\
-COPY .\docker\metrics-dashboard\grafana\signup-dashboard.json \var\lib\grafana\dashboards\
+USER root
+RUN apk add --no-cache curl
 
-COPY  .\docker\metrics-dashboard\grafana\init.ps1 .
-RUN .\init.ps1 
+USER grafana
+COPY ./docker/metrics-dashboard/grafana/datasource-prometheus.yaml ${GF_PATHS_PROVISIONING}/datasources/
+COPY ./docker/metrics-dashboard/grafana/dashboard-provider.yaml ${GF_PATHS_PROVISIONING}/dashboards/
+COPY ./docker/metrics-dashboard/grafana/signup-dashboard.json /var/lib/grafana/dashboards/
+
+COPY  ./docker/metrics-dashboard/grafana/init.sh .
+RUN ./init.sh

@@ -84,7 +84,7 @@ namespace SignUp.MessageHandlers.IndexProspect.Workers
             var metricsPort = Config.Current.GetValue<int>("Metrics:Port");
             var server = new MetricServer(metricsPort);
             server.Start();
-            Console.WriteLine($"Metrics server listening on port ${metricsPort}");
+            Console.WriteLine($"Metrics server listening on port {metricsPort}");
         }
     }
 }

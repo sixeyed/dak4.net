@@ -18,7 +18,7 @@ We'll do that by running [Prometheus]() and [Grafana]() - the leading tools in t
 
 Prometheus is a metrics server. It runs a time-series database to store instrumentation data, polls configured endpoints to collect data, and provides an API (and a simple Web UI) to retrieve the raw or aggregated data.
 
-The Prometheus team maintain a Docker image for Linux, but we'll use a Windows Docker image from [dockersamples/aspnet-monitoring](https://github.com/dockersamples/aspnet-monitoring).
+The Prometheus team maintain a Docker image for Linux - [prom/prometheus]() on Docker Hub.
 
 ---
 
@@ -29,13 +29,17 @@ Prometheus uses a simple configuration file, listing the endpoints to scrape for
 [This Dockerfile](./docker/metrics-dashboard/prometheus/Dockerfile) to bundle a custom [prometheus.yml](./docker/metrics-dashboard/prometheus/prometheus.yml) file on top of the existing Prometheus image.
 
 ```
-docker image build -t dak4dotnet/prometheus `
+docker image build -t dak4dotnet/prometheus:linux `
   -f ./docker/metrics-dashboard/prometheus/Dockerfile .
 ```
 
 > Now you have a Docker image that will run Prometheus packaged with custom configuration for the application.
 
 ---
+
+docker run -d -P --name prometheus dak4dotnet/prometheus:linux
+
+docker container port prometheus
 
 ## About Grafana
 
@@ -60,13 +64,17 @@ It uses a [data source provisioning](http://docs.grafana.org/administration/prov
 _Build the custom Grafana image:_
 
 ```
-docker image build -t dak4dotnet/grafana `
+docker image build -t dak4dotnet/grafana:linux `
   -f ./docker/metrics-dashboard/grafana/Dockerfile .
 ```
 
 > This image is fully configured with a Grafana dashboard to drop into the application.
 
 ---
+
+docker run -d -P --name grafana dak4dotnet/grafana:linux
+
+docker container port grafana
 
 ## Run the app with metrics
 
@@ -75,7 +83,7 @@ Now you can deploy the updated application. The [v6 manifest](./app/v6.yml) uses
 _Update the running application:_
 
 ```
-docker-compose -f .\app\v6.yml up -d
+kubectl apply -f ./k8s/metrics
 ```
 
 > Compose will recreate changed services and start new ones.
