@@ -4,19 +4,17 @@
 
 The next level of detail is application-level metrics, recording details about what your app is doing. You surface those through a metrics API in the same way as the runtime metrics.
 
-We'll add application metrics to the message handlers, so we can see the flow of messages through the system.
+There are application metrics in the message handlers, so we can see the flow of messages through the system.
 
 ---
 
-> app info in .handlers /metrics
-
 ## Expose metrics from the message handlers
 
-The message handlers already have code to record metrics when they handle messages. 
+The message handlers use the same `prometheus-net` NuGet package, but they explicitly record app metrics.
 
-You can see this in the [Program.cs](./src/SignUp.MessageHandlers.SaveProspect/Program.cs) file for the SQL Server handler, and the [QueueWorker.cs](./src/SignUp.MessageHandlers.IndexProspect/Workers/QueueWorker.cs) file for the Elasticsearch handler.
+You can see this in the [QueueWorker.cs](./src/SignUp.MessageHandlers.SaveProspectCore/Workers\QueueWorker.cs) file for the save handler, and the [QueueWorker.cs](./src/SignUp.MessageHandlers.IndexProspect/Workers/QueueWorker.cs) file for the index handler.
 
-> Both handlers use a community Prometheus package on NuGet, [prometheus-net](https://github.com/prometheus-net/prometheus-net). It's a .NET Standard library, so you can use it from .NET Framework and .NET Core apps.
+> `prometheus-net` is a .NET Standard library, so you can use it from .NET Framework and .NET Core apps.
 
 ---
 
@@ -24,95 +22,56 @@ You can see this in the [Program.cs](./src/SignUp.MessageHandlers.SaveProspect/P
 
 Prometheus uses a time-series database - it grabs metrics on a schedule and stores every value along with a timestamp. You can aggregate across dimensions or drill down to specific values.
 
-You should record metrics at a fairly coarse level - "Event count" in this example. Then add detail with labels, like the processing status and the hostname of the handler. 
+You should record metrics at a fairly coarse level - "Event count" in this example. Then add detail with labels, like the processing status and the hostname of the handler.
 
 ---
 
-## Build new versions of the handlers
+## A new spec for the handlers
 
-There's a new [Dockerfile for the save handler](./docker/metrics-application/save-handler/Dockerfile) and a new [Dockerfile for the index handler](./docker/metrics-application/index-handler/Dockerfile). They package the same code, but they set default config values to enable the metrics API.
+There's a feature flag in the handler code which turns metrics on or off - the default is off.
 
-```
-docker image build -t dak4dotnet/save-handler:v2 `
-  -f .\docker\metrics-application\save-handler\Dockerfile . ; `
+There are new YAML files to turn the flag on and add a `ClusterIP` service for the handlers:
 
-docker image build -t dak4dotnet/index-handler:v2 `
-  -f .\docker\metrics-application\index-handler\Dockerfile .
-```
+- [k8s/metrics-application/index-handler.yml](./k8s/metrics-application/index-handler.yml)
+- [k8s/metrics-application/save-handler.yml](./k8s/metrics-application/save-handler.yml)
 
-> The build should be super-fast, because of the cache.
+> These components need a service so the Prometheus pod can reach them
 
 ---
 
-## Run the new save message handler
+## Re-deploy the handlers
 
-You can run containers with the new message handler apps to see what sort of metrics they expose.
+Environments are fixed for the life of pods, so a new pod spec means the pods will be replaced.
 
-_Run the new version of the SQL Server handler:_
+_Deploy the changes from the `metrics-application` folder:_
 
 ```
-docker container run -d  `
-  -e ConnectionStrings:SignUpDb='Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!' `
-  --name save-v2 dak4dotnet/save-handler:v2
+kubectl apply -f ./k8s/metrics-application
 ```
+
+> Now we have new containers from the same images, but configured to expose metrics
 
 ---
 
-## Check the save metrics
+## Open up the metrics
 
-The save message handler is a .NET Framework console app. The Prometheus NuGet package adds a self-hosted HTTP server for the metrics API.
+The metrics in here aren't public either, but we have a `ClusterIP` service so we can use port forwarding to check what's being recorded.
 
-The run command didn't publish any ports, but you can still browse to the metrics endpoint using the container's IP address.
-
-_Check out the metrics:_
+_Forward the port for index-handler deployment:_
 
 ```
-$ip = docker container inspect --format '{{ .NetworkSettings.Networks.nat.IPAddress }}' save-v2; `
-
-firefox "http://$($ip):50505/metrics"
-```
-
-> Port `50505` isn't standard, it's just the port I've chosen. 
-
----
-
-## Run the new index message handler
-
-The index message handler records similar metrics about messages handled, and the processing status.
-
-_Run the new version of the Elasticsearch handler:_
-
-```
-docker container run -d --name index-v2 dak4dotnet/index-handler:v2
+kubectl port-forward deployment/index-handler 38000:50505
 ```
 
 ---
 
-## Check the index metrics
+## Check the metrics
 
-The save message handler is a .NET Core console app. The same Prometheus NuGet package publishes the metrics API with a self-hosted web server.
+Browse to http://localhost:38000/metrics/ and you'll see help text for the `IndexHandler_Events` metric, but no data.
 
-_Check out the metrics using the container's IP address:_
+> Go back to http://localhost/app/signup and sign up again
 
-```
-$ip = docker container inspect --format '{{ .NetworkSettings.Networks.nat.IPAddress }}' index-v2; `
-
-firefox "http://$($ip):50505/metrics"
-```
-
-> The raw data is very basic. Prometheus will make it more useful.
-
----
-
-## Tidy up
-
-Now we know how the metrics look, let's remove the new containers:
-
-```
-@('save-v2', 'index-v2') | foreach { docker container rm -f $_}
-```
-
-> This is just some fancy PowerShell to loop over a list of container names and remove them.
+Refresh the metrics and you'll see data for the `received` and `processed` labels.
 
 ---
 

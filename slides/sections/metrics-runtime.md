@@ -88,6 +88,16 @@ docker container rm --force blazor
 
 ---
 
+## Runtime metrics in Kubernetes
+
+The apps running in Kubernetes already have metrics available.
+
+You can't browse to them from outside the cluster because there's no [ingress rule](./k8s/ingress.yml) for the `/metrics` path.
+
+But other pods can reach the `/metrics` URL and that's how we can have Prometheus polling metrics without making them publicly visible.
+
+---
+
 ## Key runtime metrics
 
 Runtime metrics tell you how hard your app is working and how well it's handling requests. The .NET Prometheus client gets you some way towards the [SRE Golden Signals](https://www.infoq.com/articles/monitoring-SRE-golden-signals/):
