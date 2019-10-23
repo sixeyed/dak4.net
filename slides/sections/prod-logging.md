@@ -2,62 +2,97 @@
 
 ---
 
-- logs out from containers to platform
-- aggregation at platform level
+The basic goal of logging is to get your application logs out of the container, so you can read them with `docker container logs` or `kubectl logs`.
+
+You can do log aggregation in your container platform, collecting and storing all the log entries from all your containers in a central system - but first you need to get them out from the container.
 
 ---
 
 ## Logging in console apps
 
-- .NET Core standard
-- default stdout
+That's easy for .NET Core apps - they run as console apps under the `dotnet` runtime.
 
+Any log entries written to the console appender (or `Console.WriteLine`) are written to the standard output stream, which is where Docker fetches log entries.
+
+_You've already seen these logs in the handlers:_
+
+```
 kubectl logs --selector component=index-handler
+```
 
 ---
 
 ## Logging in ASP.NET Core apps
 
-- same deal
+The same is true for .NET Core web apps, which also run as console apps and use the console appender by default.
 
-kubectl logs --selector component=reference-data-api
+_Check the logs for the REST API:_
+
+```
+kubectl logs --selector component=api
+```
+
+> The logs are there, inside a file in the container - but Docker doesn't know about that.
 
 ---
 
 ## Logging to other sinks
 
-- file, ETW, event logs
-- needs a different approach
+But some apps don't write to the console. Windows containers running ASP.NET apps on IIS are background processes so there's no console app for Docker to monitor.
 
-[Program.cs]()
+Those apps may write to another log sink, like the Event Log or a text file. The Blazor web app does this too - in [Program.cs]() you'll se it uses [Serilog]().
 
-kubectl logs --selector component=signup-web
+_No console appender means there are no logs:_
+
+```
+kubectl logs --selector component=web
+```
 
 ---
 
 ## Sidecar container
 
-- two containers in pod
-- share filesystem
-- web writes logs, other tails
+This is where sidecar containers are really useful. You run a second container in the same pod , whose role is just to echo logs from the app container.
 
-[signup-web.yaml]()
+[k82/prod-logging/signup-web.yaml]() specifies a log-relay sidecar. The main app writes its log file to a shared `volumeMount`. The log relay uses `tail` to read out the logs
 
 ---
 
-## Deploy
+## Deploy the sidecar pod
 
+"Sidecar" is just the name for a pattern where there's an extra container in the pod doing some ancillary work.
+
+_You deploy pods with sidecars in the same way:_
+
+```
 kubectl apply -f .\k8s\prod-logging
+```
 
-kubectl describe pod --selector component=signup-web
+---
+
+## Examine the pod setup
+
+Now the pod has two containers. They share the same network space, and they have a shared filesystem in the `logs` volumes.
+
+_Describing the pod shows you the two containers:_
+
+```
+kubectl describe pod --selector component=web
+```
 
 ## Check logs
 
-kubectl logs --selector component=signup-web
+Now there are two containers in the pod, you need to specify which one you want with `kubectl exec` or `kubectl logs`.
 
-kubectl logs --selector component=signup-web --container signup-web
+_Check the app logs are available now:_
 
-kubectl logs --selector component=signup-web --container signup-web-logs
+```
+kubectl logs --selector component=web
+
+kubectl logs --selector component=web --container signup-web
+
+kubectl logs --selector component=web --container signup-web-logs
+```
 
 ---
 
@@ -65,6 +100,6 @@ kubectl logs --selector component=signup-web --container signup-web-logs
 
 This is a simple pattern to get logs from existing apps into Docker, without changing application code.
 
-You can use it to echo logs from any source in the container - like log files or the [Event Log](https://github.com/Microsoft/mssql-docker/blob/a3020afeec9be1eb2d67645ac739438eb8f2c545/windows/mssql-server-windows-express/start.ps1#L75).
+You can use it to echo logs from any source in the container - like log files, ETW or the Event Log.
 
-Docker has a pluggable logging system, so as long as you get your logs into Docker, it can automatically ship them to Splunk, Elasticsearch etc.
+Container platforms have pluggable logging systems, so as long as you get your logs into Dockeryou can set them up to ship to Splunk, Elasticsearch etc.
