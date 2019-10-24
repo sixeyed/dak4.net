@@ -2,7 +2,7 @@
 
 A workshop by [@EltonStoneman](https://twitter.com/EltonStoneman). This repo contains all the content. The latest release is published at [dak4.net](https://dak4.net).
 
-> This is the full workshop content, which can be tailored for individual deliveries.
+> If you want a quick intro to the subject check out [Putting the ".NET" into Kubernetes](https://youtu.be/GBOPBfcJ2zM) from [.Net Conf](https://www.dotnetconf.net).
 
 ## Outline
 
