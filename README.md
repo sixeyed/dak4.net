@@ -14,9 +14,11 @@ Migrating your .NET apps to Docker is an easy way to power a cloud migration wit
 
 ### Live deliveries
 
-This workshop is a living thing. There are subdomains of the website and code branches for previous deliveries.
+This workshop is a living thing. There are subdomains of the website and code branches for live deliveries.
 
 #### 2019
+
+- [buildstuff19](https://github.com/sixeyed/dak4.net/tree/buildstuff19) - BuildStuff Lithuania, hosted [here](https://buildstuff19.dak4.net)
 
 - [netdd19](https://github.com/sixeyed/dak4.net/tree/netdd19) - .NET Developer Days Poland, hosted [here](https://netdd19.dak4.net)
 
