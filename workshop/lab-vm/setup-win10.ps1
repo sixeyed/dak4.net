@@ -34,27 +34,29 @@ git clone https://github.com/sixeyed/dak4.net.git
 git checkout $branch
 $branch | Out-File C:\branch.txt
 
-Write-Output '* Pulling Windows images'
-$images = Get-Content -path C:\scm\dak4.net\workshop\lab-vm\images-windows.txt
-foreach ($tag in $images) {
-    Write-Output "** Processing tag: $tag"
-    & docker image pull $tag
-}
-
 Write-Output '-VM setup script done-'
 
 # Manual steps: 
 # - launch Docker Desktop (requires reboot)
 # - pull Windows images
-# - switch to Linux containers
-# - bump VM RAM to 4GB
-# - enable Kubernetes
 
+# Write-Output '* Pulling Windows images'
+# $images = Get-Content -path C:\scm\dak4.net\workshop\lab-vm\images-windows.txt
+# foreach ($tag in $images) {
+#    Write-Output "** Processing tag: $tag"
+#    & docker image pull $tag
+# }
+
+# - switch to Linux containers
 # - pull Linux images
+
 # $images = Get-Content -path C:\scm\dak4.net\workshop\lab-vm\images-linux.txt
 # foreach ($tag in $images) {
 #    Write-Output "** Processing tag: $tag"
 #    & docker image pull $tag
 # }
+
+# - bump VM RAM to 4GB
+# - enable Kubernetes
 
 # - switch back to Windows
