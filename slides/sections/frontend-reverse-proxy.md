@@ -62,15 +62,7 @@ To use the new homepage **without changing the original app** we can run a rever
 
 We're using [Traefik](http://traefik.io) which integrates nicely with Docker. All requests come to Traefik, and it fetches content from the homepage container or the original app container.
 
-Traefik can do a lot more than that - SSL termination, load-balancing and sticky sessions. The [official Traefik image on Docker Hub](https://docs.traefik.io/#the-official-docker-image) doesn't have a Windows Server 2019 version, so we'll build our own.
-
-_Build the reverse proxy image:_
-
-```
-docker image build `
-  -t dak4dotnet/reverse-proxy `
-  -f .\docker\frontend-reverse-proxy\reverse-proxy\Dockerfile .
-```
+Traefik can do a lot more than that - SSL termination, load-balancing and sticky sessions. The [official Traefik image on Docker Hub](https://hub.docker.com/_/traefik?tab=description) is a multi-architecture image which can be run in Linux or Windows.
 
 ---
 

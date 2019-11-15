@@ -1,6 +1,6 @@
 param(    
-    [int] $from = 1,
-    [int] $to = 7
+    [int] $from = 2,
+    [int] $to = 5
 )
 
 for ($i=$from; $i -le $to; $i++) {

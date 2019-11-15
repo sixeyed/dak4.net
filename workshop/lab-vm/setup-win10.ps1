@@ -60,3 +60,4 @@ Write-Output '-VM setup script done-'
 # - enable Kubernetes
 
 # - switch back to Windows
+# - set to process isolation
