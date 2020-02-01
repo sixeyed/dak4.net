@@ -5,7 +5,7 @@ services:
   signup-db:
     image: dak4dotnet/sql-server:2017
     build:
-      context: ./docker/sql-server
+      context: ../docker/sql-server
 
   signup-web:
     image: dak4dotnet/signup-web

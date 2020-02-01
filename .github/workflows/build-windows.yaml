@@ -3,14 +3,14 @@ name: Windows image build
 on: push
 
 jobs:
-  buildx:
+  build:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@master
       - name: Build and push images
-        working-directory: ./ci
+        working-directory: ci
         run: |
-          docker login -u $USER -p $TOKEN
+          docker login -u $env:USER -p $env:TOKEN
           docker-compose -f docker-compose-build-windows.yml build
           docker-compose -f docker-compose-build-windows.yml push
         env:
