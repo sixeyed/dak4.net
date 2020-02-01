@@ -15,10 +15,12 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 Write-Output '* Installing tools'
-choco install -y docker-desktop
-choco install -y poshgit
+choco install -y git
 choco install -y visualstudiocode
 choco install -y firefox
+choco install -y docker-desktop
+# or for edge:
+# choco install -y docker-desktop --pre 
 
 Write-Output '* Configuring environment'
 refreshenv
