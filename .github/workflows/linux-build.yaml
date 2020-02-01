@@ -12,6 +12,7 @@ jobs:
         with:
           version: latest
       - name: Build and push image
+        working-directory: ./ci
         run: |
           docker login -u $USER -p $TOKEN
           docker buildx bake \
@@ -24,5 +25,4 @@ jobs:
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
 # the buildx --set args can be replaced with --push when 164 is available - https://github.com/docker/buildx/pull/164
