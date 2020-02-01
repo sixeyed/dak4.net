@@ -11,7 +11,7 @@ jobs:
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
           version: latest
-      - name: Build and push image
+      - name: Build and push images
         working-directory: ./ci
         run: |
           docker login -u $USER -p $TOKEN

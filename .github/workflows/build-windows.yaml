@@ -1,4 +1,4 @@
-name: Linux image build
+name: Windows image build
 
 on: push
 
