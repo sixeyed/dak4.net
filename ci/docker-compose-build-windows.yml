@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+ 
+  signup-db:
+    image: dak4dotnet/sql-server:2017
+    build:
+      context: ./docker/sql-server
+
+  signup-web:
+    image: dak4dotnet/signup-web
+    build:
+      context: ..
+      dockerfile: ./docker/frontend-web/v1/Dockerfile
+
+  signup-web:
+    image: dak4dotnet/signup-web:v2
+    build:
+      context: ..
+      dockerfile: ./docker/frontend-web/v2/Dockerfile
+
+  homepage:
+    image: dak4dotnet/homepage
+    build:
+      context: ..
+      dockerfile: ./docker/frontend-reverse-proxy/homepage/Dockerfile
+
+  proxy:
+    image: dak4dotnet/reverse-proxy
+    build:
+      context: ..
+      dockerfile: ./docker/frontend-reverse-proxy/reverse-proxy/Dockerfile
+
+  reference-data-api:
+    image: dak4dotnet/reference-data-api
+    build:
+      context: ..
+      dockerfile: ./docker/backend-rest-api/reference-data-api/Dockerfile
+
+  signup-save-handler:
+    image: dak4dotnet/save-handler
+    build:
+      context: ..
+      dockerfile: ./docker/backend-async-messaging/save-handler/Dockerfile
+
+  signup-index-handler:
+    image: dak4dotnet/index-handler
+    build:
+      context: ..
+      dockerfile: ./docker/backend-analytics/index-handler/Dockerfile    
