@@ -1,0 +1,28 @@
+name: Linux image build
+
+on: push
+
+jobs:
+  buildx:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Install buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      - name: Build and push image
+        run: |
+          docker login -u $USER -p $TOKEN
+          docker buildx bake \
+           -f docker-compose-build-linux.yml \
+           --set signup-web-blazor.output=type=registry \
+           --set homepage-nginx.output=type=registry \
+           --set reference-data-api.output=type=registry \
+           --set signup-save-handler.output=type=registry \
+           --set signup-index-handler.output=type=registry
+        env:
+          USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+# the buildx --set args can be replaced with --push when 164 is available - https://github.com/docker/buildx/pull/164
