@@ -11,8 +11,8 @@ jobs:
         working-directory: ./ci
         run: |
           docker login -u $USER -p $TOKEN
-          docker-compose -f docker-compose-build-windows.yaml build
-          docker-compose -f docker-compose-build-windows.yaml push
+          docker-compose -f docker-compose-build-windows.yml build
+          docker-compose -f docker-compose-build-windows.yml push
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
