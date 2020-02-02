@@ -2,11 +2,11 @@ name: Windows image build
 
 on:
   push:
-    - paths:
-        - ".github/**"
-        - "ci/**"
-        - "docker/**"
-        - "src/**"
+    paths:
+      - ".github/**"
+      - "ci/**"
+      - "docker/**"
+      - "src/**"
   schedule:
     - cron: "0 0-7 * * *"
 
