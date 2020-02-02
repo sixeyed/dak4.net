@@ -1,6 +1,14 @@
 name: Linux image build
 
-on: push
+on:
+  push:
+    - paths:
+        - ".github/**"
+        - "ci/**"
+        - "docker/**"
+        - "src/**"
+  schedule:
+    - cron: "0 0-7 * * *"
 
 jobs:
   buildx:

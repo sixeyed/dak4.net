@@ -1,18 +1,53 @@
 name: Windows image build
 
-on: push
+on:
+  push:
+    - paths:
+        - ".github/**"
+        - "ci/**"
+        - "docker/**"
+        - "src/**"
+  schedule:
+    - cron: "0 0-7 * * *"
 
+# split into multiple builds, otherwise the runner runs out of disk space...
 jobs:
-  build:
+  build-sql:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@master
-      - name: Build and push images
+      - name: Build and push Server Core
         working-directory: ci
         run: |
           docker login -u $env:USER -p $env:TOKEN
-          docker-compose -f docker-compose-build-windows.yml build
-          docker-compose -f docker-compose-build-windows.yml push
+          docker-compose -f docker-compose-build-windows.yml build homepage signup-db
+          docker-compose -f docker-compose-build-windows.yml push homepage signup-db
+        env:
+          USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+  build-netfx:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and push .NET Fx
+        working-directory: ci
+        run: |
+          docker login -u $env:USER -p $env:TOKEN
+          docker-compose -f docker-compose-build-windows.yml build signup-web-v2 signup-save-handler
+          docker-compose -f docker-compose-build-windows.yml push signup-web-v2 signup-save-handler
+        env:
+          USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+  build-netcore:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and push .NET Core
+        working-directory: ci
+        run: |
+          docker login -u $env:USER -p $env:TOKEN
+          docker-compose -f docker-compose-build-windows.yml build reference-data-api signup-index-handler 
+          docker-compose -f docker-compose-build-windows.yml push reference-data-api signup-index-handler
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
