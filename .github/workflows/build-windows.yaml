@@ -11,6 +11,7 @@ on:
     - cron: "0 0-7 * * *"
 
 # split into multiple builds, otherwise the runner runs out of disk space...
+# and docker-compose push fails with exitcode 1, so push manually
 jobs:
   build-sql:
     runs-on: windows-2019
@@ -21,10 +22,12 @@ jobs:
         run: |
           docker login -u $env:USER -p $env:TOKEN
           docker-compose -f docker-compose-build-windows.yml build homepage signup-db
-          docker-compose -f docker-compose-build-windows.yml push homepage signup-db
+          docker image push dak4dotnet/sql-server:2017
+          docker image push dak4dotnet/homepage
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
   build-netfx:
     runs-on: windows-2019
     steps:
@@ -34,10 +37,12 @@ jobs:
         run: |
           docker login -u $env:USER -p $env:TOKEN
           docker-compose -f docker-compose-build-windows.yml build signup-web-v2 signup-save-handler
-          docker-compose -f docker-compose-build-windows.yml push signup-web-v2 signup-save-handler
+          docker image push dak4dotnet/signup-web:v2 
+          docker image push dak4dotnet/save-handler
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
   build-netcore:
     runs-on: windows-2019
     steps:
@@ -47,7 +52,8 @@ jobs:
         run: |
           docker login -u $env:USER -p $env:TOKEN
           docker-compose -f docker-compose-build-windows.yml build reference-data-api signup-index-handler 
-          docker-compose -f docker-compose-build-windows.yml push reference-data-api signup-index-handler
+          docker image push dak4dotnet/reference-data-api 
+          docker image push dak4dotnet/index-handler
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
