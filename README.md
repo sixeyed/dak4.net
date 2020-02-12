@@ -4,6 +4,8 @@ A workshop by [@EltonStoneman](https://twitter.com/EltonStoneman). This repo con
 
 > If you want a quick intro to the subject check out [Putting the ".NET" into Kubernetes](https://youtu.be/GBOPBfcJ2zM) from [.Net Conf](https://www.dotnetconf.net).
 
+![Windows image build](https://github.com/sixeyed/dak4.net/workflows/Windows%20image%20build/badge.svg) ![Linux image build](https://github.com/sixeyed/dak4.net/workflows/Linux%20image%20build/badge.svg)
+
 ## Outline
 
 Docker is a platform for running applications in lightweight units of compute called containers, and Kubernetes is an orchestrator for managing containers at scale. In this workshop you'll learn all about building and running .NET Framework and .NET Core apps in Docker containers, how to make your Dockerized apps ready for production, and how to run and manage containers in Kubernetes.
