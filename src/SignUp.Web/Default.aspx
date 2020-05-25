@@ -5,12 +5,6 @@
     <div class="jumbotron">
         <h1>Have you tried Play with Docker?</h1>
         <p class="lead">A simple, interactive and fun playground to learn Docker.</p>
-        <div style="text-align: right">
-            <!-- v2 -->
-            <a href="https://www.docker.com/products/docker-enterprise" target="_blank">
-                <img src="img/docker-enterprise.png"/>
-            </a>
-        </div>
     </div>
 
     <div class="row">

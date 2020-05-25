@@ -1,31 +1,14 @@
 ﻿### Pre-requisites
 
-If you want to follow along with the workshop you will need
+If you want to follow along with the workshop you will need:
 
-- Windows 10 with [Docker Desktop](https://docs.docker.com/docker-for-windows/install/), or 
-- Windows Server 2019 with [Docker Enterprise](https://docs.docker.com/install/windows/docker-ee/).
+- Windows 10 with [Docker Desktop](https://docs.docker.com/docker-for-windows/install/)
+
+(You can use Windows Server 2019 with [Docker Enterprise](https://docs.docker.com/install/windows/docker-ee/) but you can only do the Docker parts, not the Kubernetes section).
 
 You will build images and push them to Docker Hub during the workshop, so they are available to use later. You'll need a Docker ID to push images.
 
 - Sign up for a free Docker ID on [Docker Hub](https://hub.docker.com)
-
----
-
-## Use process isolation
-
-Windows 10 runs containers in a slightly different way from Windows Server. If you're using Windows 10 it's good to switch to the standard server functionality.
-
-Open _Settings_ from the Docker icon, select _Daemon_ and flick the _Advanced_ switch. Then paste this JSON config and click _Apply_:
-
-```
-{
-  "debug": true,
-  "experimental": false,
-  "exec-opts": [
-    "isolation=process"
-  ]
-}
-```
 
 ---
 

@@ -26,10 +26,9 @@ $env:dockerId='<insert-your-docker-id-here>'
 
 Now you can tag your images. This is like giving them an alias - Docker doesn't copy the image, it just adds a new tag to the existing image.
 
-_Add a new tag for your images which includes your Docker ID:_
+_Add a new tag for your tweet image which includes your Docker ID:_
 
 ```
-docker image tag hostname-app "$env:dockerId/hostname-app"; `
 docker image tag tweet-app "$env:dockerId/tweet-app"
 ```
 
@@ -43,7 +42,7 @@ You can list all your local images tagged with your Docker ID. You'll see the im
 docker image ls -f reference="$env:dockerId/*"
 ```
 
-> These image tags contain your Docker ID, so you can push them to Docker Hub.
+> You can push image tags with your Docker ID to Docker Hub.
 
 ---
 
@@ -65,10 +64,9 @@ docker login --username "$env:dockerId"
 
 [Docker Hub](https://hub.docker.com) is the public registry for Docker images.
 
-_Upload your images to the Hub:_
+_Upload your image to Hub:_
 
 ```
-docker image push $env:dockerId/hostname-app; `
 docker image push $env:dockerId/tweet-app
 ```
 
@@ -78,10 +76,10 @@ docker image push $env:dockerId/tweet-app
 
 ## Browse to Docker Hub
 
-Open your user page on Docker Hub and you'll see the images are there.
+Open your user page on Docker Hub and you'll see the image is there.
 
 ```
-firefox "https://hub.docker.com/r/$env:dockerId/hostname-app"
+firefox "https://hub.docker.com/r/$env:dockerId/tweet-app"
 ```
 
 > These are public images, so anyone can run containers from your images - and the apps will work in exactly the same way everywhere.
@@ -92,12 +90,12 @@ firefox "https://hub.docker.com/r/$env:dockerId/hostname-app"
 
 You've used simple tags so far. You can store many versions of the same app in a single repository by adding a version number to the tag.
 
-_Build a new version of the hostname app, tagged as `v2`:_
+_Build a new version of the Tweet app, tagged as `v2`:_
 
 ```
-cd "$env:workshop\docker\101-image-registries\hostname-app-v2"
+cd "$env:workshop\docker\101-image-registries\tweet-app-v2"
 
-docker image build --tag "$env:dockerId/hostname-app:v2" .
+docker image build --tag "$env:dockerId/tweet-app:v2" .
 ```
 
 > You can use any versioning scheme you like in the image tag.
@@ -111,10 +109,10 @@ A repository on Docker Hub can store a collection of Docker images, typically di
 _Push the `v2` tagged image:_
 
 ```
-docker image push "$env:dockerId/hostname-app:v2"
+docker image push "$env:dockerId/tweet-app:v2"
 ```
 
-> If you look at the_Tags_section of your Docker Hub repo, you'll see two versions listed.
+> If you look at the _Tags_section of your Docker Hub repo, you'll see two versions listed.
 
 ---
 

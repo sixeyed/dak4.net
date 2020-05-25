@@ -16,7 +16,7 @@ The new component is a simple REST API. You can browse the [source for the Refer
 
 The API uses a new technology stack:
 
-- [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.1), a fast cross-platform alternative to full ASP.NET
+- [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-3.1), a fast cross-platform alternative to full ASP.NET
 - [Dapper](https://github.com/StackExchange/Dapper), a fast lightweight ORM
 
 We can use new technologies without impacting the monolith, because this component runs in a separate container.
@@ -85,7 +85,7 @@ _Upgrade to v3:_
 docker-compose -f .\app\v3.yml up -d
 ```
 
-> [Global.asax.cs]() configures Dependency Injection using the .NET Standard library
+> [Global.asax.cs](./src/SignUp.Web/Global.asax.cs) configures Dependency Injection using the .NET Standard library
 
 ---
 

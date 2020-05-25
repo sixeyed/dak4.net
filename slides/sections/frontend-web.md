@@ -2,7 +2,7 @@
 
 ---
 
-Our demo app is a simple ASP.NET WebForms app which uses SQL Server for storage. It's a full .NET Framework app, which uses .NET version `4.7.2`.
+Our demo app is a simple ASP.NET WebForms app which uses SQL Server for storage. It's a full .NET Framework app, which uses .NET version `4.8`.
 
 Right now the web app is a monolith. By the end of the workshop we'll have broken it down, but first we need to get it running.
 
@@ -40,7 +40,7 @@ docker image build -t dak4dotnet/signup-web:v2 `
 
 That's it!
 
-You don't need Visual Studio or .NET 4.7.2 installed to build the app, you just need the source repo and Docker.
+You don't need Visual Studio or .NET 4.8 installed to build the app, you just need the source repo and Docker.
 
 _Try running the app in a container:_
 
@@ -54,13 +54,15 @@ docker container run `
 
 ## Try it out
 
-You can browse to port `8020` on the external domain name your Docker host (that's your Windows Server VM). Or you can browse direct on `localhost`:
+You can browse to port `8020` on the external domain name your Docker host (that's your Windows machine). Or you can browse direct on `localhost`:
 
 _[Browse to the v2 app](http://localhost:8020/app):_
 
 ```
 firefox http://localhost:8020/app
 ```
+
+> This will fail.
 
 ---
 
@@ -106,7 +108,7 @@ docker container ls
 
 Now there's a new web application container listening on port `8020`.
 
-You can browse to your Docker VM's domain name, or to [localhost](http://localhost:8020/app) on the VM:
+You can browse to your Docker machine's domain name, or to [localhost](http://localhost:8020/app) on the machine:
 
 ```
 firefox "http://localhost:8020/app"
@@ -130,6 +132,6 @@ docker container exec app_signup-db_1 `
 
 ## All good
 
-We're in a good place now. This could be a 10-year old WebForms app, and now you can run it in Docker and move it to the cloud - **no code changes**!
+We're in a good place now. This could be a 15-year old WebForms app, and now you can run it in Docker and move it to Kubernetes in the cloud **with no code changes**!
 
 It's also a great starting point for modernizing the application.

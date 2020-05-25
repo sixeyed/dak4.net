@@ -30,7 +30,7 @@ _List all containers:_
 docker container ls --all
 ```
 
-> Note that the container ID _is_ the container's hostname.
+> The container ID _is_ the container's hostname.
 
 ---
 
@@ -49,7 +49,7 @@ docker container run --interactive --tty --rm `
 
 ## Explore Windows Server Core
 
-The Windows Server Core container is pretty much Windows Server 2016 without the GUI.
+The Windows Server Core container is pretty much Windows Server 2019 without the GUI.
 
 _Explore the container environment:_
 
@@ -71,9 +71,11 @@ _Run SQL Server as a detached container:_
 
 ```
 docker container run --detach --name sql `
-  --env sa_password=DockerCon!!! `
+  --env sa_password=DockerCon!!! --isolation=process `
   dak4dotnet/sql-server:2017
 ```
+
+> Process isolation means the Windows 10 container behaves like a Windows Server container, and the container processes run directly on the machine.
 
 ---
 
@@ -148,7 +150,7 @@ _Check the processes running in the container:_
 Get-Process
 ```
 
-> One is `sqlservr`. There are two `powershell` processes, one is the container startup script and the other is this PowerShell session.
+> One is `sqlservr`. There are also `powershell` processes, one is the container startup script and the other is this PowerShell session.
 
 ---
 
@@ -168,7 +170,7 @@ Get-Process -Name sqlservr,powershell -IncludeUser
 
 ## Check processes on the Windows host
 
-On the Windows Server host, you can see the container processes.
+On the Windows machine, you can see the container processes.
 
 _Open **another PowerShell terminal** and run:_
 

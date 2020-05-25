@@ -1,5 +1,6 @@
 #escape=`
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+ARG WINVER=ltsc2019
+FROM mcr.microsoft.com/windows/servercore:$WINVER
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 ARG DOWNLOAD_URL="https://go.microsoft.com/fwlink/?linkid=829176"
