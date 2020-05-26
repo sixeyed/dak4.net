@@ -8,9 +8,6 @@ frontend-reverse-proxy.md
 backend-rest-api.md
 backend-async-messaging.md
 backend-analytics.md
-101-orchestration.md
-swarm-init-services.md
-swarm-stack-config.md
 k8s-pods-deployments.md
 dotnet-linux.md
 k8s-manifests-services.md

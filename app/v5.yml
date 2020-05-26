@@ -34,8 +34,9 @@ services:
       - app-net
 
   proxy:
-    image: traefik:v1.7.18-windowsservercore-1809
+    image: dak4dotnet/reverse-proxy
     command: --docker --docker.endpoint=npipe:////./pipe/docker_engine --docker.watch --api
+    isolation: process
     ports:
       - "8020:80"
       - "8080:8080"
@@ -59,7 +60,7 @@ services:
       - app-net
 
   message-queue:
-    image: nats:2.1.0-nanoserver-1809
+    image: nats:2.1.7-nanoserver-1809
     networks:
       - app-net
 
@@ -80,12 +81,12 @@ services:
       - app-net
 
   elasticsearch:
-    image: sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
+    image: dak4dotnet/elasticsearch
     networks:
       - app-net
 
   kibana:
-    image: sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
+    image: dak4dotnet/kibana
     ports:
       - "5601:5601"
     depends_on:

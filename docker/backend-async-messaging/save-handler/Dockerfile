@@ -1,5 +1,5 @@
 # escape=`
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.7.2-20190312-windowsservercore-ltsc2019 AS builder
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019 AS builder
 
 WORKDIR C:\src
 COPY src\SignUp.sln .
@@ -16,7 +16,7 @@ COPY src C:\src
 RUN msbuild SignUp.MessageHandlers.SaveProspect\SignUp.MessageHandlers.SaveProspect.csproj /p:OutputPath=c:\out\save-prospect\SaveProspectHandler
 
 # app image
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-ltsc2019
 
 WORKDIR /save-prospect-handler
 CMD .\SignUp.MessageHandlers.SaveProspect.exe

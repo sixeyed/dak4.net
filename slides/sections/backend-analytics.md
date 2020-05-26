@@ -35,9 +35,9 @@ docker image build --tag dak4dotnet/index-handler `
 
 The Elasticsearch team maintain their own Docker image for Linux containers, but not yet for Windows.
 
-It's easy to package your own image to run Elasticsearch in Windows containers, but we'll use one I've already built: `sixeyed/elasticsearch`.
+It's easy to package your own image to run Elasticsearch in Windows containers, but we'll use one I've already built: `dak4dotnet/elasticsearch`.
 
-The [Dockerfile](https://github.com/sixeyed/dockerfiles-windows/blob/master/elasticsearch/windowsservercore/ltsc2019/Dockerfile) downloads Elasticsearch and installs it on top of the official OpenJDK image.
+The [Dockerfile](./docker/elasticsearch/Dockerfile) downloads Elasticsearch and installs it on top of the official OpenJDK image.
 
 ---
 
@@ -47,7 +47,7 @@ Same story with Kibana, which is the analytics UI that reads from Elasticsearch.
 
 We'll use `sixeyed/kibana`.
 
-The [Dockerfile](https://github.com/sixeyed/dockerfiles-windows/blob/master/kibana/windowsservercore/ltsc2019/Dockerfile) downloads and installs Kibana, and it packages a [startup script](https://github.com/sixeyed/dockerfiles-windows/blob/master/kibana/windowsservercore/ltsc2019/init.ps1) with some default configuration.
+The [Dockerfile](./docker/kibana/Dockerfile) downloads and installs Kibana, and it packages a [startup script](./docker/kibana/kibana.bat) with some default configuration.
 
 ---
 
@@ -118,4 +118,4 @@ firefox http://localhost:5601
 
 The new event-driven architecture lets you add powerful features without updating the original monolith.
 
-There's no regresison testing to do for this release, the new analytics functionality won't impact the original app, and power users can build their own Kibana dashboards.
+There's no regression testing to do for this release, the new analytics functionality won't impact the original app, and power users can build their own Kibana dashboards.
