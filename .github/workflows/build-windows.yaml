@@ -22,7 +22,6 @@ jobs:
         run: |
           docker login -u $env:USER -p $env:TOKEN
           docker-compose -f docker-compose-build-windows.yml build homepage signup-db
-          docker image push dak4dotnet/sql-server:2017
           docker image push dak4dotnet/homepage
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
