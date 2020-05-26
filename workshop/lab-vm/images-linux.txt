@@ -1,8 +1,8 @@
 debian:10.1
 debian:9.11
-mcr.microsoft.com/dotnet/core/runtime:3.0
-mcr.microsoft.com/dotnet/core/sdk:3.0.100
-mcr.microsoft.com/dotnet/core/aspnet:3.0
+mcr.microsoft.com/dotnet/core/runtime:3.1.4
+mcr.microsoft.com/dotnet/core/sdk:3.1.300
+mcr.microsoft.com/dotnet/core/aspnet:3.1.4
 mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
 nats:2.1.0
 grafana/grafana:6.4.3

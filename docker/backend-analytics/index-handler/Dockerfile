@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.202 as builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1.300 as builder
 
 WORKDIR /src
 COPY src/SignUp.Core/SignUp.Core.csproj ./SignUp.Core/

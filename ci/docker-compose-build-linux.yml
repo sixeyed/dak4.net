@@ -2,11 +2,11 @@ version: '3.1'
 
 services:
 
-  signup-web-blazor:
-    image: dak4dotnet/signup-web-blazor:linux
+  signup-web-core:
+    image: dak4dotnet/signup-web-core:linux
     build:
       context: ..
-      dockerfile: ./docker/frontend-web/signup-web-blazor/Dockerfile
+      dockerfile: ./docker/frontend-web/signup-web-core/Dockerfile
 
   homepage-nginx:
     image: dak4dotnet/homepage-nginx:linux

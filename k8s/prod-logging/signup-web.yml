@@ -28,7 +28,7 @@ spec:
         component: web
     spec:
       containers:
-        - image: dak4dotnet/signup-web-blazor:linux
+        - image: dak4dotnet/signup-web-core:linux
           name: signup-web
           ports:
             - containerPort: 80

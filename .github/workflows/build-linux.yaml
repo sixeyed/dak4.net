@@ -25,7 +25,7 @@ jobs:
           docker login -u $USER -p $TOKEN
           docker buildx bake \
            -f docker-compose-build-linux.yml \
-           --set signup-web-blazor.output=type=registry \
+           --set signup-web-core.output=type=registry \
            --set homepage-nginx.output=type=registry \
            --set reference-data-api.output=type=registry \
            --set signup-save-handler.output=type=registry \

@@ -28,7 +28,7 @@ spec:
         component: db
     spec:
       containers:
-        - image: mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
+        - image: mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04
           name: signup-db
           env:
             - name: ACCEPT_EULA

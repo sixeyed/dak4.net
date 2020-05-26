@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SignUp.Entities;
+using System.Linq;
 
 namespace SignUp.MessageHandlers.SaveProspectCore.Model
 {
@@ -30,33 +29,21 @@ namespace SignUp.MessageHandlers.SaveProspectCore.Model
         private void SeedReferenceData()
         {
             var seeded = false;
-            if (this.Roles.Count() == 0)
+            if (Roles.Count() == 0)
             {
-                AddRole("-", "--Not telling");
-                AddRole("DA", "Developer Advocate");
-                AddRole("DM", "Decision Maker");
-                AddRole("AC", "Architect");
-                AddRole("EN", "Engineer");
-                AddRole("OP", "IT Ops");
+                foreach (var role in Role.GetSeedData())
+                {
+                    Roles.Add(role);
+                }
                 seeded = true;
-            }
+            } 
 
-            if (this.Countries.Count() == 0)
+            if (Countries.Count() == 0)
             {
-                AddCountry("-", "--Not telling");
-                AddCountry("GBR", "United Kingdom");
-                AddCountry("USA", "United States");
-                AddCountry("PT", "Portugal");
-                AddCountry("NOR", "Norway");
-                AddCountry("SWE", "Sweden");
-                AddCountry("IRE", "Ireland");
-                AddCountry("DMK", "Denmark");            
-                AddCountry("IND", "India");
-                AddCountry("LIT", "Lithuania");
-                AddCountry("SPN", "Spain");
-                AddCountry("BGM", "Belgium");
-                AddCountry("TNL", "The Netherlands");            
-                AddCountry("POL", "Poland");
+                foreach (var country in Country.GetSeedData())
+                {
+                    Countries.Add(country);                
+                }
                 seeded = true;
             }
 
@@ -64,24 +51,6 @@ namespace SignUp.MessageHandlers.SaveProspectCore.Model
             {
                 this.SaveChanges();
             }
-        }
-
-        private void AddCountry(string code, string name)
-        {
-            this.Countries.Add(new Country
-            {
-                CountryCode = code,
-                CountryName = name
-            });
-        }
-
-        private void AddRole(string code, string name)
-        {
-            this.Roles.Add(new Role
-            {
-                RoleCode = code,
-                RoleName = name
-            });
         }
     }
 }

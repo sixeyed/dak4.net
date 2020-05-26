@@ -1,0 +1,51 @@
+﻿@page
+@model SignUp.Web.Core.Pages.SignUpModel
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<h1>SignUp</h1>
+
+<div class="jumbotron">
+    <h1>Play with Docker is the best thing I've ever heard of!</h1>
+    <p class="lead">Here are my details. Sign me up.</p>
+</div>
+
+<form method="post">
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label asp-for="Prospect.FirstName" class="control-label">First Name</label>
+            <input asp-for="Prospect.FirstName" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Prospect.Country.CountryCode" class="control-label">Country</label>
+            <select asp-for="Prospect.Country.CountryCode" asp-items="Model.Countries" class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label asp-for="Prospect.LastName" class="control-label">Last Name</label>
+            <input asp-for="Prospect.LastName" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Prospect.CompanyName" class="control-label">Company Name</label>
+            <input asp-for="Prospect.CompanyName" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label asp-for="Prospect.EmailAddress" class="control-label">Email Address</label>
+            <input asp-for="Prospect.EmailAddress" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Prospect.Role.RoleCode" class="control-label">Your Main Role</label>
+            <select asp-for="Prospect.Role.RoleCode" asp-items="Model.Roles" class="form-control"></select>
+        </div>
+    </div>
+
+    <button type="submit">Go!</button>
+
+</form>

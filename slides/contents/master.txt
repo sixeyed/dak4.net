@@ -8,8 +8,8 @@ frontend-reverse-proxy.md
 backend-rest-api.md
 backend-async-messaging.md
 backend-analytics.md
-k8s-pods-deployments.md
 dotnet-linux.md
+k8s-pods-deployments.md
 k8s-manifests-services.md
 prod-intro.md
 prod-logging.md

@@ -3,7 +3,7 @@ version: "3.7"
 
 services:
   signup-db:
-    image: mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
+    image: mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=DockerCon!!!
@@ -11,7 +11,7 @@ services:
       - app-net
 
   signup-web:
-    image: dak4dotnet/signup-web-blazor:linux
+    image: dak4dotnet/signup-web-core:linux
     environment:
       - ReferenceDataApi:Url=http://reference-data-api/api
     labels:
@@ -32,7 +32,7 @@ services:
       - app-net
 
   proxy:
-    image: traefik:1.7.18-alpine
+    image: traefik:v1.7.24-alpine
     command: --api --docker --docker.watch
     ports:
       - "8020:80"
@@ -55,7 +55,7 @@ services:
       - app-net
 
   message-queue:
-    image: nats:2.1.0
+    image: nats:2.1.7-alpine3.11
     networks:
       - app-net
 
@@ -76,12 +76,12 @@ services:
       - app-net
 
   elasticsearch:
-    image: elasticsearch:6.8.3
+    image: elasticsearch:6.8.9
     networks:
       - app-net
 
   kibana:
-    image: kibana:6.8.3
+    image: kibana:6.8.9
     ports:
       - "5601:5601"
     depends_on:

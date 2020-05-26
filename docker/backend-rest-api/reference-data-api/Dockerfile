@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.202 as builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1.300 as builder
 
 WORKDIR /src
 COPY src/SignUp.Entities/SignUp.Entities.csproj ./SignUp.Entities/
@@ -14,7 +14,7 @@ RUN dotnet publish -c Release -o /out SignUp.Api.ReferenceData.csproj
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.4
 
 EXPOSE 80
-WORKDIR /reference-data-api
-ENTRYPOINT ["dotnet", "SignUp.Api.ReferenceData.dll"]
+WORKDIR /app
+ENTRYPOINT ["dotnet", "/app/SignUp.Api.ReferenceData.dll"]
 
 COPY --from=builder /out/ .
