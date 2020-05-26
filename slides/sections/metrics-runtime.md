@@ -37,7 +37,7 @@ _Run the Blazor app:_
 
 ```
 docker container run -d --publish-all `
-  --name blazor dak4dotnet/signup-web-blazor:linux
+  --name blazor dak4dotnet/signup-web-core:linux
 ```
 
 > `publish-all` publishes the container port to a random port on the host

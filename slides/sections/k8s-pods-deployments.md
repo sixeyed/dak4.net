@@ -1,8 +1,10 @@
 # Kubernetes 101
 
-Kubernetes has many moving parts which run as separate containers. Deploying Kubernetes is not as simple as `docker swarm init`.
+Kubernetes has many moving parts which run as separate containers. Deploying Kubernetes is not simple  (see [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)).
 
-> See [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
+It's a complex platform but all the major cloud providers offer a managed Kubernetes service which removes a lot of the complexity - and makes your apps portable across the data centre and any cloud.
+
+That's one reason why Kubernetes is so popular, and why it's worth investing in.
 
 ---
 
@@ -14,257 +16,179 @@ This is a Linux-only cluster, so we can run .NET Core apps in Linux containers, 
 
 ---
 
-## Clean up from swarm mode
+## Clean up from earlier
 
-First we'll clean up all the running swarm services.
+First we'll clean up all the running Windows containers.
 
-_Delete all swarm stacks:_
+_Delete all containers:_
 
 ```
-docker stack rm $(docker stack ls)
+docker container rm -f $(docker container ls -aq)
 ```
-
----
-
-## Switch to Linux containers
-
-Right-click the Docker whale icon in the taskbar, and select _Switch to Linux containers_
-
-![Switching to Linux containers in Docker Desktop](/img/screenshots/linux-containers.png)
 
 ---
 
 ## Enable Kubernetes
 
-Kubernetes isn't deployed by default. You install it by right-clicking the whale icon, selecting _Settings_ and then enabling Kubernetes:
+Kubernetes isn't deployed by default. You install it by right-clicking the whale icon, selecting _Settings_, then  _Kubernetes_ and checking _Enable Kubernetes_:
 
 ![Enabling Kubernetes in Docker Desktop](/img/screenshots/enable-kubernetes.png)
 
-> You only see this option in Linux container mode
+> You only see this option in Linux container mode. It will take a while to download and start all the components.
 
 ---
 
 ## Checking Kubernetes
 
-Kubernetes uses Docker to run containers, but it uses the Docker API - you don't (usually) interact with Docker directly.
+Kubernetes uses a container runtime like Docker to run containers, so you work with the Kubernetes API and it works with the Docker API.
 
-Instead you use the `kubectl` command line:
+You use the `kubectl` command line to work with Kubernetes:
 
 ```
 kubectl get nodes
 ```
 
----
-
-## Understanding pods
-
-The basic unit of work in Kubernetes is not a container - containers are wrapped in _pods_. One [pod](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) hosts one or more containers, and they share the same network, process and memory space.
-
-This is the fundamental different between Kubernetes and other orchestrators. It enables some powerful scenarios, like [sidecar containers](https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/).
+> This is a single node cluster, but you work with clusters of any size in the same way.
 
 ---
 
-## Creating pods
+## Understanding Pods
 
-You deploy apps to Kubernetes by appying manifest files - this is the declarative approach. We'll explore the basics using the imperative approach, but that's not recommended for real work.
+The basic unit of work in Kubernetes is not a container - containers are wrapped in _Pods_. One [Pod](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) hosts one or more containers, and they share the same network and filesystem space.
+
+Pods are responsible for keeping their container(s) running - if the app process ends and the container exits, then the Pod replaces it with a new container.
+
+---
+
+## Creating Pods
+
+You deploy apps to Kubernetes by appying YAML files that describe the desired state. We'll start with a simple [Pod that runs a sleep container](./k8s/101/sleep-pod.yaml).
 
 _Run a simple application in a pod:_
 
 ```
-kubectl run pinger --image debian:9.11 --command ping -- localhost
+kubectl apply -f ./k8s/101/sleep-pod.yaml
 ```
 
 ---
 
-## More than just a pod
+## Check the Pod
 
-The pod is the basic unit of work in Kubernetes, but you can't create a pod by itself.
+Kubectl is for managing resources, and has a standard set of commands which you can use with different types  of object.
 
-Pods are managed by other resources called _controllers_, which let you work at different layers of abstraction.
-
-_Check the resources Kubernetes created:_
+_Show the basic details of the Pod, and then the full information:_
 
 ```
-kubectl get all
-```
+kubectl get pods 
 
----
-
-## Pods, ReplicaSets and Deployments
-
-The `Deployment` resource is a type of _controller_ - it describes the desired state of other resources. Kubernetes monitors the cluster to ensure the desired state of deployments is met.
-
-A `ReplicaSet` manages a replicated set of pods. When you scale up in Kubernetes you get multiple pods, and that's managed by the ReplicaSet. The ReplicaSet is managed by the Deployment :)
-
----
-
-## Managing Kubernetes resources
-
-`kubectl` has a standard set of verbs to work with resources. Most can return a YAML or JSON response to support automation.
-
-The `describe` command gives you a human-readable description of one or more resources:
-
-```
-kubectl describe deployment/pinger
-
-kubectl describe replicaset
-
-kubectl describe pods
-
+kubectl describe pod sleep
 ```
 
 ---
 
-## Checking logs
+## Manage the Pod
 
-All the management of your Docker containers can be done with Kubernetes. You view the container logs from the pod resource.
+You can interact with the app container in the Pod, using similar commands you use in Docker. 
 
-_You can use templates with `kubectl` to get specific fields. This gets the pod name and shows its logs:_
-
-```
-$pod=$(kubectl get pods --template '{{range .items}}{{.metadata.name}}{{end}}')
-
-kubectl logs $pod
-```
-
----
-
-## Pod logs _are_ container logs
-
-Kubernetes is managing all the containers in the cluster, but in a single-node cluster those containers are all on your machine.
-
-_You can also manage them with Docker:_
+- `kubectl exec` is like `docker exec`, running a command in the Pod container.
+- `kubectl logs` is like `docker logs`, showing the output from the container process.
 
 ```
-$container=$(docker container ls --format '{{.ID}}')
+kubectl exec sleep -- hostname
 
-docker container logs $container
+kubectl logs sleep
 ```
 
 ---
 
-## Scale
+## Pods manage containers
 
-Kubernetes generated a ReplicasSet with a scale of one, so you have one pod running.
+The Pod is a layer of abstraction over the container, which manages the container for you. 
 
-_Scale up by specifying more replicas:_
+If the container is removed, or the container process exits, the Pod restarts by creating a new container.
+
+_Cause the sleep container to exit by killing its processes:_
 
 ```
-kubectl scale --replicas=3 deployment/pinger
+docker container ls
+
+kubectl exec sleep -- killall5
+
+docker container ls
+
+kubectl get pod sleep
+```
+
+---
+
+## What manages Pods?
+
+A Pod is assigned to a single node in the Kubernetes cluster. 
+
+The Pod we've created doesn't have any other objects managing it, so if the Pod is deleted it won't be replaced.
+
+_Delete the Pod and check what's running:_
+
+```
+kubectl delete pod sleep
 
 kubectl get pods
+
+docker container ls
 ```
 
 ---
 
-## Get logs by label
+## Understanding Deployments
 
-There's no option to fetch all the logs for a deployment or a ReplicaSet. Instead you can fetch logs for all pods using a label selector.
+You don't usually create Pods directly like this - you create a _controller_ which manages Pods for you.
 
-```
-kubectl logs --selector run=pinger
-```
+The `Deployment` is the most common type of controller. Deployments are responsible for running a specified number of Pods, and they have management features for rolling out application updates.
 
-> The `run=pinger` label was applied by the deployment. Labels and selectors are the basic mechanism for decoupling resources.
-
----
-
-## Updating deployments
-
-You started your pod with `kubectl run` but Kubernetes created a deployment resource for you. You can use that deployment to update the running app.
-
-_Set a new image to upgrade to the latest Debian image:_
+Deployments contain a Pod spec which they use as a template to create Pods. This [Deployment spec](./k8s/101/sleep-deployment.yaml) runs the same sleep app.
 
 ```
-kubectl set image deployment/pinger pinger=debian:10.1
+kubectl apply -f ./k8s/101/sleep-deployment.yaml
 ```
 
 ---
 
-## Check the update
+## Navigation by label
 
-Changes to the pod specification are rolled out across the cluster. When you check running pods you may find them in different states while the deployment stabilises.
+Deployments add their own identifiers to Pod names, so it's hard to work with the Pod by name.
 
-_Check your running pods and containers:_
+Kubernetes stores metadata for objects, which can include _labels_. Labels are key-value pairs which can contain anything that helps you work with the object.
+
+_Show the labels for the new Pod and use a label selector to print logs:_
 
 ```
-kubectl get all
+kubectl get pods --show-labels
 
-docker container ls --all
+kubectl logs -l app=sleep
+```
+
+> Labels are how Deployments find the Pods they own
+
+---
+
+## Deployments manage Pods
+
+A Deployment is another abstraction in the compute layer, sitting on top of Pods. Pods ensure their container(s) are running, and Deployments ensure the right number of Pods are running.
+
+_Delete the Pod and the Deployment creates a replacement:_
+
+```
+kubectl delete pods -l app=sleep
+
+kubectl get pods --show-labels
+
+kubectl logs -l app=sleep
 ```
 
 ---
 
-## Working with rollouts
+## That's the compute layer
 
-You can manage deployment updates with the `rollout` commands. Kubernetes maintains the history of changes.
+Well, not really. Deployments actually manage another type of controller called a ReplicaSet, and it manages Pods. There are other Pod controllers for different types of application too.
 
-_Check the rollout history:_
-
-```
-kubectl rollout history deployment/pinger
-```
-
-> You can add notes to updates which would be shown here
-
----
-
-## Rolling back
-
-Rolling back an update is a one-line command, and this will be a gradual rollback.
-
-_Rollback the update and check the history:_
-
-```
-kubectl rollout undo deployment/pinger
-
-kubectl rollout history deployment/pinger
-```
-
-> Kubernetes can maintain longer histories than Docker Swarm
-
----
-
-## Deleting pods
-
-You can delete resources at different levels, but you may not get the results you expect.
-
-_Try deleting all the pods for the app:_
-
-```
-kubectl delete pods --all --force --grace-period=0
-
-kubectl get all
-```
-
-> They were recreated, because the ReplicaSet still exists and its job is to keep three pods running
-
----
-
-## Deleting replica sets
-
-Resources have cascading deletes, so if we delete the ReplicaSet that manages the pods, it will delete all the pods too.
-
-_Won't it?_
-
-```
-kubectl delete rs --all --force --grace-period=0
-
-kubectl get all
-```
-
-> Yes, but the Deployment resource still exists, and its job is to keep the ReplicaSet deployed
-
----
-
-## Deleting deployments
-
-So the deployment is the top-level resource. Deleting that will delete the ReplicaSet, which in turn deletes the pods.
-
-_Finally:_
-
-```
-kubectl delete deployment pinger
-
-kubectl get all
-```
+Deployments are the ones you'll use most frequently, and now we've had an introduction to how they work, how you define them, how Kubernetes uses labels, and how you use Kubectl to manage apps. 

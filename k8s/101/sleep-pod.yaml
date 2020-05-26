@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sleep
+  labels:
+    dak4dotnet: '101'
+spec:
+  containers:
+    - name: sleep
+      image: dak4dotnet/sleep
