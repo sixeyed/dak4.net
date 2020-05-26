@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-      - name: Build and push Server Core
+      - name: Build and push K8s samples
         working-directory: ci
         run: |
-          docker login -u $env:USER -p $env:TOKEN
+          docker login -u $USER -p $TOKEN
           docker-compose -f docker-compose-build-k8s.yml build
           docker-compose -f docker-compose-build-k8s.yml push
         env:
