@@ -25,12 +25,7 @@ jobs:
           docker login -u $USER -p $TOKEN
           docker buildx bake \
            -f docker-compose-build-linux.yml \
-           --set signup-web-core.output=type=registry \
-           --set homepage-nginx.output=type=registry \
-           --set reference-data-api.output=type=registry \
-           --set signup-save-handler.output=type=registry \
-           --set signup-index-handler.output=type=registry
+           --push
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-# the buildx --set args can be replaced with --push when 164 is available - https://github.com/docker/buildx/pull/164

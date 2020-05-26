@@ -1,0 +1,24 @@
+name: Linux Kubernets image builds
+
+on:
+  push:
+    paths:
+      - ".github/workflows/build-k8s.yaml"
+      - "k8s/**"
+  schedule:
+    - cron: "0 0-7 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and push Server Core
+        working-directory: ci
+        run: |
+          docker login -u $env:USER -p $env:TOKEN
+          docker-compose -f docker-compose-build-k8s.yml build
+          docker-compose -f docker-compose-build-k8s.yml push
+        env:
+          USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
