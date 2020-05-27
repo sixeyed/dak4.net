@@ -1,7 +1,5 @@
 # Production Readiness - Config
 
----
-
 A key benefit of containers is that you deploy the same image in every environment, so what's in production is exactly what you tested.
 
 You should package images with a default set of config for running in dev, but you need a way to inject configuration from the environment into the container.
@@ -24,23 +22,27 @@ That works fine for containers, and you can extend it to give more control to th
 
 Docker and Kubernetes supply app configuration by setting up the container environment. Kubernetes has three options for that:
 
-- environment variables
-- configMaps which can be surfaced as files
-- secrets which can also be surfaced as files
+- environment variables set in the Pod spec
+- [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/) surfaced as files or environment variables
+- [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) surfaced as files or environment variables
 
 ---
 
-## Environment variables in Kube manifests
+## Environment variables in Pod specs
 
 Environment variables are the simplest. They're fine for individual values which are different between environments.
 
-[k8s/prod-config/reference-data-api.yml](./k8s/prod-config/reference-data-api.yml) uses an environment variable for the database connection string. Not a great option but simple to demonstrate (Kubernetes uses double-underscores as separators instead of the usual colons).
+The updates [reference-data-api.yml](./k8s/prod-config/reference-data-api.yml) uses an environment variable for the database connection string. Not a great option but simple to demonstrate (Kubernetes uses double-underscores as separators instead of the usual colons).
 
-_Deploy the API - its bevahiour is the same:_
+_Deploy the API - its behaviour is the same:_
 
 ```
 kubectl apply -f ./k8s/prod-config/reference-data-api.yml
+
+kubectl get pods -l component=api
 ```
+
+> This is a new Pod because the spec has changed
 
 ---
 
@@ -51,7 +53,7 @@ They're simple to use, but you should avoid them for any sensitive data.
 _You can read all the environment variables from `kubectl`_:
 
 ```
-kubectl describe pod --selector="component=api"
+kubectl describe pod -l component=api
 ```
 
 > Apps might print out all environment variables during a crash too
@@ -60,21 +62,23 @@ kubectl describe pod --selector="component=api"
 
 ## Storing config data in ConfigMaps
 
-`ConfigMaps` are more flexible. You can create them from files so they can contain JSON, XML or key-value pairs - whatever your app needs.
+ConfigMaps are more flexible. You can create them from files so they can contain JSON, XML or key-value pairs - whatever your app needs.
 
-They also decouple the app definition from the actual config, so the app YAML file can live in GitHub but the config files could be managed by ops in a separate system.
+They also decouple the app definition from the actual config, so the app spec file can live in GitHub but the config specs could be managed by ops in a separate system.
 
-_Create `ConfigMap` object from the file [config.json](./k8s/prod-config/configMaps/save-handler/config.json):_
+_Deploy a ConfigMap for the save handler [save-handler-configMap.yml](./k8s/prod-config/configMaps/save-handler-configMap.yml):_
 
 ```
-kubectl create configmap save-handler-config --from-file=./k8s/prod-config/configMaps/save-handler/config.json
+kubectl apply -f ./k8s/prod-config/configMaps/save-handler-configMap.yml
+
+kubectl get configmaps
 ```
 
 ---
 
-## Loading ConfigMaps into pods
+## Loading ConfigMaps into Pods
 
-`ConfigMap`s can be loaded into pods as volume mounts. [k8s/prod-config/save-handler.yml](./k8s/prod-config/save-handler.yml) loads the contents of the `config` volume into the path `/app/config` in the container.
+ConfigMaps can be loaded into pods as volume mounts. The updated [save-handler.yml](./k8s/prod-config/save-handler.yml) loads the contents of the config volume into the path `/app/config` in the container.
 
 The `config` volume is loaded from the `save-handler-config` ConfigMap, so that `config.json` file is materialized into the container in the location the app is expecting.
 
@@ -82,6 +86,8 @@ _Deploy the handler using the ConfigMap:_
 
 ```
 kubectl apply -f ./k8s/prod-config/save-handler.yml
+
+kubectl exec deploy/save-handler -- cat /app/configs/config.json
 ```
 
 ---
@@ -93,46 +99,42 @@ You can't see the contents of a ConfigMap by describing the pod - you can only s
 _This doesn't show you the database connection string:_
 
 ```
-kubectl describe pod --selector='component=save-handler'
+kubectl describe pod -l component=save-handler
 ```
 
-> But you could `exec` into the container to read the file
+> But you can read it if you have access to the Pod
 
 ---
 
 ## Managing ConfigMaps
 
-Kubernetes has an [RBAC model]() which lets you secure access - roles could have permission to describe `pod` resources, but not `ConfigMaps`.
+Kubernetes supports [role-based access control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) for object management, which lets you secure access. Roles could have permission to use Pods, but not ConfigMaps.
 
-If you have permission you can list all ConfigMaps:
-
-```
-kubectl get configmap
-```
-
-And read the contents:
+If you have permission you read the contents of a ConfigMap:
 
 ```
 kubectl describe configmap save-handler-config
 ```
 
+> RBAC is not deployed by default in most Kubernetes distros
+
 ---
 
 ## Storing sensitive data in Secrets
 
-Secrets are better for sensitive data like this. They work like ConfigMaps but they can be encrypted at rest inside Kubernetes.
+Secrets are better for sensitive data like connection strings and API keys. They work like ConfigMaps but they can be encrypted at rest in the cluster database, and in transit to the nodes.
 
-_Create a secret from the [secret.json](./k8s/prod-config/secrets/signup-web/secret.json) file:_
+_Deploy a Secret for the web app defined in [signup-web-secret.yml](./k8s/prod-config/secrets/signup-web-secret.yml):_
 
 ```
-kubectl create secret generic signup-web-secret --from-file=./k8s/prod-config/secrets/signup-web/secret.json
+kubectl apply -f ./k8s/prod-config/secrets/signup-web-secret.yml
 ```
 
 ---
 
 ## Loading Secrets into pods
 
-Secrets can be the source for volume mounts too. [k8s/prod-config/signup-web.yml](./k8s/prod-config/signup-web.yml) uses a secret for the database connection string.
+Secrets can be the source for volume mounts too. The updated [signup-web.yml](./k8s/prod-config/signup-web.yml) uses a secret for the database connection string.
 
 The secret `signup-web-secret` gets loaded into the path `/app/secrets`. There's one file in the secret, so the app finds it at `/app/secrets/secret.json`.
 
@@ -151,7 +153,7 @@ Describing the pod will show you which secrets are loaded and where they're surf
 _You'll see here there's a default Kubernetes secret too:_
 
 ```
-kubectl describe pod --selector='component=web'
+kubectl describe pod -l component=web
 ```
 
 > Anyone with `exec` permissions can still read the secret in the pod
@@ -167,7 +169,7 @@ You can list and describe secrets - subject to RBAC permissions.
 _You won't see the plain text though:_
 
 ```
-kubectl get secrets
+kubectl get secrets -l dak4dotnet
 
 kubectl describe secret signup-web-secret
 ```
@@ -181,6 +183,8 @@ Base-64 encoding just adds obscurity to stop easy leaking of secrets. This isn't
 _Linux and Windows shells support base-64 decoding:_
 
 ```
+kubectl get secret signup-web-secret -o 'go-template={{index .data `secret.json`}}'
+
 $secret = $(kubectl get secret signup-web-secret -o 'go-template={{index .data `secret.json`}}')
 
 [System.Text.Encoding]::Ascii.GetString([System.Convert]::FromBase64String($secret))

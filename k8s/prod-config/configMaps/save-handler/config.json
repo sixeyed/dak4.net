@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "SignUpDb": "Server=signup-db;Database=SignUp;User Id=sa;Password=DockerCon!!!"
-  }
-}

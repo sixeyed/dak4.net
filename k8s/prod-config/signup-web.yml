@@ -37,10 +37,22 @@ spec:
             - containerPort: 80
               name: http
           volumeMounts:
+            - name: logs
+              mountPath: /logs
             - name: secrets
               mountPath: "/app/secrets"
               readOnly: true
+        - image: alpine:3.11
+          name: signup-web-logs
+          command: ["tail"]
+          args: ["-n", "1", "-F", "/logs/signup-web.log"]
+          volumeMounts:
+            - name: logs
+              mountPath: /logs
+              readOnly: true
       volumes:
+        - name: logs
+          emptyDir: {}
         - name: secrets
           secret:
             secretName: signup-web-secret
