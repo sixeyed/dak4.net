@@ -36,7 +36,7 @@ spec:
           volumeMounts:
             - name: logs
               mountPath: /logs
-        - image: alpine:3.10
+        - image: alpine:3.11
           name: signup-web-logs
           command: ["tail"]
           args: ["-n", "1", "-F", "/logs/signup-web.log"]

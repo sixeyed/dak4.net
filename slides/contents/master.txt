@@ -12,7 +12,6 @@ dotnet-linux.md
 k8s-101-compute.md
 k8s-101-networking.md
 k8s-signup-app.md
-prod-intro.md
 prod-logging.md
 prod-config.md
 prod-dependencies.md
