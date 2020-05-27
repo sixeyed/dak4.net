@@ -39,12 +39,8 @@ namespace SignUp.Web.Core
             }
 
             app.UsePathBase("/app");
-
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

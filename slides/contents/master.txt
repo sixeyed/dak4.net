@@ -9,8 +9,9 @@ backend-rest-api.md
 backend-async-messaging.md
 backend-analytics.md
 dotnet-linux.md
-k8s-pods-deployments.md
-k8s-manifests-services.md
+k8s-101-compute.md
+k8s-101-networking.md
+k8s-signup-app.md
 prod-intro.md
 prod-logging.md
 prod-config.md

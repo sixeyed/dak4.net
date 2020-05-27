@@ -28,7 +28,7 @@ spec:
         component: message-queue
     spec:
       containers:
-      - image: nats:2.1.0
+      - image: nats:2.1.7-alpine3.11
         name: message-queue
         ports:
         - containerPort: 4222

@@ -18,3 +18,4 @@ WORKDIR /app
 ENTRYPOINT ["dotnet", "/app/SignUp.Api.ReferenceData.dll"]
 
 COPY --from=builder /out/ .
+COPY ./docker/backend-rest-api/reference-data-api/appsettings.json .

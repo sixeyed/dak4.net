@@ -1,9 +1,3 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: traefik-ingress-controller
-  namespace: kube-system
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -22,7 +16,7 @@ spec:
   type: LoadBalancer
 ---
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: traefik-ingress-controller
   namespace: kube-system
@@ -39,10 +33,8 @@ spec:
         k8s-app: traefik-ingress-lb
         name: traefik-ingress-lb
     spec:
-      serviceAccountName: traefik-ingress-controller
-      terminationGracePeriodSeconds: 60
       containers:
-      - image: traefik:1.7.18-alpine
+      - image: traefik:v1.7.24-alpine
         name: traefik-ingress-lb
         ports:
         - name: http
@@ -53,3 +45,5 @@ spec:
         - --api
         - --kubernetes
         - --logLevel=INFO
+      nodeSelector:
+        beta.kubernetes.io/os: linux

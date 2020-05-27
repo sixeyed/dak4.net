@@ -28,7 +28,7 @@ spec:
         component: elasticsearch
     spec:
       containers:
-      - image: elasticsearch:6.8.3
+      - image: elasticsearch:6.8.9
         name: elasticsearch
         ports:
         - containerPort: 9200
