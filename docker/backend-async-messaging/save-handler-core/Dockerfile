@@ -15,7 +15,7 @@ RUN dotnet publish -c Release -o /out SignUp.MessageHandlers.SaveProspectCore.cs
 # app image
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1.4
 
-WORKDIR /save-prospect-handler
+WORKDIR /app
 ENTRYPOINT ["dotnet", "SignUp.MessageHandlers.SaveProspectCore.dll"]
 
 COPY --from=builder /out/ .

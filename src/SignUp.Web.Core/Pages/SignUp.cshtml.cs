@@ -34,6 +34,11 @@ namespace SignUp.Web.Core.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
+            if (TakedownModel.IsOffline)
+            {
+                return new StatusCodeResult(503);
+            }
+
             Prospect = new Prospect
             {
                 Country = new Country(),

@@ -1,5 +1,7 @@
 # Production Readiness - Config
 
+---
+
 A key benefit of containers is that you deploy the same image in every environment, so what's in production is exactly what you tested.
 
 You should package images with a default set of config for running in dev, but you need a way to inject configuration from the environment into the container.

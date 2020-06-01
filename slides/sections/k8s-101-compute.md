@@ -1,5 +1,7 @@
 # Kubernetes 101 - Compute
 
+---
+
 [Kubernetes](https://kubernetes.io) has many moving parts which run as separate containers. Together they provide services to run your apps - a compute layer, a networking layer and a storage layer.
 
 It's a complex platform but all the major cloud providers offer a managed Kubernetes service which removes a lot of the complexity - and makes your apps portable across the data centre and any cloud.

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signup-db
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: db
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: db
+    spec:
+      containers:
+        - image: mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04
+          name: signup-db
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              value: "DockerCon!!!"
+          ports:
+            - containerPort: 1433
+              name: mssql
+          readinessProbe:
+            tcpSocket:
+              port: mssql
+          livenessProbe:
+            tcpSocket:
+              port: mssql
+      nodeSelector:
+        beta.kubernetes.io/os: linux

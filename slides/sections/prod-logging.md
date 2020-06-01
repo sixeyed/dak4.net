@@ -1,5 +1,7 @@
 # Production Readiness - Logging
 
+---
+
 The basic goal of logging is to get your application logs out of the container, so you can read them with `docker container logs` or `kubectl logs`.
 
 You can do log aggregation in your container platform, collecting and storing all the log entries from all your containers in a central system - but first you need to get them out from the container.

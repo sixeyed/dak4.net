@@ -1,5 +1,7 @@
 # Kubernetes 101 - Networking
 
+---
+
 Pods have an IP address assigned by Kubernetes and every Pod can communicate with other Pods by IP address.
 
 Pods are not permanent though, they get replaced if they fail and during app updates, and new Pods get new IP addresses.

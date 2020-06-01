@@ -14,7 +14,6 @@ k8s-101-networking.md
 k8s-signup-app.md
 prod-logging.md
 prod-config.md
-prod-dependencies.md
 prod-health.md
 metrics-runtime.md
 metrics-application.md

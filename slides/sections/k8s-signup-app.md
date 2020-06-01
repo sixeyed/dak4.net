@@ -1,5 +1,7 @@
 # Deploying to Kubernetes
 
+---
+
 We've used `kubectl` to create and Kubernetes resources defined in YAML files, called _manifests_.
 
 Manifests can be used to describe every part of your app, from the application and its configuration to the network traffic and the storage components you need.
