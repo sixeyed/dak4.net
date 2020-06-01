@@ -4,7 +4,7 @@ A workshop by [@EltonStoneman](https://twitter.com/EltonStoneman). This repo con
 
 > If you want a quick intro to the subject check out [Putting the ".NET" into Kubernetes](https://youtu.be/GBOPBfcJ2zM) from [.Net Conf](https://www.dotnetconf.net).
 
-![Windows image build](https://github.com/sixeyed/dak4.net/workflows/Windows%20image%20build/badge.svg) ![Linux image build](https://github.com/sixeyed/dak4.net/workflows/Linux%20image%20build/badge.svg)
+![Windows image build](https://github.com/sixeyed/dak4.net/workflows/Windows%20image%20build/badge.svg) ![Linux image build](https://github.com/sixeyed/dak4.net/workflows/Linux%20image%20build/badge.svg) 
 
 ## Outline
 
@@ -17,6 +17,10 @@ Migrating your .NET apps to Docker is an easy way to power a cloud migration wit
 ### Live deliveries
 
 This workshop is a living thing. There are subdomains of the website and code branches for previous deliveries.
+
+#### 2020
+
+- [techorama20](https://github.com/sixeyed/dak4.net/tree/techorama20) - Techorama 2020, hosted [here](https://techorama20.dak4.net)
 
 #### 2019
 
