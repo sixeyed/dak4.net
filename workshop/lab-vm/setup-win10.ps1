@@ -46,17 +46,22 @@ foreach ($tag in $images) {
 Write-Output '-VM setup script done-'
 
 # Manual steps: 
+# `net localgroup "docker-users" "docker" /add`
+# Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+# restart
+
 # - launch Docker Desktop (requires reboot)
 # - switch to Linux containers
-# - bump VM RAM to 4GB
+# - bump VM RAM to 6GB
 # - enable Kubernetes
 
 # - pull Linux images
 
-# $images = Get-Content -path C:\scm\dak4.net\workshop\lab-vm\images-linux.txt
-# foreach ($tag in $images) {
-#    Write-Output "** Processing tag: $tag"
-#    & docker image pull $tag
-# }
+ $images = Get-Content -path C:\scm\dak4.net\workshop\lab-vm\images-linux.txt
+ foreach ($tag in $images) {
+    Write-Output "** Processing tag: $tag"
+    & docker image pull $tag
+ }
 
 # - switch back to Windows

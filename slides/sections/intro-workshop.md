@@ -34,7 +34,7 @@ There's a _Docker Desktop_ shortcut on the desktop, launch that to run Docker. Y
 
 Now run a script to make sure everything is up to date.
 
-_Open a PowerShell prompt from the start menu and run:_
+_Open a PowerShell (or Windows Terminal) prompt from the start menu and run:_
 
 ```
 cd $env:workshop
