@@ -17,12 +17,14 @@ spec:
         - image: dak4dotnet/signup-web-core:linux
           name: signup-web
           env:
-            - name: ReferenceDataApi__Url
-              value: "http://reference-data-api/api"
+            - name: PopulateRandomData
+              value: "true"
           ports:
             - containerPort: 80
               name: http
           volumeMounts:
+            - name: logs
+              mountPath: /logs
             - name: secrets
               mountPath: "/app/secrets"
               readOnly: true
@@ -32,7 +34,17 @@ spec:
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 5
+        - image: alpine:3.11
+          name: signup-web-logs
+          command: ["tail"]
+          args: ["-n", "1", "-F", "/logs/signup-web.log"]
+          volumeMounts:
+            - name: logs
+              mountPath: /logs
+              readOnly: true
       volumes:
+        - name: logs
+          emptyDir: {}
         - name: secrets
           secret:
             secretName: signup-web-secret

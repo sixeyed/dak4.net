@@ -24,7 +24,7 @@ When a container gets started it could take a few seconds for the app to be avai
 
 The reference data API has a [/ready](./src/SignUp.Api.ReferenceData/Controllers/ReadyController.cs) endpoint which checks it has access to the SQL Server database.
 
-This is a simple dependency check which is used in a readiness probe in [k8s/prod-health/reference-data-api-broken.yml](./k8s/prod-health/reference-data-api-broken.yml).
+This is a simple dependency check which is used in a readiness probe in [k8s/prod-health/broken/reference-data-api.yml](./k8s/prod-health/broken/reference-data-api.yml).
 
 > This spec is misconfigured so the readiness check will always fail
 
@@ -50,7 +50,7 @@ kubectl get endpoints reference-data-api
 This deployment adds a readiness check which always fails. Update the API:
 
 ```
-kubectl apply -f k8s/prod-health/reference-data-api-broken.yml
+kubectl apply -f k8s/prod-health/broken/reference-data-api.yml
 ```
 
 Check the Pod status:
@@ -208,7 +208,7 @@ kubectl apply -f k8s/prod-health/message-queue.yml -f k8s/prod-health/signup-db.
 
 ---
 
-## And now we've broken the API
+## And now we've broken the API again
 
 The new database is empty, without a database schema - and the API doesn't have the functionality to create the schema from scratch.
 

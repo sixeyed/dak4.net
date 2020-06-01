@@ -12,9 +12,9 @@ There are application metrics in the message handlers, so we can see the flow of
 
 The message handlers use the same `prometheus-net` NuGet package, but they explicitly record app metrics.
 
-You can see this in the [QueueWorker.cs](./src/SignUp.MessageHandlers.SaveProspectCore/Workers\QueueWorker.cs) file for the save handler, and the [QueueWorker.cs](./src/SignUp.MessageHandlers.IndexProspect/Workers/QueueWorker.cs) file for the index handler.
+You can see this in the [QueueWorker.cs](./src/SignUp.MessageHandlers.SaveProspectCore/Workers/QueueWorker.cs) file for the save handler, and the [QueueWorker.cs](./src/SignUp.MessageHandlers.IndexProspect/Workers/QueueWorker.cs) file for the index handler.
 
-> `prometheus-net` is a .NET Standard library, so you can use it from .NET Framework and .NET Core apps.
+> `prometheus-net` is a .NET Standard library, so you can use it from .NET Framework and .NET Core apps
 
 ---
 
@@ -30,12 +30,12 @@ You should record metrics at a fairly coarse level - "Event count" in this examp
 
 There's a feature flag in the handler code which turns metrics on or off - the default is off.
 
-There are new YAML files to turn the flag on and add a `ClusterIP` service for the handlers:
+There are new YAML files to turn the flag on and add a `ClusterIP` Service for the metrics API in the handlers:
 
 - [k8s/metrics-application/index-handler.yml](./k8s/metrics-application/index-handler.yml)
 - [k8s/metrics-application/save-handler.yml](./k8s/metrics-application/save-handler.yml)
 
-> These components need a service so the Prometheus pod can reach them
+> These components need a Service so the Prometheus Pod can reach them
 
 ---
 

@@ -68,9 +68,9 @@ docker image build -t dak4dotnet/grafana:linux `
 
 We'll run pods for Prometheus and Grafana.
 
-[prometheus.yml](./k8s/metrics-dashboard/prometheus.yml) includes a `ClusterIP` service, so Grafana can read the data from Prometheus.
+- [prometheus.yml](./k8s/metrics-dashboard/prometheus.yml) includes a `ClusterIP` service, so Grafana can read the data from Prometheus.
 
-[grafana.yml](./k8s/metrics-dashboard/grafana.yml) includes a `LoadBalancer` service so we can access it publicly.
+- [grafana.yml](./k8s/metrics-dashboard/grafana.yml) includes a `LoadBalancer` service so we can access it publicly.
 
 ---
 

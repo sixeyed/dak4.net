@@ -59,7 +59,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(http_requests_received_total{code=\"200\"}[12h])) without(host, instance, job, exported_instance, code)",
+          "expr": "sum(rate(http_requests_received_total{code=\"200\"}[1m])) without(host, instance, job, exported_instance, code)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -149,7 +149,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(http_requests_received_total{code=\"500\"}[12h])) without(host, instance, job, exported_instance, code)",
+          "expr": "sum(rate(http_requests_received_total{code=\"500\"}[1m])) without(host, instance, job, exported_instance, code)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -306,7 +306,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": " sum(irate(SaveHandler_Events{status=\"received\"}[12h])) without(host, instance, job)",
+          "expr": " sum(rate(SaveHandler_Events{status=\"received\"}[1m])) without(host, instance, job)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Save Events",
@@ -314,7 +314,7 @@
           "step": 4
         },
         {
-          "expr": "sum(irate(IndexHandler_Events{status=\"received\"}[12h])) without(host, instance, job)",
+          "expr": "sum(rate(IndexHandler_Events{status=\"received\"}[1m])) without(host, instance, job)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Index Events",
@@ -404,7 +404,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": " sum(irate(SaveHandler_Events{status=\"processed\"}[12h])) without(host, instance, job)",
+          "expr": " sum(rate(SaveHandler_Events{status=\"processed\"}[1m])) without(host, instance, job)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Save Events",
@@ -412,7 +412,7 @@
           "step": 4
         },
         {
-          "expr": "sum(irate(IndexHandler_Events{status=\"processed\"}[12h])) without(host, instance, job)",
+          "expr": "sum(rate(IndexHandler_Events{status=\"processed\"}[1m])) without(host, instance, job)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Index Events",
@@ -502,7 +502,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": " sum(irate(SaveHandler_Events{status=\"failed\"}[12h])) without(host, instance, job)",
+          "expr": " sum(rate(SaveHandler_Events{status=\"failed\"}[1m])) without(host, instance, job)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Save Events",
@@ -510,7 +510,7 @@
           "step": 4
         },
         {
-          "expr": "sum(irate(IndexHandler_Events{status=\"failed\"}[12h])) without(host, instance, job)",
+          "expr": "sum(rate(IndexHandler_Events{status=\"failed\"}[1m])) without(host, instance, job)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Index Events",

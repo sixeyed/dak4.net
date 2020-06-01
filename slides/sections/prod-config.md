@@ -34,7 +34,7 @@ Docker and Kubernetes supply app configuration by setting up the container envir
 
 Environment variables are the simplest. They're fine for individual values which are different between environments.
 
-The updates [reference-data-api.yml](./k8s/prod-config/reference-data-api.yml) uses an environment variable for the database connection string. Not a great option but simple to demonstrate (Kubernetes uses double-underscores as separators instead of the usual colons).
+The updated [reference-data-api.yml](./k8s/prod-config/reference-data-api.yml) uses an environment variable for the database connection string. Not a great option but simple to demonstrate (Kubernetes uses double-underscores as separators instead of the usual colons).
 
 _Deploy the API - its behaviour is the same:_
 

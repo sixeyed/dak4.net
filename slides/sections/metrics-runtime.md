@@ -25,7 +25,7 @@ The [prometheus-net](https://github.com/prometheus-net/prometheus-net) NuGet pac
 It's already configured in:
 
 - [Startup.cs for the REST API](./src/SignUp.Api.ReferenceData/Startup.cs) and
-- [Startup.cs for the Blazor app](./src/SignUp.Web.Blazor/Startup.cs)
+- [Startup.cs for the Razor app](./src/SignUp.Web.Core/Startup.cs)
 
 ---
 
@@ -33,11 +33,11 @@ It's already configured in:
 
 You can run the apps in standlone containers just to check the metrics.
 
-_Run the Blazor app:_
+_Run the Razor app:_
 
 ```
 docker container run -d --publish-all `
-  --name blazor dak4dotnet/signup-web-core:linux
+  --name razor dak4dotnet/signup-web-core:linux
 ```
 
 > `publish-all` publishes the container port to a random port on the host
@@ -51,7 +51,7 @@ HTTP requests to the new container will put some load through the app, and the d
 _Grab the port of the container and send in some requests:_
 
 ```
-$port = $(docker container port blazor 80).Replace('0.0.0.0:', '')
+$port = $(docker container port razor 80).Replace('0.0.0.0:', '')
 
 for ($i=0; $i -le 10; $i++) { Invoke-WebRequest "http://localhost:$port/app" -UseBasicParsing | Out-Null}
 ```
@@ -70,18 +70,18 @@ _Fetch the metrics port and browse to the exporter endpoint:_
 firefox "http://localhost:$port/metrics"
 ```
 
-> This is Prometheus format. Prometheus is the most popular metrics server for cloud-native apps, and the format is widely used.
+> This is Prometheus format. Prometheus is the most popular metrics server for cloud-native apps, and the format is widely used
 
 ---
 
 ## Tidy up
 
-The metrics endpoint isn't meant for humans to read, it's an API for Prometheus to consume.
+The metrics endpoint isn't really meant for humans to read, it's an API for Prometheus to consume.
 
 Now we know how the metrics look, let's remove the new container:
 
 ```
-docker container rm --force blazor
+docker container rm --force razor
 ```
 
 > `force` removes a container even if it's still running
@@ -107,4 +107,4 @@ Runtime metrics tell you how hard your app is working and how well it's handling
 - errors: `http_request_duration_seconds{code="500"}`
 - saturation: based on `dotnet_total_memory_bytes` and `process_cpu_seconds_total`
 
-> You can get the same effect using an exporter utility for legacy apps, without code changes.
+> You can get the same effect using an exporter sidecar for legacy apps, without code changes

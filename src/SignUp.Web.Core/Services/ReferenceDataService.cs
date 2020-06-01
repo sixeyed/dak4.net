@@ -23,7 +23,7 @@ namespace SignUp.Web.Core.Services
 
             var client = new RestClient(Config.Current["ReferenceDataApi:Url"]);
             var request = new RestRequest("countries");
-            var countries = await client.GetTaskAsync<List<Country>>(request);
+            var countries = await client.GetAsync<List<Country>>(request);
             stopwatch.Stop();
 
             _logger.LogInformation("Loaded: {CountryCount} countries, took: {CountryLoadMs}ms", countries.Count, stopwatch.ElapsedMilliseconds);
@@ -36,7 +36,7 @@ namespace SignUp.Web.Core.Services
 
             var client = new RestClient(Config.Current["ReferenceDataApi:Url"]);
             var request = new RestRequest("roles");
-            var roles = await client.GetTaskAsync<List<Role>>(request);
+            var roles = await client.GetAsync<List<Role>>(request);
             stopwatch.Stop();
 
             _logger.LogInformation("Loaded: {RoleCount} countries, took: {RoleLoadMs}ms", roles.Count, stopwatch.ElapsedMilliseconds);

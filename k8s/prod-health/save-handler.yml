@@ -22,8 +22,7 @@ spec:
               readOnly: true
           livenessProbe:
             exec:
-              command: 
-                - "dotnet /app/SignUp.MessageHandlers.SaveProspectCore.dll -m check"
+              command: ["dotnet", "/app/SignUp.MessageHandlers.SaveProspectCore.dll", "-m", "check"]
       volumes:
         - name: configs
           configMap:
