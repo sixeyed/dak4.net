@@ -4,7 +4,7 @@ $versions='ltsc2019','1903','1909'
 
 foreach($version in $versions) {
 
-    docker image build --build-arg WINVER="$version" `
+    docker image build --pull --build-arg WINVER="$version" `
       -t "$($image)-$($version)" .
 
     docker image push "$($image)-$($version)"

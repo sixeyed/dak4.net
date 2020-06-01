@@ -47,12 +47,12 @@ Write-Output '-VM setup script done-'
 
 # Manual steps: 
 # - launch Docker Desktop (requires reboot)
-# - pull Windows images
 # - switch to Linux containers
 # - bump VM RAM to 4GB
 # - enable Kubernetes
 
 # - pull Linux images
+
 # $images = Get-Content -path C:\scm\dak4.net\workshop\lab-vm\images-linux.txt
 # foreach ($tag in $images) {
 #    Write-Output "** Processing tag: $tag"

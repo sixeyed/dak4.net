@@ -9,10 +9,7 @@ mcr.microsoft.com/dotnet/core/sdk:3.1.300
 mcr.microsoft.com/dotnet/core/aspnet:3.1.4
 dak4dotnet/sql-server:2017
 dak4dotnet/windows-server-core
-nats:2.1.0
-dockersamples/aspnet-monitoring-exporter:4.7.2-windowsservercore-ltsc2019
-dockersamples/aspnet-monitoring-grafana:5.2.1-windowsservercore-ltsc2019
-dockersamples/aspnet-monitoring-prometheus:2.3.1-windowsservercore-ltsc2019
-sixeyed/elasticsearch:5.6.11-windowsservercore-ltsc2019
-sixeyed/kibana:5.6.11-windowsservercore-ltsc2019
-traefik:1.7.18-windowsservercore-1809
+nats:2.1.7-nanoserver-1809
+dak4dotnet/elasticsearch
+dak4dotnet/kibana
+traefik:v1.7.24-windowsservercore-1809
