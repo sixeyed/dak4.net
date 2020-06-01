@@ -16,7 +16,7 @@ That's one reason why Kubernetes is so popular, and why it's worth investing in.
 
 [Kind](https://kind.sigs.k8s.io) is a good alternative if you want to run multiple clusters and specific versions of Kubernetes.
 
-We've got is a Linux-only cluster with Docker Desktop, so we can run .NET Core apps in Linux containers, but not .NET Framework apps in Windows containers.
+We've got a Linux-only cluster with Docker Desktop, so we can run .NET Core apps in Linux containers, but not .NET Framework apps in Windows containers.
 
 ---
 
