@@ -1,9 +1,0 @@
-version: '3.1'
-
-services:
-
-  signup-web:
-    image: dak4dotnet/signup-web:v7
-    build:
-      context: ..
-      dockerfile: ./docker/prod-health/signup-web/Dockerfile
