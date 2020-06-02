@@ -46,6 +46,8 @@ And the endpoints - these are the Pod IP address registered for the Service:
 kubectl get endpoints reference-data-api
 ```
 
+---
+
 ## Deploy the broken API
 
 This deployment adds a readiness check which always fails. Update the API:
@@ -76,6 +78,8 @@ kubectl get endpoints reference-data-api
 
 > Readiness checks prevent misconfigurations breaking your app
 
+---
+
 ## Let's fix the API
 
 The updated API spec in [k8s/prod-health/reference-data-api.yml](./k8s/prod-health/reference-data-api.yml) uses the same readiness check but fixes the configuration.
@@ -92,6 +96,7 @@ kubectl get pods -l component=api --watch
 
 > It'll take about 25 seconds for the new Pod to become ready; _Ctrl-C_ to exit
 
+---
 
 ## Take the database down
 
@@ -106,6 +111,8 @@ docker ps -q -f label="io.kubernetes.container.name=signup-db"
 ```
 docker pause $(docker ps -q -f label="io.kubernetes.container.name=signup-db")
 ```
+
+---
 
 ## And see what happens when the check fails
 

@@ -184,6 +184,14 @@ firefox http://localhost:8080
 
 ---
 
+# TODO
+
+```
+docker container logs tweet-app
+```
+
+---
+
 ## Now you have your own Docker images
 
 You've built your own images from Dockerfiles. Right now they only live on the computer where you ran the `docker image build` command.
