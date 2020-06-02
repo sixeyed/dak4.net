@@ -108,6 +108,8 @@ kubectl exec deploy/signup-web -c signup-web-logs -- ls -l /logs
 
 > You use the `-c` flag to specify a container in a multi-container Pod
 
+---
+
 ## Check logs
 
 There are two containers in the Pod, so there are two log streams. The output from the app container is still empty, but the log lines are echoed out in the sidecar container.
