@@ -42,7 +42,7 @@ docker-compose -f ./ci/docker-compose-build-linux.yml build
 
 ## Using multi-arch images
 
-The [.NET Core save handler Dockerfile](./docker/backend-async-messaging/save-handler-core/Dockerfile) and the [Blazor web app Dockerfile](./docker/frontend-web/signup-web-core/Dockerfile) use Microsoft's .NET Core images to build and package the app.
+The [.NET Core save handler Dockerfile](./docker/backend-async-messaging/save-handler-core/Dockerfile) and the [Razor web app Dockerfile](./docker/frontend-web/signup-web-core/Dockerfile) use Microsoft's .NET Core images to build and package the app.
 
 Those are multi-architecture images, which means there are different variants with the same image name. When you use one of those containers Docker will pull the matching variant for your current runtime.
 
