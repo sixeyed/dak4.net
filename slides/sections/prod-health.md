@@ -28,6 +28,7 @@ This is a simple dependency check which is used in a readiness probe in [k8s/pro
 
 > This spec is misconfigured so the readiness check will always fail
 
+---
 
 ## Check the current API Service
 
