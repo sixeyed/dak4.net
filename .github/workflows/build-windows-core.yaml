@@ -1,0 +1,34 @@
+name: Windows Server Core image build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0-7 * * *"
+
+jobs:
+  build-server-core:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and push Windows Server Core
+        working-directory: docker/windows-server-core
+        run: |
+          docker login -u $env:USER -p $env:TOKEN
+          build-and-push.ps1
+        env:
+          USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+  build-sql-server:
+    needs: [build-server-core]
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and push SQL Server
+        working-directory: docker/sql-server
+        run: |
+          docker login -u $env:USER -p $env:TOKEN
+          build-and-push.ps1
+        env:
+          USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
