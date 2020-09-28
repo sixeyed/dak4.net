@@ -4,7 +4,9 @@
 
 Images are the portable package that contains your application - your binaries, all the dependencies and the default configuration.
 
-You share images by pushing them to a registry. Docker Hub is the most popular public registry. Most enterprises run their own private registry. You work with all registries in the same way.
+You share images by pushing them to a registry. [Docker Hub](https://hub.docker.com/) is the most popular public registry. Most enterprises run their own private registry - like [Azure Container Registry](https://docs.microsoft.com/en-us/azure/container-registry/).
+
+You work with all registries in the same way.
 
 ---
 
@@ -79,7 +81,7 @@ docker image push $env:dockerId/tweet-app
 Open your user page on Docker Hub and you'll see the image is there.
 
 ```
-firefox "https://hub.docker.com/r/$env:dockerId/tweet-app"
+start "https://hub.docker.com/r/$env:dockerId/tweet-app/tags"
 ```
 
 > These are public images, so anyone can run containers from your images - and the apps will work in exactly the same way everywhere.
@@ -104,7 +106,7 @@ docker image build --tag "$env:dockerId/tweet-app:v2" .
 
 ## Push a new version of the app
 
-A repository on Docker Hub can store a collection of Docker images, typically different versions of the same application.
+A repository on Docker Hub can store a collection of Docker  images, typically different versions of the same application.
 
 _Push the `v2` tagged image:_
 
@@ -112,7 +114,7 @@ _Push the `v2` tagged image:_
 docker image push "$env:dockerId/tweet-app:v2"
 ```
 
-> If you look at the _Tags_section of your Docker Hub repo, you'll see two versions listed.
+> Refresh the tags page of your Docker Hub repo, you'll see two versions listed.
 
 ---
 
