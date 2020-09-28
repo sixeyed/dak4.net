@@ -16,7 +16,6 @@ services:
       - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
       - ReferenceDataApi:Url=http://reference-data-api/api
       - Dependencies:IProspectSaveHandler=SignUp.Web.ProspectSave.AsynchronousProspectSaveHandler
-    
     labels:
       - "traefik.frontend.rule=PathPrefix:/app"
       - "traefik.frontend.priority=30"

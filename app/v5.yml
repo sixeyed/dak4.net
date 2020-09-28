@@ -12,7 +12,7 @@ services:
 
   signup-web:
     image: dak4dotnet/signup-web:v2
-    environment: 
+    environment:
       - Dependencies:IReferenceDataLoader=SignUp.Web.ReferenceData.ApiReferenceDataLoader
       - ReferenceDataApi:Url=http://reference-data-api/api
       - Dependencies:IProspectSaveHandler=SignUp.Web.ProspectSave.AsynchronousProspectSaveHandler
@@ -60,7 +60,7 @@ services:
       - app-net
 
   message-queue:
-    image: nats:2.1.7-nanoserver-1809
+    image: nats:2.1.8
     networks:
       - app-net
 

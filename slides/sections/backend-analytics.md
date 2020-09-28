@@ -26,7 +26,7 @@ _Build the image in the usual way:_
 
 ```
 docker image build --tag dak4dotnet/index-handler `
-  --file .\docker\backend-analytics\index-handler\Dockerfile .
+  --file ./docker/backend-analytics/index-handler/Dockerfile .
 ```
 
 ---
@@ -58,7 +58,7 @@ In the [v5 manifest](./app/v5.yml), none of the existing containers get replaced
 _Upgrade to v5:_
 
 ```
-docker-compose -f .\app\v5.yml up -d
+docker-compose -f ./app/v5.yml up -d
 ```
 
 ---
@@ -104,11 +104,7 @@ docker container logs app_signup-index-handler_1
 
 Kibana is also a web app running in a container, publishing to port `5601` on the Docker host. I'm not proxying Kibana through Traefik - it's not a public component.
 
-_Browse to Kibana:_
-
-```
-firefox http://localhost:5601
-```
+_Browse to Kibana at http://localhost:5601_
 
 > The Elasticsearch index is called `prospects`, and you can navigate around the data in Kibana.
 

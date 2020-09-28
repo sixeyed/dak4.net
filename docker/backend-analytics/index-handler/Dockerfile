@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.300 as builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1.402 as builder
 
 WORKDIR /src
 COPY src/SignUp.Core/SignUp.Core.csproj ./SignUp.Core/
@@ -13,7 +13,7 @@ COPY src /src
 RUN dotnet publish -c Release -o /out SignUp.MessageHandlers.IndexProspect.csproj
 
 # app image
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1.4
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1.8
 
 WORKDIR /index-prospect-handler
 ENTRYPOINT ["dotnet", "SignUp.MessageHandlers.IndexProspect.dll"]
