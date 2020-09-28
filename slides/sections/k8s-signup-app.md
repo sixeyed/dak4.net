@@ -10,7 +10,7 @@ Manifests can be used to describe every part of your app, from the application a
 
 ## Kubernetes manifests
 
-Kubernetes uses its own [API specification](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/), different from Docker Compose. It's much more verbose because there are more resource types; the relation between resources needs to be specified; and the resources themselves have more flexible configuration.
+Kubernetes uses its own [API specification](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/), different from Docker Compose. It's much more verbose because there are more resource types; the relation between resources needs to be specified; and the resources themselves have more flexible configuration.
 
 Kube manifests are typically many times larger than the equivalent Docker Compose manifests which Docker Swarm uses.They still use the declarative approach - you deploy the manifest to the cluster, and Kubernetes works out what resources to create or update.
 

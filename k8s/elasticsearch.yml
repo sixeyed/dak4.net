@@ -28,10 +28,13 @@ spec:
         component: elasticsearch
     spec:
       containers:
-      - image: elasticsearch:6.8.9
+      - image: elasticsearch:6.8.12
         name: elasticsearch
         ports:
         - containerPort: 9200
           name: elasticsearch
+        env:
+        - name: discovery.type
+          value: single-node
       nodeSelector:
         beta.kubernetes.io/os: linux

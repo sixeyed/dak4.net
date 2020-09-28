@@ -28,5 +28,6 @@ spec:
               port: 80
             initialDelaySeconds: 15
             periodSeconds: 10
+            failureThreshold: 1
       nodeSelector:
         beta.kubernetes.io/os: linux

@@ -148,5 +148,3 @@ kubectl exec deploy/sleep -- sh -c 'curl -v -s --head http://homepage'
 ```
 
 > There's no equivalent to Docker networks, all Pods are connected to one big network
-
----

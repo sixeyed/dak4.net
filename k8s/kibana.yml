@@ -28,7 +28,7 @@ spec:
         component: kibana
     spec:
       containers:
-      - image: kibana:6.8.9
+      - image: kibana:6.8.12
         name: kibana
         ports:
         - containerPort: 5601

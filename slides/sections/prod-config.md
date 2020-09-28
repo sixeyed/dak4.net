@@ -30,7 +30,7 @@ Docker and Kubernetes supply app configuration by setting up the container envir
 
 ---
 
-## Environment variables in Pod specs
+## Environment variables in Pods
 
 Environment variables are the simplest. They're fine for individual values which are different between environments.
 
@@ -62,7 +62,7 @@ kubectl describe pod -l component=api
 
 ---
 
-## Storing config data in ConfigMaps
+## Storing config in ConfigMaps
 
 ConfigMaps are more flexible. You can create them from files so they can contain JSON, XML or key-value pairs - whatever your app needs.
 
@@ -104,7 +104,7 @@ _This doesn't show you the database connection string:_
 kubectl describe pod -l component=save-handler
 ```
 
-> But you can read it if you have access to the Pod
+> But you can read it if you have access to the Pod or the ConfigMap
 
 ---
 
@@ -118,7 +118,7 @@ If you have permission you read the contents of a ConfigMap:
 kubectl describe configmap save-handler-config
 ```
 
-> RBAC is not deployed by default in most Kubernetes distros
+> RBAC is deployed by default in most Kubernetes distros
 
 ---
 

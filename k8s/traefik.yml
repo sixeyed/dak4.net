@@ -32,9 +32,10 @@ spec:
       labels:
         k8s-app: traefik-ingress-lb
         name: traefik-ingress-lb
-    spec:
+    spec:    
+      serviceAccountName: ingress-traefik
       containers:
-      - image: traefik:v1.7.24-alpine
+      - image: traefik:v1.7.26-alpine
         name: traefik-ingress-lb
         ports:
         - name: http
@@ -47,3 +48,53 @@ spec:
         - --logLevel=INFO
       nodeSelector:
         beta.kubernetes.io/os: linux
+---
+# RBAC configuration
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ingress-traefik
+  namespace: kube-system
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: ingress-traefik-controller
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+    - extensions
+    resources:
+    - ingresses/status
+    verbs:
+    - update
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: ingress-traefik-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ingress-traefik-controller
+subjects:
+- kind: ServiceAccount
+  name: ingress-traefik
+  namespace: kube-system

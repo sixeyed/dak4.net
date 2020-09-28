@@ -150,7 +150,7 @@ kubectl get endpoints reference-data-api
 
 **Liveness** is the second type of health check. Containers have a process they run at startup - the `dotnet` runtime for .NET Core apps. If that process crashes then the container exits and Kubernetes restarts the Pod.
 
-But the process could be running even when the app is unhealthy. A web app could return `503` responses to every request, but the `dotnet` process is still running so the container is up and the pod looks healthy.
+But the process could be running even when the app is unhealthy. A web app could return `503` responses to every request, but the `dotnet` process is still running so the container is up and the Pod looks healthy.
 
 [Liveness probes](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-you-use-a-liveness-probe) fix that - they check the app is actually healthy. If there are multiple failures the Pod will restart.
 
