@@ -61,7 +61,7 @@ services:
       - app-net
 
   message-queue:
-    image: nats:2.1.7-nanoserver-1809
+    image: nats:2.1.8
     networks:
       - app-net
 

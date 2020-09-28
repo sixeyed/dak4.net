@@ -29,7 +29,7 @@ _Build the message handler image:_
 ```
 docker image build `
   -t dak4dotnet/save-handler `
-  -f .\docker\backend-async-messaging\save-handler\Dockerfile .
+  -f ./docker/backend-async-messaging/save-handler/Dockerfile .
 ```
 
 ---
@@ -49,7 +49,7 @@ The manifest also configures the web app to use messaging - using Dependency Inj
 _Upgrade to v4:_
 
 ```
-docker-compose -f .\app\v4.yml up -d
+docker-compose -f ./app/v4.yml up -d
 ```
 
 ---
@@ -72,11 +72,9 @@ docker container logs app_signup-save-handler_1
 
 ## Try the new distributed app
 
-The entrypoint is still the proxy listening on port `8020`, so you can refresh your page or [open a new browser window](http:/localhost:8020):
+The entrypoint is still the proxy listening on port `8020`, so you can refresh your page.
 
-```
-firefox http:/localhost:8020
-```
+> Or browse to http://localhost:8020
 
 > Now when you submit data, the web app publishes an event and the handler makes the database save
 
