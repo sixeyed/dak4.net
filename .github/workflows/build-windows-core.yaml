@@ -14,7 +14,8 @@ jobs:
         working-directory: docker/windows-server-core
         run: |
           docker login -u $env:USER -p $env:TOKEN
-          build-and-push.ps1
+          ls
+          ./build-and-push.ps1
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -28,7 +29,8 @@ jobs:
         working-directory: docker/sql-server
         run: |
           docker login -u $env:USER -p $env:TOKEN
-          build-and-push.ps1
+          ls
+          ./build-and-push.ps1
         env:
           USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
