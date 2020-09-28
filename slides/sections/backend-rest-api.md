@@ -34,7 +34,7 @@ _Build the API image:_
 ```
 docker image build `
   -t dak4dotnet/reference-data-api `
-  -f .\docker\backend-rest-api\reference-data-api\Dockerfile .
+  -f ./docker/backend-rest-api/reference-data-api/Dockerfile .
 ```
 
 ---
@@ -82,7 +82,7 @@ The manifest also configures the web app to use the API, using Dependency Inject
 _Upgrade to v3:_
 
 ```
-docker-compose -f .\app\v3.yml up -d
+docker-compose -f ./app/v3.yml up -d
 ```
 
 > [Global.asax.cs](./src/SignUp.Web/Global.asax.cs) configures Dependency Injection using the .NET Standard library
@@ -107,9 +107,7 @@ Now when you click through to the original _Sign Up_ page, the dropdowns are loa
 
 The entrypoint is still the proxy listening on port `8020`, so you can refresh the browser or open a new one:
 
-```
-firefox http://localhost:8020
-```
+> Browse to the app at http://localhost:8020
 
 > The API service also adds labels for Traefik, so you can get to the API at http://localhost:8020/api/roles
 
