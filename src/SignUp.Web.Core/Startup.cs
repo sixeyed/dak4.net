@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,7 +20,11 @@ namespace SignUp.Web.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages()
+                    .AddRazorPagesOptions(options =>
+                    {
+                        options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+                    });
             services.AddScoped<ReferenceDataService>();
             services.AddSingleton<ProspectSaveService>();
         }

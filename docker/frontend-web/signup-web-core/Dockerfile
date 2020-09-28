@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.300 as builder
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1.402 as builder
 
 WORKDIR /src
 COPY src/SignUp.Core/SignUp.Core.csproj ./SignUp.Core/
@@ -13,7 +13,7 @@ COPY src /src
 RUN dotnet publish -c Release -o /out SignUp.Web.Core.csproj
 
 # app image
-FROM  mcr.microsoft.com/dotnet/core/aspnet:3.1.4
+FROM  mcr.microsoft.com/dotnet/core/aspnet:3.1.8
 
 EXPOSE 80
 ENTRYPOINT ["dotnet", "/app/SignUp.Web.Core.dll"]

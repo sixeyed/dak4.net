@@ -8,6 +8,18 @@ But with Docker Desktop on Windows 10 you can only run Linux containers in Kuber
 
 ---
 
+## Remove all containers
+
+You can switch between Linux and Windows container mode in Docker Desktop. 
+
+Containers keep running and you can still use apps when you switch, but we don't need the Windows version.
+
+_Remove all the Windows containers:_
+
+```
+docker container rm -f $(docker container ls -aq)
+```
+
 ## Switch to Linux containers
 
 Right-click the Docker whale icon in the taskbar, and select _Switch to Linux containers_
@@ -54,7 +66,9 @@ On Windows you'll build a Windows Docker image, and on Linux it will be a Linux 
 
 SQL Server is supported on Linux too now, and Microsoft publish a Linux Docker image.
 
-The [NATS](https://hub.docker.com/_/nats) message queue and the [Traefik](https://hub.docker.com/_/traefik) reverse proxy are also multi-arch images on Docker Hub, so we can use the same image names in Linux container mode to work with the Linux variants.
+The [NATS](https://hub.docker.com/_/nats) message queue is a multi-arch images on Docker Hub, so we can use the same image name in Linux container mode to work with the Linux variant.
+
+And we van use the official [Traefik](https://hub.docker.com/_/traefik), [Elasticsearch](https://hub.docker.com/_/elasticsearch) and [Kibana](https://hub.docker.com/_/kibana) images.
 
 So we have everything we need to deploy the app to Kubernetes.
 
