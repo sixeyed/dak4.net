@@ -11,22 +11,28 @@
 <html>
     <head>
         <style>
-
         body {
-        	background-image: linear-gradient(-74deg, transparent 90%, rgba(255, 255, 255, 0.23) 20%), linear-gradient(-74deg, transparent 83%, rgba(255, 255, 255, 0.18) 15%), linear-gradient(-74deg, transparent 76%, rgba(255, 255, 255, 0.1) 15%), linear-gradient(to top, #127ab1, #1799e0, #1796db);
-    		background-size: cover;
+        	background: #fdf6e3;
+            background-color: #fdf6e3;
     		margin-bottom: 0px!important;
         }
 
         div{
             font-family: 'Geomanist', sans-serif;
-  			font-weight: normal;
-  			color: white;
+  			font-weight: normal; 			
+            color: #657b83;
             width: 85%;
             margin: 0 auto;
             position: relative;
             margin-top: 180px;
             transform: translateY(-50%);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            font-size: 14pt;
+            text-align: center;
         }
 
         h1{
@@ -41,6 +47,9 @@
     <body>
         <div>
             <h1>Hello from <% =GetMachineName() %>!</h1>
+        </div>
+        <div class="footer">
+            A very simple demo app from the workshop <a href="https://dak4.net">Docker and Kubernetes for .NET Developers</a>
         </div>
     </body>
 

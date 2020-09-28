@@ -54,13 +54,11 @@ docker container run --detach --publish 8081:80 `
 
 The app in the container is listening on port 80, but you could be using that port on your host.
 
-So we've published port 80 on the container to port 8081 on the host. It's access from the Docker host and to external clients.
+So we've published port 80 on the container to port 8081 on the host. 
 
-_Browse to the app:_
+Traffic coming into port 8081 is captured by Docker and sent into the container.
 
-```
-firefox "http://localhost:8081"
-```
+> Browse to the app: at http://localhost:8081
 
 ---
 
@@ -72,7 +70,7 @@ _Run five containers from the same image:_
 
 ```
 for ($i=0; $i -lt 5; $i++) {
-  & docker container run --detach --publish-all --name "app-$i" hostname-app
+  & docker container run --detach --publish-all --name "app-$i" --isolation=process hostname-app
 }
 ```
 
@@ -89,7 +87,7 @@ _Browse to all the new containers, using this script to find the random host por
 ```
 for ($i=0; $i -lt 5; $i++) {
   $address = $(docker container port "app-$i" 80).Replace('0.0.0.0', 'localhost')
-  firefox "http://$address"
+  start "http://$address"
 }
 ```
 
@@ -174,17 +172,17 @@ docker container run --detach --publish 8080:80 `
 
 You can reach the site by browsing to your `localhost` or to your computer externally on port `8080`
 
-_Browse to the app:_
+> Browse to the app at http://localhost:8080
 
-```
-firefox http://localhost:8080
-```
-
-> Feel free to hit the Tweet button, sign in and share your workshop progress :)
+_Feel free to hit the Tweet button, sign in and share your workshop progress :)_
 
 ---
 
-# TODO
+# And check the IIS logs 
+
+They're being relayed from the log file to the standard output stream.
+
+That's where Docker collects them so now you'll see the access logs.
 
 ```
 docker container logs tweet-app

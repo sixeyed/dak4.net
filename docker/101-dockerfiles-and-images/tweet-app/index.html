@@ -1,22 +1,28 @@
 <html>
     <head>
         <style>
-
         body {
-        	background-image: linear-gradient(-74deg, transparent 90%, rgba(255, 255, 255, 0.23) 20%), linear-gradient(-74deg, transparent 83%, rgba(255, 255, 255, 0.18) 15%), linear-gradient(-74deg, transparent 76%, rgba(255, 255, 255, 0.1) 15%), linear-gradient(to top, #127ab1, #1799e0, #1796db);
-    		background-size: cover;
+            background: #fdf6e3;
+            background-color: #fdf6e3;
     		margin-bottom: 0px!important;
         }
 
         div{
             font-family: 'Geomanist', sans-serif;
-  			font-weight: normal;
-  			color: white;
+  			font-weight: normal; 			
+            color: #657b83;
             width: 85%;
             margin: 0 auto;
             position: relative;
             margin-top: 180px;
             transform: translateY(-50%);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            font-size: 14pt;
+            text-align: center;
         }
 
         h1{
@@ -30,18 +36,20 @@
 
     <body>
 
-       <img src=https://www.docker.com/sites/all/themes/docker/assets/images/brand-full.svg width=20%></img>
-
-       <div class="inner">
+        <div >
             <h1>Welcome to Docker and Kubernetes for .NET Developers!</h1>
 
-            <h2>Congratulations on deploying your Windows Docker container, why not let the world know!</h2>
+            <h2>Congratulations on deploying your Windows Docker container!</h2>
 
 		  	<p>
 
-			 <a href="https://twitter.com/intent/tweet?button_hashtag=myfirstcontainer" class="twitter-hashtag-button" data-size="large" data-text="I'm having a whale of a time learning #Docker at https://dak4.net" data-lang="en" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+			 <a href="https://twitter.com/intent/tweet" class="twitter-hashtag-button" data-size="large" data-text="I'm having a whale of a time learning #Docker at https://dak4.net" data-lang="en" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
 
+            
+        <div class="footer">
+            A very simple demo app from the workshop <a href="https://dak4.net">Docker and Kubernetes for .NET Developers</a>
+        </div>
     </body>
 
 </html>
