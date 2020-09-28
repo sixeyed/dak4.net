@@ -10,7 +10,7 @@ We'll do it incrementally instead, by breaking features out of the monolith and 
 
 ---
 
-## The new application homepage
+## The new homepage
 
 Check out [the new homepage](./docker/frontend-reverse-proxy/homepage/index.html). It's a static HTML site which uses Vue.js - it will run in its own container, so it can use a different technology stack from the main app.
 
@@ -40,11 +40,9 @@ docker container run -d -p 8040:80 --name home dak4dotnet/homepage
 
 ## Try it out
 
-The homepage is available on port `8040` on your Docker host, so you can browse there or direct to [localhost](http://localhost:8040):
+The homepage is available on port `8040` on your Docker host, so you can browse there or direct to `localhost`:
 
-```
-firefox http://localhost:8040
-```
+> Browse to http://localhost:8040
 
 ---
 
@@ -81,22 +79,28 @@ Check out the [v2 manifest](./app/v2.yml) - it adds services for the homepage an
 Only the proxy has `ports` specified. It's the public entrypoint to the app, the other containers can access each other, but the outside world can't get to them.
 
 ```
-docker-compose -f .\app\v2.yml up -d
+docker-compose -f ./app/v2.yml up -d
 ```
 
 > Compose compares the running state to the desired state in the manifest and starts new containers.
 
 ---
 
+## Fix the deployment...
+
+If you see an error message about port allocations, that's because Windows hasn't freed up port `8020` quickly enough.
+
+The old ASP.NET container has been replaced and the new proxy container tries to use the same port - but it isn't ready in time. Just repeat the same Docker Compose command:
+
+```
+docker-compose -f ./app/v2.yml up -d
+```
+
 ## Check out the new integrated app
 
-The reverse proxy is published to port `8020` so you can just refresh your browser at [localhost](http://localhost:8020), or run:
+The reverse proxy is published to port `8020` so you can just refresh your browser.
 
-```
-firefox http://localhost:8020
-```
-
-> Now you can click through to the original _Sign Up_ page.
+> Browse to http://localhost:8020 and now you can click through to the original _Sign Up_ page.
 
 ---
 
@@ -121,11 +125,7 @@ The Docker Engine has an API for managing and querying containers.
 
 Traefik uses that to find containers with Traefik labels, and it uses the label values to build the routing table.
 
-_[You can see the routes](http://localhost:8080)_:
-
-```
-firefox http://localhost:8080
-```
+> You can see the routes at http://localhost:8080
 
 ---
 
