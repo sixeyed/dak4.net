@@ -1,5 +1,5 @@
 # escape=`
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019 AS builder
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 AS builder
 
 WORKDIR C:\src
 COPY src\SignUp.sln .
@@ -16,7 +16,7 @@ COPY src C:\src
 RUN msbuild SignUp.Web\SignUp.Web.csproj /p:OutputPath=c:\out /p:Configuration=Release
 
 # app image
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 ENV APP_ROOT=C:\web-app

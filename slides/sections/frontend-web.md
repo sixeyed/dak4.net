@@ -54,15 +54,11 @@ docker container run `
 
 ## Try it out
 
-You can browse to port `8020` on the external domain name your Docker host (that's your Windows machine). Or you can browse direct on `localhost`:
+You can browse to port `8020` on the external domain name of your Docker host (that's your Windows machine). Or you can browse direct on `localhost`:
 
-_[Browse to the v2 app](http://localhost:8020/app):_
+_Browse to http://localhost:8020/app:_
 
-```
-firefox http://localhost:8020/app
-```
-
-> This will fail.
+> It will take a minute or so to load - and then show an error page.
 
 ---
 
@@ -87,7 +83,7 @@ Now we'll run the database in a container too - using Docker Compose to manage t
 _Now run the app using compose:_
 
 ```
-docker-compose -f .\app\v1.yml up -d
+docker-compose -f ./app/v1.yml up -d
 ```
 
 ---
@@ -108,11 +104,9 @@ docker container ls
 
 Now there's a new web application container listening on port `8020`.
 
-You can browse to your Docker machine's domain name, or to [localhost](http://localhost:8020/app) on the machine:
+You can browse to your Docker machine's domain name, or at `localhost`:
 
-```
-firefox "http://localhost:8020/app"
-```
+_Browse to http://localhost:8020/app:_
 
 ---
 
