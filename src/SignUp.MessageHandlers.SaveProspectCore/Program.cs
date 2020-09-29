@@ -6,13 +6,20 @@ using SignUp.Core;
 using SignUp.MessageHandlers.SaveProspectCore.Model;
 using SignUp.MessageHandlers.SaveProspectCore.Workers;
 using System;
+using Prometheus;
+using System.Runtime.InteropServices;
 
 namespace SignUp.MessageHandlers.SaveProspectCore
 {
     class Program
-    {
-        static int Main(string[] args)
+    {        
+        private static readonly Gauge _InfoGauge = 
+            Metrics.CreateGauge("app_info", "Application info", "dotnet_version", "version");
+
+        public static int Main(string[] args)
         {
+            _InfoGauge.Labels(RuntimeInformation.FrameworkDescription, "20.09").Set(1);
+            
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(Config.Current)
                 .AddSingleton<CheckWorker>()

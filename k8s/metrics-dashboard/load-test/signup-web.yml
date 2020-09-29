@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: signup-web
+spec:
+  selector:
+    matchLabels:
+      app: signup
+      component: web
+  template:
+    metadata:
+      labels:
+        app: signup
+        component: web
+    spec:
+      containers:
+        - image: dak4dotnet/signup-web-core:linux
+          name: signup-web
+          env:
+            - name: PopulateRandomData
+              value: "true"
+            - name: Mode
+              value: "flaky"
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: logs
+              mountPath: /logs
+            - name: secrets
+              mountPath: "/app/secrets"
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /app/signup
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+        - image: alpine:3.12
+          name: signup-web-logs
+          command: ["tail"]
+          args: ["-n", "1", "-F", "/logs/signup-web.log"]
+          volumeMounts:
+            - name: logs
+              mountPath: /logs
+              readOnly: true
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: secrets
+          secret:
+            secretName: signup-web-secret
+      nodeSelector:
+        beta.kubernetes.io/os: linux

@@ -12,6 +12,8 @@ spec:
       labels:
         app: signup
         component: homepage
+      annotations:
+        prometheus.io/scrape: "false"
     spec:
       containers:
       - image: dak4dotnet/homepage-nginx:linux

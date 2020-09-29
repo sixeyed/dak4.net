@@ -8,8 +8,8 @@ spec:
     component: index-handler
   ports:
   - name: http
-    port: 50505
-    targetPort: 50505
+    port: 80
+    targetPort: 80
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -34,9 +34,9 @@ spec:
         - name: Metrics__Enabled
           value: "true"
         - name: Metrics__Port
-          value: "50505"
+          value: "80"
         ports:
-        - containerPort: 50505
+        - containerPort: 80
           name: metrics
       nodeSelector:
         beta.kubernetes.io/os: linux

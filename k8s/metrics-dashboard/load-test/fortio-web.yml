@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fortio-web
+spec:
+  completions: 15
+  parallelism: 3
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "false"
+    spec:
+      containers:
+      - name: fortio-web
+        image: fortio/fortio:1.7.1
+        command: ["fortio"]
+        args: ["load", "-c", "32", "-qps", "25", "-t", "60s", "-allow-initial-errors", "http://signup-web/app/SignUp"]
+      restartPolicy: Never
+      nodeSelector:
+        beta.kubernetes.io/os: linux

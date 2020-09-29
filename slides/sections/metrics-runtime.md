@@ -67,7 +67,7 @@ Now you can look at the metrics which the exporter utility makes available. You'
 _Fetch the metrics port and browse to the exporter endpoint:_
 
 ```
-firefox "http://localhost:$port/metrics"
+start "http://localhost:$port/metrics"
 ```
 
 > This is Prometheus format. Prometheus is the most popular metrics server for cloud-native apps, and the format is widely used

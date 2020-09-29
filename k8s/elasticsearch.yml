@@ -26,6 +26,8 @@ spec:
       labels:
         app: signup
         component: elasticsearch
+      annotations:
+        prometheus.io/scrape: "false"
     spec:
       containers:
       - image: elasticsearch:6.8.12

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
 using SignUp.Api.ReferenceData.Repositories;
+using SignUp.Core.Middleware;
 using SignUp.Entities;
 
 namespace SignUp.Api.ReferenceData
@@ -27,15 +28,15 @@ namespace SignUp.Api.ReferenceData
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMetricServer();
-            app.UseHttpMetrics();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }            
 
             app.UseRouting();
+            app.UseMetricServer();
+            app.UseHttpMetrics();            
+            app.UseFlakiness();
 
             app.UseEndpoints(endpoints => 
             {

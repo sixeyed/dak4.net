@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fortio-api
+spec:
+  completions: 10
+  parallelism: 2
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "false"
+    spec:
+      containers:
+      - name: fortio-api-countries
+        image: fortio/fortio:1.7.1
+        command: ["fortio"]
+        args: ["load", "-c", "8", "-qps", "12", "-t", "60s", "-allow-initial-errors", "http://reference-data-api/api/countries"]
+      - name: fortio-api-roles
+        image: fortio/fortio:1.7.1
+        command: ["fortio"]
+        args: ["load", "-c", "16", "-qps", "20", "-t", "60s", "-allow-initial-errors", "http://reference-data-api/api/roles"]
+      restartPolicy: Never
+      nodeSelector:
+        beta.kubernetes.io/os: linux

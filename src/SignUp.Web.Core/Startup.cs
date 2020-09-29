@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
+using SignUp.Core.Middleware;
 using SignUp.Web.Core.Services;
 
 namespace SignUp.Web.Core
@@ -31,9 +32,6 @@ namespace SignUp.Web.Core
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMetricServer();
-            app.UseHttpMetrics();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,6 +44,11 @@ namespace SignUp.Web.Core
             app.UsePathBase("/app");
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseMetricServer();
+            app.UseHttpMetrics();
+            
+            app.UseFlakiness();
 
             app.UseEndpoints(endpoints =>
             {

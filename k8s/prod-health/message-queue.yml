@@ -12,6 +12,8 @@ spec:
       labels:
         app: signup
         component: message-queue
+      annotations:
+        prometheus.io/scrape: "false"
     spec:
       containers:
       - image: nats:2.1.8

@@ -18,91 +18,37 @@ The Prometheus team maintain a Docker image for Linux on Docker Hub: [prom/prome
 
 ---
 
-## Build the Prometheus image
+## How Prometheus uses the Kubernetes API
 
-Prometheus uses a simple configuration file, listing the endpoints to scrape for metrics.
+Prometheus can use service discovery to find targets to scrape. 
 
-[This Dockerfile](./docker/metrics-dashboard/prometheus/Dockerfile) bundles a custom [prometheus.yml](./docker/metrics-dashboard/prometheus/prometheus.yml) file on top of the standard Prometheus image.
+The [Prometheus ConfigMap](./k8s/metrics-dashboard/prometheus/prometheus-config.yaml) sets it up to connect to the Kubernetes API and find all the running Pods.
+
+Any Pods in the default namespace are added to the target list.
+
+---
+
+## Run Prometheus
+
+Deploy Prometheus from [prometheus.yaml]() - this creates the Deployment, ConfigMap and a LoadBalancer Service.
 
 ```
-docker image build -t dak4dotnet/prometheus:linux `
-  -f ./docker/metrics-dashboard/prometheus/Dockerfile .
+kubectl apply -f k8s/metrics-dashboard/prometheus/
 ```
 
-> This builds a Prometheus image packaged with custom configuration for the application.
+> Browse to the Prometheus target list at http://localhost:9090/targets
 
 ---
 
-## About Grafana
+## Check the app versions
 
-Grafana is a dashboard server. It can connect to data sources and provide rich dashboards to show the overall health of your app.
+All the app components publish a version number metric which is useful for correlation.
 
-The Grafana team maintain a Docker image for Linux on Docker Hub: [grafana/grafana](https://hub.docker.com/r/grafana/grafana).
+Browse to the graph UI in Prometheus at http://localhost:9090/graph.
 
-Grafana has a couple of options for automating setup, and we'll use them to build a custom Docker image.
+Choose `app_info` from the metric list and select _Execute_.
 
----
-
-## Customizing Grafana
-
-To make a custom Grafana image you need to configure a data source, create users and deploy your own dashboard. The [Grafana Dockerfile](./docker/metrics-dashboard/grafana/Dockerfile) does that.
-
-It uses a [data source provisioning](http://docs.grafana.org/administration/provisioning/#datasources) and [dashboard provisioning](http://docs.grafana.org/administration/provisioning/#dashboards), which is standard Grafana functionality, and the Grafana API to set up a read-only user.
-
----
-
-## Build the Grafana image
-
-_Build the custom Grafana image:_
-
-```
-docker image build -t dak4dotnet/grafana:linux `
-  -f ./docker/metrics-dashboard/grafana/Dockerfile .
-```
-
-> This image is fully configured with a Grafana dashboard to drop into the application.
-
----
-
-## Running Prometheus and Grafana
-
-We'll run pods for Prometheus and Grafana.
-
-- [prometheus.yml](./k8s/metrics-dashboard/prometheus.yml) includes a `ClusterIP` service, so Grafana can read the data from Prometheus.
-
-- [grafana.yml](./k8s/metrics-dashboard/grafana.yml) includes a `LoadBalancer` service so we can access it publicly.
-
----
-
-## Deploy the new components
-
-Applying the new manifests will add Prometheus and Grafana to the default namespace.
-
-_Apply the manifests:_
-
-```
-kubectl apply -f ./k8s/metrics-dashboard
-```
-
-> Metrics are good candidates for shared services running in their own namespace.
-
----
-
-## Use the app to record some metrics
-
-Browse to http://localhost/app/signup again and submit the form a few times.
-
-This sends traffic through the web app, API, index handler and save handler, so we'll get metrics from all of them in Prometheus.
-
----
-
-## Check the data in Prometheus
-
-The web application and the message handlers are collecting metrics now, and Prometheus is scraping them.
-
-> Browse to the Prometheus UI - http://localhost:9090
-
-You can check _Status...Configuration_ and _Status...Targets_ to see everything is working.
+> You can add the version number to other metrics in queries.
 
 ---
 
@@ -116,30 +62,72 @@ But the Prometheus UI isn't featured enough for a dashboard - that's why we have
 
 ---
 
-## Browse to Grafana
+## About Grafana
 
-The Grafana container is already running with a custom dashboard, reading the application and runtime metrics from Prometheus.
+Grafana is a dashboard server. It can connect to data sources and provide rich dashboards to show the overall health of your app.
 
-> Browse to Grafana - http://localhost:3000
+The Grafana team maintain a Docker image for Linux on Docker Hub: [grafana/grafana](https://hub.docker.com/r/grafana/grafana).
 
----
-
-## Open the dashboard
-
-Login with the credentials for the read-only account created in the Grafana Docker image:
-
-- _Username:_ **viewer**
-- _Password:_ **readonly**
-
-> You'll see the dashboard showing real-time data from the app. The app dashboard is set as the homepage for this user.
+Grafana has a couple of options for automating setup, and we'll use them to run a fully-configured dashboard.
 
 ---
 
-## Check out the dashboard
+## Customizing Grafana
 
-The dashboard shows how HTTP responses and duration from the web layer, and how many events the handlers have received, processed and failed.
+To run a customized Grafana server you need to configure a data source and deploy your own dashboard. The Grafana Dockerfile confiuguration) does that:
+
+- [grafana-config.yaml](./k8s/metrics-dashboard/grafana/grafana-config.yaml) sets up  [data source provisioning](http://docs.grafana.org/administration/provisioning/#datasources) and [dashboard provisioning](http://docs.grafana.org/administration/provisioning/#dashboards)
+
+- [grafana-dashboard-signup.yaml](./k8s/metrics-dashboard/grafana/grafana-dashboard-signup.yaml) contains the JSON model of the application dashboard 
+
+---
+
+## Run Grafana
+
+Deploy Grafana from [grafana.yaml]() - this creates the Deployment which uses the ConfigMap and a LoadBalancer Service.
+
+```
+kubectl apply -f k8s/metrics-dashboard/grafana/
+```
+
+> Browse to Grafana at http://localhost:3000 and sign in with `admin`/`admin`
+
+---
+
+## Check the dashboard
+
+Open the dashboard called _Sign Up_.
+
+The dashboard shows how HTTP responses and duration from the web and API components, and how many events the handlers have received, processed and failed.
 
 It also shows memory and CPU usage for the apps inside the containers, so at a glance you can see how hard your containers are working and what they're doing.
+
+---
+
+## Run a load test
+
+There's not much to see right now, but we can push some load into the site and light up the graphs.
+
+We'll use a tool called [Fortio]() for the test, running Kubernetes Jobs defined in [](k8s\metrics-dashboard\load-test\fortio-api.yml) and [](k8s\metrics-dashboard\load-test\fortio-web.yml).
+
+```
+kubectl apply -f k8s/metrics-dashboard/load-test/
+```
+
+> This also updates the web and API to introduce some delays and errors
+
+---
+
+# Monitor the dashboard
+
+Switch Grafana to refresh the dashboard every 10 seconds during the load test.
+
+You'll see the number of error responses creep up to about 10% of the incoming load.
+
+And you'll see the web and API responses are much slower.
+
+
+> This is the kind of detail that gives you an instant health overview
 
 ---
 
