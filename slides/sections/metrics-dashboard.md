@@ -118,7 +118,7 @@ kubectl apply -f k8s/metrics-dashboard/load-test/
 
 ---
 
-# Monitor the dashboard
+## Monitor the dashboard
 
 Switch Grafana to refresh the dashboard every 10 seconds during the load test.
 

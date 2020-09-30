@@ -10,16 +10,14 @@ But before you go...
 
 ## Continuing your journey
 
-- Follow [@EltonStoneman](https://twitter.com/EltonStoneman) and [@stefscherer](https://twitter.com/stefscherer) on Twitter
+- Follow [@EltonStoneman](https://twitter.com/EltonStoneman) on Twitter and bookmark [Elton's blog](https://blog.sixeyed.com)
 
-- Bookmark [Elton's blog](https://blog.sixeyed.com)
+- Read [Docker on Windows](https://www.amazon.co.uk/Docker-Windows-101-production-2nd/dp/1789617375), [Learn Docker in a Month of Lunches](https://www.manning.com/books/learn-docker-in-a-month-of-lunches?utm_source=affiliate&utm_medium=affiliate&a_aid=elton&a_bid=5890141b) and [Learn Kubernetes in a Month of Lunches](https://www.manning.com/books/learn-kubernetes-in-a-month-of-lunches?utm_source=affiliate&utm_medium=affiliate&a_aid=elton&a_bid=a506ee0d)
 
-- Read [Docker on Windows](https://www.amazon.co.uk/Docker-Windows-101-production-2nd/dp/1789617375) and [Learn Docker in a Month of Lunches](https://www.manning.com/books/learn-docker-in-a-month-of-lunches)
+And watch some of [Elton's Pluralsight courses](https://pluralsight.pxf.io/YMBGB):
 
-And watch these [Pluralsight](https://pluralsight.com) training courses:
+- [Modernizing .NET Apps with Docker](https://pluralsight.pxf.io/56yLj)
 
-- [Modernizing .NET Apps with Docker](https://pluralsight.pxf.io/c/1197078/424552/7490?u=https%3A%2F%2Fwww.pluralsight.com%2Fcourses%2Fmodernizing-dotnet-framework-apps-docker)
+- [Managing Load Balancing and Scale in Docker Swarm](https://pluralsight.pxf.io/PXRkz)
 
-- [Managing Load Balancing and Scale in Docker Swarm](https://pluralsight.pxf.io/c/1197078/424552/7490?u=https%3A%2F%2Fwww.pluralsight.com%2Fcourses%2Fmanaging-load-balancing-scale-docker-swarm-clusters)
-
-- [Monitoring Containerized Application Health with Docker](https://pluralsight.pxf.io/c/1197078/424552/7490?u=https%3A%2F%2Fwww.pluralsight.com%2Fcourses%2Fmonitoring-containerized-app-health-docker)
+- [Monitoring Containerized Application Health with Docker](https://pluralsight.pxf.io/34kDk)
